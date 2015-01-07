@@ -7,7 +7,7 @@ Installation
 * Go to `PhpStorm -> Preferences... -> Plugins -> Install plugin from disk...` and choose `phpuaca.jar`
 * Restart PhpStorm
 
-Examples
+Demo
 ---------
 * `PHPUnit_Framework_MockObject_MockBuilder::setMethods`
 ![PHPUnit_Framework_MockObject_MockBuilder::setMethods](https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/mock_builder_set_methods.png)
