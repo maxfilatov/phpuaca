@@ -1,0 +1,32 @@
+<idea-plugin version="2">
+  <id>com.phpuaca</id>
+  <name>PHPUnit Autocomplete Assistant</name>
+  <version>1.0</version>
+
+  <description><![CDATA[
+  ]]></description>
+
+  <change-notes><![CDATA[
+  ]]>
+  </change-notes>
+
+  <idea-version since-build="131"/>
+
+  <depends>com.jetbrains.php</depends>
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringLiteralConfidence" id="asTrue" order="first"/>
+    <completion.contributor language="PHP" implementationClass="com.phpuaca.completion.StringLiteralContributor"/>
+  </extensions>
+
+  <application-components>
+  </application-components>
+
+  <project-components>
+  </project-components>
+
+  <actions>
+  </actions>
+
+</idea-plugin>
