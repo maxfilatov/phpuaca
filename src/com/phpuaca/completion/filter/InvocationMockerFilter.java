@@ -4,6 +4,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.refactoring.PhpNameUtil;
 import com.phpuaca.completion.util.PhpElementUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +35,7 @@ public class InvocationMockerFilter extends Filter {
             if (arrayCreationExpression != null) {
                 for (PsiElement child : arrayCreationExpression.getChildren()) {
                     LeafPsiElement leaf = (LeafPsiElement) PsiTreeUtil.getDeepestLast(child);
-                    allowMethod(leaf.getText().replace("'", "").replace("\"", ""));
+                    allowMethod(PhpNameUtil.unquote(leaf.getText()));
                 }
             }
         }

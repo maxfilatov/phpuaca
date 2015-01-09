@@ -5,6 +5,7 @@ import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
+import com.intellij.util.ThreeState;
 import com.jetbrains.php.completion.PhpLookupElement;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.phpuaca.completion.filter.Filter;
@@ -52,5 +53,11 @@ public class StringLiteralContributor extends CompletionContributor {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean invokeAutoPopup(@NotNull PsiElement position, char typeChar)
+    {
+        return typeChar == '\'' || typeChar == '"';
     }
 }
