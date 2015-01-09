@@ -101,6 +101,13 @@ public class PhpElementUtil {
     }
 
     @Nullable
+    public static PhpClass resolvePhpClass(@Nullable ClassConstantReference classConstantReference)
+    {
+        ClassReference classReference = PsiTreeUtil.getChildOfType(classConstantReference, ClassReference.class);
+        return classReference == null ? null : resolvePhpClass(classReference);
+    }
+
+    @Nullable
     private static SmartList<Statement> findMethodStatements(@Nullable Method method)
     {
         // first opening "{" in specified method
