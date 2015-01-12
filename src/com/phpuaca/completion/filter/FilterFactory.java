@@ -4,6 +4,7 @@ import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.phpuaca.completion.util.PhpElementUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +52,11 @@ final public class FilterFactory {
     @Nullable
     public Filter getFilter(@NotNull MethodReference entryPoint)
     {
-        Method method = (Method) entryPoint.resolveGlobal(true).iterator().next();
+        Method method = PhpElementUtil.resolveMethod(entryPoint);
+        if (method == null) {
+            return null;
+        }
+
         PhpClass phpClass = (PhpClass) method.getParent();
 
         String methodName = method.getName();

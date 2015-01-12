@@ -7,6 +7,8 @@ import com.jetbrains.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+
 public class PhpElementUtil {
 
     @Nullable
@@ -96,7 +98,12 @@ public class PhpElementUtil {
             return null;
         }
 
-        PhpNamedElement phpClass = classReference.resolveGlobal(false).iterator().next();
+        Collection<?extends PhpNamedElement> resolved = classReference.resolveGlobal(false);
+        if (resolved.isEmpty()) {
+            return null;
+        }
+
+        PhpNamedElement phpClass = resolved.iterator().next();
         return phpClass instanceof PhpClass ? (PhpClass) phpClass : null;
     }
 
@@ -105,6 +112,22 @@ public class PhpElementUtil {
     {
         ClassReference classReference = PsiTreeUtil.getChildOfType(classConstantReference, ClassReference.class);
         return classReference == null ? null : resolvePhpClass(classReference);
+    }
+
+    @Nullable
+    public static Method resolveMethod(@Nullable MethodReference methodReference)
+    {
+        if (methodReference == null) {
+            return null;
+        }
+
+        Collection<?extends PhpNamedElement> resolved = methodReference.resolveGlobal(true);
+        if (resolved.isEmpty()) {
+            return null;
+        }
+
+        PhpNamedElement method = resolved.iterator().next();
+        return method instanceof Method ? (Method) method : null;
     }
 
     @Nullable
