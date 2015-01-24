@@ -14,7 +14,7 @@ public class InvocationMockerFilter extends Filter {
         super(entryPoint);
 
         Variable variable = (Variable) PsiTreeUtil.getDeepestFirst(entryPoint).getParent();
-        MethodReference methodReference = PhpElementUtil.findFirstMethodReferenceForVariableAssignment(variable);
+        MethodReference methodReference = PhpElementUtil.findClosestMethodReferenceForVariableAssignment(variable);
         ClassConstantReference classConstantReference = PhpElementUtil.findClassConstantReference(methodReference);
 
         allowMethods(methodReference);
