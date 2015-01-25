@@ -1,6 +1,13 @@
 PHPUnit Autocomplete Assistant
 ==============================
-PhpStorm 8 plugin to provide smart autocompletion for mocked class methods and properties.
+PhpStorm plugin to provide smart autocompletion for mocked class methods and properties.
+
+Supported versions of PhpStorm: 7.1, 8
+
+Releases
+------------
+* Stable [phpuaca.jar](https://github.com/maxfilatov/phpuaca/raw/master/phpuaca.jar)
+* Latest unstable [phpuaca.jar](https://github.com/maxfilatov/phpuaca/raw/unstable/phpuaca.jar)
 
 Installation
 ------------
