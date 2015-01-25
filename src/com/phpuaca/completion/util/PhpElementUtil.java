@@ -142,4 +142,21 @@ public class PhpElementUtil {
         PhpNamedElement method = resolved.iterator().next();
         return method instanceof Method ? (Method) method : null;
     }
+
+    public static int getParameterNumber(@NotNull PsiElement parameter)
+    {
+        ParameterList parameterList = PsiTreeUtil.getParentOfType(parameter, ParameterList.class);
+        if (parameterList != null) {
+            int i = 1;
+            for (PsiElement p : parameterList.getParameters()) {
+                if (p.equals(parameter)) {
+                    return i;
+                }
+
+                i++;
+            }
+        }
+
+        return -1;
+    }
 }

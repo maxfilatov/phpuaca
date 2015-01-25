@@ -17,7 +17,7 @@ abstract public class Filter {
 
     private ClassConstantReference classConstantReference;
 
-    public Filter(MethodReference entryPoint)
+    public Filter(FilterContext context)
     {
         allowedMethods = new ArrayList<String>();
         allowedFields = new ArrayList<String>();

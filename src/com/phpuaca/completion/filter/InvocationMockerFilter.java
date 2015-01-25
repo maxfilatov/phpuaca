@@ -10,10 +10,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class InvocationMockerFilter extends Filter {
 
-    public InvocationMockerFilter(MethodReference entryPoint) {
-        super(entryPoint);
+    public InvocationMockerFilter(FilterContext context) {
+        super(context);
 
-        Variable variable = (Variable) PsiTreeUtil.getDeepestFirst(entryPoint).getParent();
+        Variable variable = (Variable) PsiTreeUtil.getDeepestFirst(context.getMethodReference()).getParent();
         MethodReference methodReference = PhpElementUtil.findClosestMethodReferenceForVariableAssignment(variable);
         ClassConstantReference classConstantReference = PhpElementUtil.findClassConstantReference(methodReference);
 
