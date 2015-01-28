@@ -25,6 +25,10 @@ public class FilterContext {
         Method method = PhpElementUtil.resolveMethod(methodReference);
         if (method != null) {
             PhpClass phpClass = (PhpClass) method.getParent();
+            PhpClass superClass = phpClass.getSuperClass();
+            if (superClass != null) {
+                phpClass = superClass;
+            }
 
             className = phpClass.getName();
             methodName = method.getName();

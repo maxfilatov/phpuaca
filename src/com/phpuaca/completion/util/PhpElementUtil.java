@@ -89,6 +89,13 @@ public class PhpElementUtil {
     public static ClassConstantReference findClassConstantReference(@Nullable MethodReference methodReference)
     {
         MethodReference mockBuilderMethodReference = findMethodReferenceInChain(methodReference, "getMockBuilder");
+        if (mockBuilderMethodReference == null && methodReference != null) {
+            String methodName = methodReference.getName();
+            if (methodName != null && methodName.equals("getMock")) {
+                mockBuilderMethodReference = methodReference;
+            }
+        }
+
         if (mockBuilderMethodReference == null) {
             return null;
         }

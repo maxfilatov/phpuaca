@@ -29,6 +29,10 @@ public class InvocationMockerFilter extends Filter {
     protected void allowMethods(@Nullable MethodReference methodReference)
     {
         MethodReference setMethodsMethodReference = PhpElementUtil.findMethodReferenceInChain(methodReference, "setMethods");
+        if (setMethodsMethodReference == null) {
+            setMethodsMethodReference = methodReference;
+        }
+
         if (setMethodsMethodReference != null) {
             ParameterList parameterList = setMethodsMethodReference.getParameterList();
             ArrayCreationExpression arrayCreationExpression = PsiTreeUtil.getChildOfType(parameterList, ArrayCreationExpression.class);

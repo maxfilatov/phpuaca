@@ -15,6 +15,7 @@ final public class FilterFactory {
         config = new FilterConfig();
         config
                 .add("PHPUnit_Framework_MockObject_MockBuilder", "setMethods", 1, MockBuilderFilter.class)
+                .add("PHPUnit_Framework_TestCase", "getMock", 2, MockBuilderFilter.class)
                 .add("PHPUnit_Framework_MockObject_Builder_InvocationMocker", "method", 1, InvocationMockerFilter.class)
                 .add("MethodMock", "resetMethodCalledStack", 2, MethodMockFilter.class)
                 .add("MethodMock", "getCalledArgs", 2, MethodMockFilter.class)
