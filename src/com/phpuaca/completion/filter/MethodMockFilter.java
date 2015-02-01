@@ -5,7 +5,6 @@ import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.jetbrains.php.lang.psi.elements.Variable;
-import com.phpuaca.completion.util.PhpElementUtil;
 
 public class MethodMockFilter extends Filter {
 
@@ -16,12 +15,12 @@ public class MethodMockFilter extends Filter {
         ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
         if (classConstantReference == null) {
             Variable variable = PsiTreeUtil.getChildOfType(parameterList, Variable.class);
-            classConstantReference = PhpElementUtil.findClassConstantReference(variable);
+            classConstantReference = FilterUtil.findClassConstantReference(variable);
         }
 
         setClassConstantReference(classConstantReference);
 
-        String methodName = context.getMethodName();
+        String methodName = context.getFilterConfigItem().getMethodName();
         if (methodName.equals("callProtectedMethod")) {
             allowMethods();
             allowModifier(PhpModifier.PUBLIC_FINAL_DYNAMIC);

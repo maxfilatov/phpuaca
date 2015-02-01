@@ -10,33 +10,39 @@ import com.phpuaca.completion.util.PhpElementUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-
 final public class FilterFactory {
 
     private FilterConfig config;
 
-    public FilterFactory()
+    private FilterFactory()
     {
         config = new FilterConfig();
         config
-                .add("PHPUnit_Framework_MockObject_MockBuilder", "setMethods", 1, MockBuilderFilter.class)
-                .add("PHPUnit_Framework_TestCase", "getMock", 2, MockBuilderFilter.class)
-                .add("PHPUnit_Framework_MockObject_Builder_InvocationMocker", "method", 1, InvocationMockerFilter.class)
-                .add("MethodMock", "resetMethodCalledStack", 2, MethodMockFilter.class)
-                .add("MethodMock", "getCalledArgs", 2, MethodMockFilter.class)
-                .add("MethodMock", "isMethodCalled", 2, MethodMockFilter.class)
-                .add("MethodMock", "countMethodCalled", 2, MethodMockFilter.class)
-                .add("MethodMock", "revertMethod", 2, MethodMockFilter.class)
-                .add("MethodMock", "interceptMethodByCode", 2, MethodMockFilter.class)
-                .add("MethodMock", "interceptMethod", 2, MethodMockFilter.class)
-                .add("MethodMock", "mockMethodResult", 2, MethodMockFilter.class)
-                .add("MethodMock", "mockMethodResultByMap", 2, MethodMockFilter.class)
-                .add("MethodMock", "revertMethodResult", 2, MethodMockFilter.class)
-                .add("MethodMock", "callProtectedMethod", 2, MethodMockFilter.class)
-                .add("PHPUnit_Helper", "getProtectedPropertyValue", 2, MethodMockFilter.class)
-                .add("PHPUnit_Helper", "setProtectedPropertyValue", 2, MethodMockFilter.class)
-                .add("PHPUnit_Helper", "callProtectedMethod", 2, MethodMockFilter.class);
+            .add(new FilterConfigItem("PHPUnit_Framework_MockObject_MockBuilder", "setMethods", 1, MockBuilderFilter.class))
+            .add(new FilterConfigItem("PHPUnit_Framework_TestCase", "getMock", 2, MockBuilderFilter.class))
+            .add(new FilterConfigItem("PHPUnit_Framework_TestCase", "getMockClass", 2, MockBuilderFilter.class))
+            .add(new FilterConfigItem("PHPUnit_Framework_TestCase", "getMockForAbstractClass", 7, MockBuilderFilter.class))
+            .add(new FilterConfigItem("PHPUnit_Framework_TestCase", "getMockForTrait", 7, MockBuilderFilter.class))
+            .add(new FilterConfigItem("PHPUnit_Framework_MockObject_Builder_InvocationMocker", "method", 1, InvocationMockerFilter.class))
+            .add(new FilterConfigItem("MethodMock", "resetMethodCalledStack", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "getCalledArgs", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "isMethodCalled", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "countMethodCalled", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "revertMethod", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "interceptMethodByCode", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "interceptMethod", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "mockMethodResult", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "mockMethodResultByMap", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "revertMethodResult", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("MethodMock", "callProtectedMethod", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("PHPUnit_Helper", "getProtectedPropertyValue", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("PHPUnit_Helper", "setProtectedPropertyValue", 2, MethodMockFilter.class))
+            .add(new FilterConfigItem("PHPUnit_Helper", "callProtectedMethod", 2, MethodMockFilter.class));
+    }
+
+    public static FilterFactory getInstance()
+    {
+        return FilterFactoryHolder.INSTANCE;
     }
 
     @Nullable
@@ -59,9 +65,10 @@ final public class FilterFactory {
 
         while (true) {
             String className = phpClass.getName();
-            Class<?> filterClass = config.getFilterClass(className, methodName, parameterNumber);
-            if (filterClass != null) {
-                FilterContext filterContext = new FilterContext(methodReference, className, methodName, parameterNumber);
+            FilterConfigItem filterConfigItem = config.getItem(className, methodName);
+            if (filterConfigItem != null && filterConfigItem.getParameterNumber() == parameterNumber) {
+                Class<?> filterClass = filterConfigItem.getFilterClass();
+                FilterContext filterContext = new FilterContext(filterConfigItem, methodReference);
                 return getFilter(filterClass, filterContext);
             }
 
@@ -87,31 +94,12 @@ final public class FilterFactory {
         return filter;
     }
 
-    private class FilterConfig {
-        Map<String, Class> config;
+    public FilterConfig getConfig()
+    {
+        return new FilterConfig(config);
+    }
 
-        public FilterConfig()
-        {
-            config = new HashMap<String, Class>();
-        }
-
-        public FilterConfig add(String className, String methodName, int parameterNumber, Class filterClass)
-        {
-            String hash = createHash(className, methodName, parameterNumber);
-            config.put(hash, filterClass);
-            return this;
-        }
-
-        @Nullable
-        public Class getFilterClass(String className, String methodName, int parameterNumber)
-        {
-            String hash = createHash(className, methodName, parameterNumber);
-            return config.get(hash);
-        }
-
-        private String createHash(String className, String methodName, int parameterNumber)
-        {
-            return className + "::" + methodName + "/" + parameterNumber;
-        }
+    private static class FilterFactoryHolder {
+        public static final FilterFactory INSTANCE = new FilterFactory();
     }
 }

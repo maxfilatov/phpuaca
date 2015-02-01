@@ -22,7 +22,7 @@ public class StringLiteralContributor extends CompletionContributor {
             protected void addCompletions(@NotNull CompletionParameters completionParameters, ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
                 PsiElement originalPosition = completionParameters.getOriginalPosition();
                 if (originalPosition != null) {
-                    Filter filter = (new FilterFactory()).getFilter(originalPosition.getParent());
+                    Filter filter = FilterFactory.getInstance().getFilter(originalPosition.getParent());
                     List<LookupElement> elements = (new LookupElementProvider()).find(filter);
                     completionResultSet.addAllElements(elements);
                 }

@@ -86,32 +86,6 @@ public class PhpElementUtil {
     }
 
     @Nullable
-    public static ClassConstantReference findClassConstantReference(@Nullable MethodReference methodReference)
-    {
-        MethodReference mockBuilderMethodReference = findMethodReferenceInChain(methodReference, "getMockBuilder");
-        if (mockBuilderMethodReference == null && methodReference != null) {
-            String methodName = methodReference.getName();
-            if (methodName != null && methodName.equals("getMock")) {
-                mockBuilderMethodReference = methodReference;
-            }
-        }
-
-        if (mockBuilderMethodReference == null) {
-            return null;
-        }
-
-        ParameterList parameterList = mockBuilderMethodReference.getParameterList();
-        return PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
-    }
-
-    @Nullable
-    public static ClassConstantReference findClassConstantReference(@Nullable Variable variable)
-    {
-        MethodReference methodReference = findClosestMethodReferenceForVariableAssignment(variable);
-        return methodReference == null ? null : findClassConstantReference(methodReference);
-    }
-
-    @Nullable
     public static PhpClass resolvePhpClass(@Nullable ClassReference classReference)
     {
         if (classReference == null) {
