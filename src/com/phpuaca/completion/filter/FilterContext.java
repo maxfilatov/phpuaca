@@ -1,12 +1,6 @@
 package com.phpuaca.completion.filter;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
-import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.phpuaca.completion.util.PhpElementUtil;
 
 public class FilterContext {
     private MethodReference methodReference;
@@ -14,26 +8,12 @@ public class FilterContext {
     private String methodName;
     private int parameterNumber;
 
-    public FilterContext(PsiElement parameter)
+    public FilterContext(MethodReference methodReference, String className, String methodName, int parameterNumber)
     {
-        PsiElement parentParameter = PsiTreeUtil.getParentOfType(parameter, ArrayCreationExpression.class);
-        if (parentParameter != null) {
-            parameter = parentParameter;
-        }
-
-        methodReference = PsiTreeUtil.getParentOfType(parameter, MethodReference.class);
-        Method method = PhpElementUtil.resolveMethod(methodReference);
-        if (method != null) {
-            PhpClass phpClass = (PhpClass) method.getParent();
-            PhpClass superClass = phpClass.getSuperClass();
-            if (superClass != null) {
-                phpClass = superClass;
-            }
-
-            className = phpClass.getName();
-            methodName = method.getName();
-            parameterNumber = PhpElementUtil.getParameterNumber(parameter);
-        }
+        this.methodReference = methodReference;
+        this.className = className;
+        this.methodName = methodName;
+        this.parameterNumber = parameterNumber;
     }
 
     public MethodReference getMethodReference()

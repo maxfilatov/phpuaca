@@ -1,6 +1,12 @@
 package com.phpuaca.completion.filter;
 
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
+import com.jetbrains.php.lang.psi.elements.Method;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.phpuaca.completion.util.PhpElementUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,13 +42,36 @@ final public class FilterFactory {
     @Nullable
     public Filter getFilter(@NotNull PsiElement parameter)
     {
-        FilterContext filterContext = new FilterContext(parameter);
-        String className = filterContext.getClassName();
-        String methodName = filterContext.getMethodName();
-        int parameterNumber = filterContext.getParameterNumber();
+        PsiElement parentParameter = PsiTreeUtil.getParentOfType(parameter, ArrayCreationExpression.class);
+        if (parentParameter != null) {
+            parameter = parentParameter;
+        }
 
-        Class<?> filterClass = config.getFilterClass(className, methodName, parameterNumber);
-        return filterClass == null ? null : getFilter(filterClass, filterContext);
+        MethodReference methodReference = PsiTreeUtil.getParentOfType(parameter, MethodReference.class);
+        Method method = PhpElementUtil.resolveMethod(methodReference);
+        if (method == null) {
+            return null;
+        }
+
+        PhpClass phpClass = (PhpClass) method.getParent();
+        String methodName = method.getName();
+        int parameterNumber = PhpElementUtil.getParameterNumber(parameter);
+
+        while (true) {
+            String className = phpClass.getName();
+            Class<?> filterClass = config.getFilterClass(className, methodName, parameterNumber);
+            if (filterClass != null) {
+                FilterContext filterContext = new FilterContext(methodReference, className, methodName, parameterNumber);
+                return getFilter(filterClass, filterContext);
+            }
+
+            phpClass = phpClass.getSuperClass();
+            if (phpClass == null) {
+                break;
+            }
+        }
+
+        return null;
     }
 
     @Nullable
