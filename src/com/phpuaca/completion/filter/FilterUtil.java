@@ -1,12 +1,16 @@
 package com.phpuaca.completion.filter;
 
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.ParameterList;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.refactoring.PhpNameUtil;
 import com.phpuaca.completion.util.PhpElementUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FilterUtil {
 
@@ -46,5 +50,30 @@ public class FilterUtil {
     {
         MethodReference methodReference = PhpElementUtil.findClosestMethodReferenceForVariableAssignment(variable);
         return methodReference == null ? null : findClassConstantReference(methodReference);
+    }
+
+    @NotNull
+    public static List<String> findDeclaredMethodNames(@Nullable ParameterList parameterList, int parameterNumber)
+    {
+        List<String> methodNames = new ArrayList<String>();
+        if (parameterList != null) {
+            PsiElement[] parameters = parameterList.getParameters();
+            int position = parameterNumber - 1;
+            if (position < parameters.length && parameters[position] instanceof ArrayCreationExpression) {
+                ArrayCreationExpression arrayCreationExpression = (ArrayCreationExpression) parameters[position];
+                for (PsiElement child : arrayCreationExpression.getChildren()) {
+                    LeafPsiElement leaf = (LeafPsiElement) PsiTreeUtil.getDeepestLast(child);
+                    methodNames.add(PhpNameUtil.unquote(leaf.getText()));
+                }
+            }
+        }
+        return methodNames;
+    }
+
+    @NotNull
+    public static List<String> findDeclaredMethodNames(@Nullable MethodReference methodReference, int parameterNumber)
+    {
+        ParameterList parameterList = methodReference == null ? null : methodReference.getParameterList();
+        return findDeclaredMethodNames(parameterList, parameterNumber);
     }
 }

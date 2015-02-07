@@ -16,6 +16,7 @@ abstract public class Filter {
     private List<String> allowedMethods;
     private List<String> allowedFields;
     private List<String> allowedModifiers;
+    private List<String> disallowedMethods;
 
     private ClassConstantReference classConstantReference;
 
@@ -24,12 +25,21 @@ abstract public class Filter {
         allowedMethods = new ArrayList<String>();
         allowedFields = new ArrayList<String>();
         allowedModifiers = new ArrayList<String>();
+        disallowedMethods = new ArrayList<String>();
     }
 
     public void allowMethod(String methodName)
     {
         allowMethods();
+        disallowedMethods.remove(methodName);
         allowedMethods.add(methodName);
+    }
+
+    public void disallowMethod(String methodName)
+    {
+        allowMethods();
+        allowedMethods.remove(methodName);
+        disallowedMethods.add(methodName);
     }
 
     public void allowField(String fieldName)
@@ -53,6 +63,20 @@ abstract public class Filter {
         isMethodsAllowed = true;
     }
 
+    public void allowMethods(List<String> methodNames)
+    {
+        for (String methodName : methodNames) {
+            allowMethod(methodName);
+        }
+    }
+
+    public void disallowMethods(List<String> methodNames)
+    {
+        for (String methodName : methodNames) {
+            disallowMethod(methodName);
+        }
+    }
+
     public void allowFields()
     {
         isFieldsAllowed = true;
@@ -60,7 +84,7 @@ abstract public class Filter {
 
     protected boolean isMethodAllowed(String methodName)
     {
-        return isMethodsAllowed && (allowedMethods.isEmpty() || allowedMethods.contains(methodName));
+        return isMethodsAllowed && !disallowedMethods.contains(methodName) && (allowedMethods.isEmpty() || allowedMethods.contains(methodName));
     }
 
     public boolean isMethodAllowed(Method method)

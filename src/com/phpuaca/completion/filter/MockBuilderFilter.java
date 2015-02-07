@@ -1,5 +1,6 @@
 package com.phpuaca.completion.filter;
 
+import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
 
 public class MockBuilderFilter extends Filter {
@@ -13,6 +14,8 @@ public class MockBuilderFilter extends Filter {
         allowModifier(PhpModifier.PROTECTED_ABSTRACT_DYNAMIC);
         allowModifier(PhpModifier.PROTECTED_IMPLEMENTED_DYNAMIC);
 
-        setClassConstantReference(FilterUtil.findClassConstantReference(context.getMethodReference()));
+        MethodReference methodReference = context.getMethodReference();
+        setClassConstantReference(FilterUtil.findClassConstantReference(methodReference));
+        disallowMethods(FilterUtil.findDeclaredMethodNames(methodReference, context.getFilterConfigItem().getParameterNumber()));
     }
 }
