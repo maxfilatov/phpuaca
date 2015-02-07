@@ -12,37 +12,50 @@ import java.util.Collection;
 public class PhpElementUtil {
 
     @Nullable
-    public static MethodReference findFirstMethodReferenceForVariableAssignment(@Nullable Variable variable)
+    public static MethodReference findClosestMethodReferenceForVariableAssignment(@Nullable Variable variable)
     {
         if (variable == null) {
             return null;
         }
-        
+
         String variableName = variable.getName();
+        PsiElement parent = variable;
 
-        Method classMethod = PsiTreeUtil.getParentOfType(variable, Method.class);
-        SmartList<Statement> statements = findMethodStatements(classMethod);
-        if (statements == null) {
-            return null;
-        }
+        while (true) {
+            parent = parent.getParent();
+            if (parent == null || parent instanceof Method) {
+                break;
+            }
 
-        for (Statement statement : statements) {
-            AssignmentExpression assignmentExpression = PsiTreeUtil.getChildOfType(statement, AssignmentExpression.class);
-            if (assignmentExpression == null) {
+            if (!(parent instanceof Statement)) {
                 continue;
             }
 
-            Variable statementVariable = PsiTreeUtil.getChildOfType(assignmentExpression, Variable.class);
-            if (statementVariable == null) {
-                continue;
-            }
+            SmartList<Statement> statements = new SmartList<Statement>();
+            statements.add((Statement) parent);
+            statements.addAll(PsiTreeUtil.getChildrenOfTypeAsList(parent, Statement.class));
 
-            String statementVariableName = statementVariable.getName();
-            if (statementVariableName == null || !statementVariableName.equals(variableName)) {
-                continue;
-            }
+            for (Statement statement : statements) {
+                AssignmentExpression assignmentExpression = PsiTreeUtil.getChildOfType(statement, AssignmentExpression.class);
+                if (assignmentExpression == null) {
+                    continue;
+                }
 
-            return PsiTreeUtil.getChildOfType(assignmentExpression, MethodReference.class);
+                Variable statementVariable = PsiTreeUtil.getChildOfType(assignmentExpression, Variable.class);
+                if (statementVariable == null) {
+                    continue;
+                }
+
+                String statementVariableName = statementVariable.getName();
+                if (statementVariableName == null || !statementVariableName.equals(variableName)) {
+                    continue;
+                }
+
+                MethodReference methodReference = PsiTreeUtil.getChildOfType(assignmentExpression, MethodReference.class);
+                if (methodReference != null) {
+                    return methodReference;
+                }
+            }
         }
 
         return null;
@@ -70,25 +83,6 @@ public class PhpElementUtil {
         }
 
         return null;
-    }
-
-    @Nullable
-    public static ClassConstantReference findClassConstantReference(@Nullable MethodReference methodReference)
-    {
-        MethodReference mockBuilderMethodReference = findMethodReferenceInChain(methodReference, "getMockBuilder");
-        if (mockBuilderMethodReference == null) {
-            return null;
-        }
-
-        ParameterList parameterList = mockBuilderMethodReference.getParameterList();
-        return PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
-    }
-
-    @Nullable
-    public static ClassConstantReference findClassConstantReference(@Nullable Variable variable)
-    {
-        MethodReference methodReference = findFirstMethodReferenceForVariableAssignment(variable);
-        return methodReference == null ? null : findClassConstantReference(methodReference);
     }
 
     @Nullable
@@ -130,31 +124,20 @@ public class PhpElementUtil {
         return method instanceof Method ? (Method) method : null;
     }
 
-    @Nullable
-    private static SmartList<Statement> findMethodStatements(@Nullable Method method)
+    public static int getParameterNumber(@NotNull PsiElement parameter)
     {
-        // first opening "{" in specified method
-        GroupStatement groupStatement = PsiTreeUtil.getChildOfType(method, GroupStatement.class);
-        if (groupStatement == null) {
-            return null;
-        }
+        ParameterList parameterList = PsiTreeUtil.getParentOfType(parameter, ParameterList.class);
+        if (parameterList != null) {
+            int i = 1;
+            for (PsiElement p : parameterList.getParameters()) {
+                if (p.equals(parameter)) {
+                    return i;
+                }
 
-        SmartList<Statement> statements = new SmartList<Statement>();
-        return findInnerStatements(groupStatement, statements);
-    }
-
-    @NotNull
-    private static SmartList<Statement> findInnerStatements(@NotNull Statement statement, @NotNull SmartList<Statement> list)
-    {
-        list.add(statement);
-
-        Statement[] children = PsiTreeUtil.getChildrenOfType(statement, Statement.class);
-        if (children != null) {
-            for (Statement child : children) {
-                list = findInnerStatements(child, list);
+                i++;
             }
         }
 
-        return list;
+        return -1;
     }
 }
