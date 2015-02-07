@@ -62,8 +62,10 @@ public class FilterUtil {
             if (position < parameters.length && parameters[position] instanceof ArrayCreationExpression) {
                 ArrayCreationExpression arrayCreationExpression = (ArrayCreationExpression) parameters[position];
                 for (PsiElement child : arrayCreationExpression.getChildren()) {
-                    LeafPsiElement leaf = (LeafPsiElement) PsiTreeUtil.getDeepestLast(child);
-                    methodNames.add(PhpNameUtil.unquote(leaf.getText()));
+                    PsiElement inner = PsiTreeUtil.getDeepestLast(child);
+                    if (inner instanceof LeafPsiElement) {
+                        methodNames.add(PhpNameUtil.unquote(inner.getText()));
+                    }
                 }
             }
         }

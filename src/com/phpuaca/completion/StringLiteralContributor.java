@@ -34,6 +34,15 @@ public class StringLiteralContributor extends CompletionContributor {
     @Override
     public boolean invokeAutoPopup(@NotNull PsiElement position, char typeChar)
     {
-        return (position instanceof PsiWhiteSpace) && (typeChar == '\'' || typeChar == '"');
+        if (typeChar != '\'' && typeChar != '"') {
+            return false;
+        }
+
+        if (position instanceof PsiWhiteSpace) {
+            return true;
+        }
+
+        String text = position.getText();
+        return text.equals("(") || text.equals(",");
     }
 }
