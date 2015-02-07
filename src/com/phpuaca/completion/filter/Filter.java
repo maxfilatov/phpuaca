@@ -1,5 +1,7 @@
 package com.phpuaca.completion.filter;
 
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocMethod;
+import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocProperty;
 import com.jetbrains.php.lang.psi.elements.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,32 +58,32 @@ abstract public class Filter {
         isFieldsAllowed = true;
     }
 
-    public boolean isMethodAllowed(String methodName)
+    protected boolean isMethodAllowed(String methodName)
     {
         return isMethodsAllowed && (allowedMethods.isEmpty() || allowedMethods.contains(methodName));
     }
 
     public boolean isMethodAllowed(Method method)
     {
-        return isMethodAllowed(method.getName()) && isModifierAllowed(method.getModifier());
+        return !(method instanceof PhpDocMethod) && isMethodAllowed(method.getName()) && isModifierAllowed(method.getModifier());
     }
 
-    public boolean isFieldAllowed(String fieldName)
+    protected boolean isFieldAllowed(String fieldName)
     {
         return isFieldsAllowed && (allowedFields.isEmpty() || allowedFields.contains(fieldName));
     }
 
     public boolean isFieldAllowed(Field field)
     {
-        return isFieldAllowed(field.getName()) && isModifierAllowed(field.getModifier());
+        return !(field instanceof PhpDocProperty) && isFieldAllowed(field.getName()) && isModifierAllowed(field.getModifier());
     }
 
-    public boolean isModifierAllowed(String modifierName)
+    protected boolean isModifierAllowed(String modifierName)
     {
         return allowedModifiers.isEmpty() || allowedModifiers.contains(modifierName);
     }
 
-    public boolean isModifierAllowed(PhpModifier modifier)
+    protected boolean isModifierAllowed(PhpModifier modifier)
     {
         return isModifierAllowed(modifier.toString());
     }
