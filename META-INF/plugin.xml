@@ -1,9 +1,11 @@
 <idea-plugin version="2">
   <id>com.phpuaca</id>
   <name>PHPUnit Autocomplete Assistant</name>
-  <version>1.0</version>
+  <version>1.1</version>
+  <vendor url="https://github.com/maxfilatov/phpuaca/">Max Filatov</vendor>
 
   <description><![CDATA[
+    <p>PhpStorm plugin to provide smart autocompletion for mocked class methods and properties.</p>
   ]]></description>
 
   <change-notes><![CDATA[
