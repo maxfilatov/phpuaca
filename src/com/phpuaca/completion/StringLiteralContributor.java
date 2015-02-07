@@ -4,6 +4,7 @@ import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.util.ProcessingContext;
 import com.phpuaca.completion.filter.Filter;
 import com.phpuaca.completion.filter.FilterFactory;
@@ -33,6 +34,6 @@ public class StringLiteralContributor extends CompletionContributor {
     @Override
     public boolean invokeAutoPopup(@NotNull PsiElement position, char typeChar)
     {
-        return typeChar == '\'' || typeChar == '"';
+        return (position instanceof PsiWhiteSpace) && (typeChar == '\'' || typeChar == '"');
     }
 }
