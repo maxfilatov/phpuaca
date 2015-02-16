@@ -1,7 +1,6 @@
 package com.phpuaca.completion.filter;
 
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.refactoring.PhpNameUtil;
@@ -62,10 +61,7 @@ public class FilterUtil {
             if (position < parameters.length && parameters[position] instanceof ArrayCreationExpression) {
                 ArrayCreationExpression arrayCreationExpression = (ArrayCreationExpression) parameters[position];
                 for (PsiElement child : arrayCreationExpression.getChildren()) {
-                    PsiElement inner = PsiTreeUtil.getDeepestLast(child);
-                    if (inner instanceof LeafPsiElement) {
-                        methodNames.add(PhpNameUtil.unquote(inner.getText()));
-                    }
+                    methodNames.add(PhpNameUtil.unquote(child.getText()));
                 }
             }
         }
