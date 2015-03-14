@@ -6,7 +6,8 @@ import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.phpuaca.completion.util.PhpElementUtil;
+import com.phpuaca.completion.util.PhpMethodResolver;
+import com.phpuaca.completion.util.PhpParameter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -54,29 +55,31 @@ final public class FilterFactory {
         }
 
         MethodReference methodReference = PsiTreeUtil.getParentOfType(parameter, MethodReference.class);
-        Method method = PhpElementUtil.resolveMethod(methodReference);
-        if (method == null) {
+        if (methodReference == null) {
             return null;
         }
 
-        PhpClass phpClass = (PhpClass) method.getParent();
-        String methodName = method.getName();
-        int parameterNumber = PhpElementUtil.getParameterNumber(parameter);
+        PhpMethodResolver resolver = new PhpMethodResolver(methodReference);
+        if (!resolver.resolve()) {
+            return null;
+        }
 
-        while (true) {
-            String className = phpClass.getName();
+        PhpParameter phpParameter = new PhpParameter(parameter);
+        PhpClass resolvedClass = resolver.getResolvedClass();
+        Method resolvedMethod = resolver.getResolvedMethod();
+        String methodName = resolvedMethod.getName();
+        int parameterNumber = phpParameter.getNumber();
+
+        do {
+            String className = resolvedClass.getName();
             FilterConfigItem filterConfigItem = config.getItem(className, methodName);
             if (filterConfigItem != null && filterConfigItem.getParameterNumber() == parameterNumber) {
                 Class<?> filterClass = filterConfigItem.getFilterClass();
                 FilterContext filterContext = new FilterContext(filterConfigItem, methodReference);
                 return getFilter(filterClass, filterContext);
             }
-
-            phpClass = phpClass.getSuperClass();
-            if (phpClass == null) {
-                break;
-            }
         }
+        while ((resolvedClass = resolvedClass.getSuperClass()) != null);
 
         return null;
     }

@@ -7,8 +7,6 @@ import com.jetbrains.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-
 public class PhpElementUtil {
 
     @Nullable
@@ -83,61 +81,5 @@ public class PhpElementUtil {
         }
 
         return null;
-    }
-
-    @Nullable
-    public static PhpClass resolvePhpClass(@Nullable ClassReference classReference)
-    {
-        if (classReference == null) {
-            return null;
-        }
-
-        Collection<?extends PhpNamedElement> resolved = classReference.resolveGlobal(false);
-        if (resolved.isEmpty()) {
-            return null;
-        }
-
-        PhpNamedElement phpClass = resolved.iterator().next();
-        return phpClass instanceof PhpClass ? (PhpClass) phpClass : null;
-    }
-
-    @Nullable
-    public static PhpClass resolvePhpClass(@Nullable ClassConstantReference classConstantReference)
-    {
-        ClassReference classReference = PsiTreeUtil.getChildOfType(classConstantReference, ClassReference.class);
-        return classReference == null ? null : resolvePhpClass(classReference);
-    }
-
-    @Nullable
-    public static Method resolveMethod(@Nullable MethodReference methodReference)
-    {
-        if (methodReference == null) {
-            return null;
-        }
-
-        Collection<?extends PhpNamedElement> resolved = methodReference.resolveGlobal(true);
-        if (resolved.isEmpty()) {
-            return null;
-        }
-
-        PhpNamedElement method = resolved.iterator().next();
-        return method instanceof Method ? (Method) method : null;
-    }
-
-    public static int getParameterNumber(@NotNull PsiElement parameter)
-    {
-        ParameterList parameterList = PsiTreeUtil.getParentOfType(parameter, ParameterList.class);
-        if (parameterList != null) {
-            int i = 1;
-            for (PsiElement p : parameterList.getParameters()) {
-                if (p.equals(parameter)) {
-                    return i;
-                }
-
-                i++;
-            }
-        }
-
-        return -1;
     }
 }

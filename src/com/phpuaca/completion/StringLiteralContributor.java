@@ -24,8 +24,10 @@ public class StringLiteralContributor extends CompletionContributor {
                 PsiElement originalPosition = completionParameters.getOriginalPosition();
                 if (originalPosition != null) {
                     Filter filter = FilterFactory.getInstance().getFilter(originalPosition.getParent());
-                    List<LookupElement> elements = (new LookupElementProvider()).find(filter);
-                    completionResultSet.addAllElements(elements);
+                    if (filter != null) {
+                        List<LookupElement> elements = (new LookupElementProvider()).find(filter);
+                        completionResultSet.addAllElements(elements);
+                    }
                 }
             }
         });

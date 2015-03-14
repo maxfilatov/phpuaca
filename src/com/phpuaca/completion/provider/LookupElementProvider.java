@@ -7,9 +7,8 @@ import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.phpuaca.completion.filter.Filter;
-import com.phpuaca.completion.util.PhpElementUtil;
+import com.phpuaca.completion.util.PhpClassResolver;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +16,21 @@ import java.util.List;
 public class LookupElementProvider {
 
     @NotNull
-    public List<LookupElement> find(@Nullable Filter filter)
+    public List<LookupElement> find(@NotNull Filter filter)
     {
         List<LookupElement> list = new ArrayList<LookupElement>();
+        ClassConstantReference classConstantReference = filter.getClassConstantReference();
 
-        if (filter != null) {
-            ClassConstantReference classConstantReference = filter.getClassConstantReference();
-            PhpClass phpClass = PhpElementUtil.resolvePhpClass(classConstantReference);
-            if (phpClass != null) {
-                for (Method method : phpClass.getMethods()) {
+        if (classConstantReference != null) {
+            PhpClassResolver resolver = new PhpClassResolver(classConstantReference);
+            if (resolver.resolve()) {
+                PhpClass resolvedClass = resolver.getResolvedClass();
+                for (Method method : resolvedClass.getMethods()) {
                     if (filter.isMethodAllowed(method)) {
                         list.add(new PhpLookupElement(method));
                     }
                 }
-                for (Field field : phpClass.getFields()) {
+                for (Field field : resolvedClass.getFields()) {
                     if (!field.isConstant() && filter.isFieldAllowed(field)) {
                         list.add(new PhpLookupElement(field));
                     }

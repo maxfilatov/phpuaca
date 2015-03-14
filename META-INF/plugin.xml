@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>com.phpuaca</id>
   <name>PHPUnit Autocomplete Assistant</name>
-  <version>1.1</version>
+  <version>1.2-unstable</version>
   <vendor url="https://github.com/maxfilatov/phpuaca/">Max Filatov</vendor>
 
   <description><![CDATA[
