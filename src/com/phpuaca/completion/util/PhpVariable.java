@@ -1,37 +1,40 @@
 package com.phpuaca.completion.util;
 
-import com.intellij.util.SmartList;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.util.SmartList;
 import com.jetbrains.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PhpElementUtil {
+public class PhpVariable {
+
+    private Variable variable;
+
+    public PhpVariable(@NotNull Variable variable)
+    {
+        this.variable = variable;
+    }
 
     @Nullable
-    public static MethodReference findClosestMethodReferenceForVariableAssignment(@Nullable Variable variable)
+    public MethodReference findClosestAssignment()
     {
-        if (variable == null) {
-            return null;
-        }
-
         String variableName = variable.getName();
-        PsiElement parent = variable;
+        PsiElement cursor = variable;
 
         while (true) {
-            parent = parent.getParent();
-            if (parent == null || parent instanceof Method) {
+            cursor = cursor.getParent();
+            if (cursor == null || cursor instanceof Method) {
                 break;
             }
 
-            if (!(parent instanceof Statement)) {
+            if (!(cursor instanceof Statement)) {
                 continue;
             }
 
             SmartList<Statement> statements = new SmartList<Statement>();
-            statements.add((Statement) parent);
-            statements.addAll(PsiTreeUtil.getChildrenOfTypeAsList(parent, Statement.class));
+            statements.add((Statement) cursor);
+            statements.addAll(PsiTreeUtil.getChildrenOfTypeAsList(cursor, Statement.class));
 
             for (Statement statement : statements) {
                 AssignmentExpression assignmentExpression = PsiTreeUtil.getChildOfType(statement, AssignmentExpression.class);
@@ -53,30 +56,6 @@ public class PhpElementUtil {
                 if (methodReference != null) {
                     return methodReference;
                 }
-            }
-        }
-
-        return null;
-    }
-
-    @Nullable
-    public static MethodReference findMethodReferenceInChain(@Nullable MethodReference entryPoint, @NotNull String methodName)
-    {
-        if (entryPoint == null) {
-            return null;
-        }
-
-        PsiElement psiElement = entryPoint;
-
-        while (true) {
-            PsiElement firstChild = psiElement.getFirstChild();
-            if (firstChild == null) {
-                break;
-            }
-
-            psiElement = firstChild;
-            if ((psiElement instanceof MethodReference) && methodName.equals(((MethodReference) psiElement).getName())) {
-                return (MethodReference) psiElement;
             }
         }
 

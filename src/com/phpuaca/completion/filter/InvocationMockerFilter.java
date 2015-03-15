@@ -2,33 +2,42 @@ package com.phpuaca.completion.filter;
 
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.phpuaca.completion.util.PhpElementUtil;
+import com.phpuaca.completion.filter.util.ClassFinder;
+import com.phpuaca.completion.util.PhpArrayParameter;
+import com.phpuaca.completion.util.PhpMethodChain;
+import com.phpuaca.completion.util.PhpVariable;
 
 public class InvocationMockerFilter extends Filter {
 
     public InvocationMockerFilter(FilterContext context) {
         super(context);
 
-        FilterConfigItemHolder definitionFilterConfigItemHolder = new FilterConfigItemHolder();
         Variable variable = (Variable) PsiTreeUtil.getDeepestFirst(context.getMethodReference()).getParent();
-        MethodReference methodReference = PhpElementUtil.findClosestMethodReferenceForVariableAssignment(variable);
-        ClassConstantReference classConstantReference = FilterUtil.findClassConstantReference(methodReference, definitionFilterConfigItemHolder);
+        MethodReference methodReference = (new PhpVariable(variable)).findClosestAssignment();
 
-        allowModifier(PhpModifier.PUBLIC_ABSTRACT_DYNAMIC);
-        allowModifier(PhpModifier.PUBLIC_IMPLEMENTED_DYNAMIC);
-        allowModifier(PhpModifier.PROTECTED_ABSTRACT_DYNAMIC);
-        allowModifier(PhpModifier.PROTECTED_IMPLEMENTED_DYNAMIC);
+        if (methodReference != null) {
+            ClassFinder.Result classFinderResult = (new ClassFinder()).find(methodReference);
+            if (classFinderResult != null) {
+                allowModifier(PhpModifier.PUBLIC_ABSTRACT_DYNAMIC);
+                allowModifier(PhpModifier.PUBLIC_IMPLEMENTED_DYNAMIC);
+                allowModifier(PhpModifier.PROTECTED_ABSTRACT_DYNAMIC);
+                allowModifier(PhpModifier.PROTECTED_IMPLEMENTED_DYNAMIC);
 
-        setClassConstantReference(classConstantReference);
+                setClassConstantReference(classFinderResult.getClassConstantReference());
 
-        FilterConfigItem definitionFilterConfigItem = definitionFilterConfigItemHolder.getItem();
-        if (definitionFilterConfigItem != null) {
-            MethodReference definitionMethodReference = PhpElementUtil.findMethodReferenceInChain(methodReference, "setMethods");
-            if (definitionMethodReference == null) {
-                definitionMethodReference = methodReference;
+                MethodReference definitionMethodReference = (new PhpMethodChain(methodReference)).findMethodReference("setMethods");
+                if (definitionMethodReference == null) {
+                    definitionMethodReference = methodReference;
+                }
+
+                ParameterList parameterList = definitionMethodReference.getParameterList();
+                if (parameterList != null) {
+                    PhpArrayParameter phpArrayParameter = PhpArrayParameter.create(parameterList, classFinderResult.getParameterNumber());
+                    if (phpArrayParameter != null) {
+                        allowMethods(phpArrayParameter.getValues());
+                    }
+                }
             }
-
-            allowMethods(FilterUtil.findDeclaredMethodNames(definitionMethodReference, definitionFilterConfigItem.getParameterNumber()));
         }
     }
 }

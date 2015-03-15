@@ -1,7 +1,10 @@
 package com.phpuaca.completion.filter;
 
 import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.phpuaca.completion.filter.util.ClassFinder;
+import com.phpuaca.completion.util.PhpArrayParameter;
 
 public class MockBuilderFilter extends Filter {
 
@@ -15,7 +18,21 @@ public class MockBuilderFilter extends Filter {
         allowModifier(PhpModifier.PROTECTED_IMPLEMENTED_DYNAMIC);
 
         MethodReference methodReference = context.getMethodReference();
-        setClassConstantReference(FilterUtil.findClassConstantReference(methodReference));
-        disallowMethods(FilterUtil.findDeclaredMethodNames(methodReference, context.getFilterConfigItem().getParameterNumber()));
+
+        ClassFinder.Result classFinderResult = (new ClassFinder()).find(methodReference);
+        if (classFinderResult != null) {
+            setClassConstantReference(classFinderResult.getClassConstantReference());
+        }
+
+        disallowMethod("__construct");
+        disallowMethod("__destruct");
+
+        ParameterList parameterList = methodReference.getParameterList();
+        if (parameterList != null) {
+            PhpArrayParameter phpArrayParameter = PhpArrayParameter.create(parameterList, context.getFilterConfigItem().getParameterNumber());
+            if (phpArrayParameter != null) {
+                disallowMethods(phpArrayParameter.getValues());
+            }
+        }
     }
 }

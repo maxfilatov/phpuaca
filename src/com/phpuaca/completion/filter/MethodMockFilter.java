@@ -1,10 +1,8 @@
 package com.phpuaca.completion.filter;
 
 import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
-import com.jetbrains.php.lang.psi.elements.ParameterList;
-import com.jetbrains.php.lang.psi.elements.PhpModifier;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.elements.*;
+import com.phpuaca.completion.filter.util.ClassFinder;
 
 public class MethodMockFilter extends Filter {
 
@@ -15,7 +13,12 @@ public class MethodMockFilter extends Filter {
         ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
         if (classConstantReference == null) {
             Variable variable = PsiTreeUtil.getChildOfType(parameterList, Variable.class);
-            classConstantReference = FilterUtil.findClassConstantReference(variable);
+            if (variable != null) {
+                ClassFinder.Result classFinderResult = (new ClassFinder()).find(variable);
+                if (classFinderResult != null) {
+                    classConstantReference = classFinderResult.getClassConstantReference();
+                }
+            }
         }
 
         setClassConstantReference(classConstantReference);
