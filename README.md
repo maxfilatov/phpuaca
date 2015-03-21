@@ -20,7 +20,11 @@ Example #2: autocomplete for argument `$constraint` of `PHPUnit_Framework_MockOb
 
 ![PHPUnit_Framework_MockObject_Builder_InvocationMocker::method](https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pim.png)
 
+Releases
+--------
+* Stable [phpuaca-1.2.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.2/phpuaca-1.2.jar)
+
 Installation
 ------------
-* Go to `PhpStorm -> Preferences... -> Plugins -> Install plugin from disk...` and choose `phpuaca.jar`
+* Go to `PhpStorm -> Preferences... -> Plugins -> Install plugin from disk...` and choose jar file
 * Restart PhpStorm
