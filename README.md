@@ -14,16 +14,11 @@ Features are available for method definition arguments of these PHPUnit methods:
 
 Example #1: autocomplete for argument `$methods` of `PHPUnit_Framework_MockObject_MockBuilder::setMethods`
 
-![PHPUnit_Framework_MockObject_MockBuilder::setMethods](https://raw.githubusercontent.com/maxfilatov/phpuaca/unstable/img/pmb.png)
+![PHPUnit_Framework_MockObject_MockBuilder::setMethods](https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pmb.png)
 
 Example #2: autocomplete for argument `$constraint` of `PHPUnit_Framework_MockObject_Builder_InvocationMocker::method`
 
-![PHPUnit_Framework_MockObject_Builder_InvocationMocker::method](https://raw.githubusercontent.com/maxfilatov/phpuaca/unstable/img/pim.png)
-
-Releases
---------
-* Stable [phpuaca.jar](https://github.com/maxfilatov/phpuaca/raw/master/phpuaca.jar)
-* Latest unstable [phpuaca.jar](https://github.com/maxfilatov/phpuaca/raw/unstable/phpuaca.jar)
+![PHPUnit_Framework_MockObject_Builder_InvocationMocker::method](https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pim.png)
 
 Installation
 ------------

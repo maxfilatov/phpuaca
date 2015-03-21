@@ -19,11 +19,11 @@
     </div>
     <div style="border-bottom: 1px dashed #cccccc; margin-bottom: 4px; padding-bottom: 4px;">
         <p>Example #1: autocomplete for argument <tt>$methods</tt> of <tt>PHPUnit_Framework_MockObject_MockBuilder::setMethods</tt></p>
-        <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/unstable/img/pmb.png" alt="" width="346" height="186" /></p>
+        <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pmb.png" alt="" width="346" height="186" /></p>
     </div>
     <div style="border-bottom: 1px dashed #cccccc; padding-bottom: 4px;">
         <p>Example #2: autocomplete for argument <tt>$constraint</tt> of <tt>PHPUnit_Framework_MockObject_Builder_InvocationMocker::method</tt></p>
-        <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/unstable/img/pim.png" alt="" width="346" height="340" /></p>
+        <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pim.png" alt="" width="346" height="340" /></p>
     </div>
   ]]></description>
 
