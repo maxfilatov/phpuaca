@@ -1,18 +1,51 @@
 <idea-plugin version="2">
   <id>com.phpuaca</id>
   <name>PHPUnit Autocomplete Assistant</name>
-  <version>1.2-unstable</version>
+  <version>1.2</version>
   <vendor url="https://github.com/maxfilatov/phpuaca/">Max Filatov</vendor>
 
   <description><![CDATA[
-    <p>PhpStorm plugin to provide smart autocompletion for mocked class methods and properties.</p>
+    <div style="border-bottom: 1px dashed #cccccc; margin-bottom: 4px;">
+        <p>PhpStorm plugin to provide smart autocomplete for mocked class methods.</p>
+        <p>Features are available for method definition arguments of these PHPUnit methods:</p>
+        <ul>
+            <li><tt>PHPUnit_Framework_MockObject_MockBuilder::setMethods</tt></li>
+            <li><tt>PHPUnit_Framework_TestCase::getMock</tt></li>
+            <li><tt>PHPUnit_Framework_TestCase::getMockClass</tt></li>
+            <li><tt>PHPUnit_Framework_TestCase::getMockForAbstractClass</tt></li>
+            <li><tt>PHPUnit_Framework_TestCase::getMockForTrait</tt></li>
+            <li><tt>PHPUnit_Framework_MockObject_Builder_InvocationMocker::method</tt></li>
+        </ul>
+    </div>
+    <div style="border-bottom: 1px dashed #cccccc; margin-bottom: 4px; padding-bottom: 4px;">
+        <p>Example #1: autocomplete for argument <tt>$methods</tt> of <tt>PHPUnit_Framework_MockObject_MockBuilder::setMethods</tt></p>
+        <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/unstable/img/pmb.png" alt="" width="346" height="186" /></p>
+    </div>
+    <div style="border-bottom: 1px dashed #cccccc; padding-bottom: 4px;">
+        <p>Example #2: autocomplete for argument <tt>$constraint</tt> of <tt>PHPUnit_Framework_MockObject_Builder_InvocationMocker::method</tt></p>
+        <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/unstable/img/pim.png" alt="" width="346" height="340" /></p>
+    </div>
   ]]></description>
 
   <change-notes><![CDATA[
+    <h3>1.2</h3>
+    <ul>
+        <li>Fixed false activation of plugin in classes with magic methods defined in PHPDoc blocks.</li>
+    </ul>
+    <h3>1.1</h3>
+    <ul>
+        <li>Added support for methods <tt>PHPUnit_Framework_TestCase::getMock</tt>, <tt>PHPUnit_Framework_TestCase::getMockClass</tt>, <tt>PHPUnit_Framework_TestCase::getMockForAbstractClass</tt> and <tt>PHPUnit_Framework_TestCase::getMockForTrait</tt>;</li>
+        <li>Already specified methods in mock definitions aren't used in next autocomplete suggestions;</li>
+        <li>Fixed multiple false activations of suggestion popup.</li>
+    </ul>
+    <h3>1.0</h3>
+    <ul>
+        <li>Added support for methods <tt>PHPUnit_Framework_MockObject_MockBuilder::setMethods</tt> and <tt>PHPUnit_Framework_MockObject_Builder_InvocationMocker::method</tt>.</li>
+    </ul>
   ]]>
   </change-notes>
 
-  <idea-version since-build="131"/>
+  <idea-version since-build="133"/>
 
   <depends>com.jetbrains.php</depends>
   <depends>com.intellij.modules.platform</depends>
