@@ -22,7 +22,7 @@ Example #2: autocomplete for argument `$constraint` of `PHPUnit_Framework_MockOb
 
 Releases
 --------
-* Stable [phpuaca-1.2.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.2/phpuaca-1.2.jar)
+* Stable [phpuaca-1.2.1.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.2.1/phpuaca-1.2.1.jar)
 
 Installation
 ------------
