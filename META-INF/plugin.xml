@@ -1,30 +1,24 @@
-<idea-plugin version="2">
+<idea-plugin version="2" url="https://github.com/maxfilatov/phpuaca/">
   <id>com.phpuaca</id>
   <name>PHPUnit Autocomplete Assistant</name>
-  <version>1.2</version>
+  <version>1.2.1</version>
   <vendor url="https://github.com/maxfilatov/phpuaca/">Max Filatov</vendor>
 
   <description><![CDATA[
-    <div style="border-bottom: 1px dashed #cccccc; margin-bottom: 4px;">
-        <p>PhpStorm plugin to provide smart autocomplete for mocked class methods.</p>
-        <p>Features are available for method definition arguments of these PHPUnit methods:</p>
-        <ul>
-            <li><tt>PHPUnit_Framework_MockObject_MockBuilder::setMethods</tt></li>
-            <li><tt>PHPUnit_Framework_TestCase::getMock</tt></li>
-            <li><tt>PHPUnit_Framework_TestCase::getMockClass</tt></li>
-            <li><tt>PHPUnit_Framework_TestCase::getMockForAbstractClass</tt></li>
-            <li><tt>PHPUnit_Framework_TestCase::getMockForTrait</tt></li>
-            <li><tt>PHPUnit_Framework_MockObject_Builder_InvocationMocker::method</tt></li>
-        </ul>
-    </div>
-    <div style="border-bottom: 1px dashed #cccccc; margin-bottom: 4px; padding-bottom: 4px;">
-        <p>Example #1: autocomplete for argument <tt>$methods</tt> of <tt>PHPUnit_Framework_MockObject_MockBuilder::setMethods</tt></p>
-        <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pmb.png" alt="" width="346" height="186" /></p>
-    </div>
-    <div style="border-bottom: 1px dashed #cccccc; padding-bottom: 4px;">
-        <p>Example #2: autocomplete for argument <tt>$constraint</tt> of <tt>PHPUnit_Framework_MockObject_Builder_InvocationMocker::method</tt></p>
-        <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pim.png" alt="" width="346" height="340" /></p>
-    </div>
+    <p>PhpStorm plugin to provide smart autocomplete for mocked class methods.</p>
+    <p>Features are available for method definition arguments of these PHPUnit methods:</p>
+    <ul style="margin-bottom: 8px;">
+        <li><tt>PHPUnit_Framework_MockObject_MockBuilder::setMethods</tt></li>
+        <li><tt>PHPUnit_Framework_TestCase::getMock</tt></li>
+        <li><tt>PHPUnit_Framework_TestCase::getMockClass</tt></li>
+        <li><tt>PHPUnit_Framework_TestCase::getMockForAbstractClass</tt></li>
+        <li><tt>PHPUnit_Framework_TestCase::getMockForTrait</tt></li>
+        <li><tt>PHPUnit_Framework_MockObject_Builder_InvocationMocker::method</tt></li>
+    </ul>
+    <p>Example #1: autocomplete for argument <tt>$methods</tt> of <tt>PHPUnit_Framework_MockObject_MockBuilder::setMethods</tt></p>
+    <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pmb.png" alt="" width="346" height="186" /></p>
+    <p>Example #2: autocomplete for argument <tt>$constraint</tt> of <tt>PHPUnit_Framework_MockObject_Builder_InvocationMocker::method</tt></p>
+    <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pim.png" alt="" width="346" height="340" /></p>
   ]]></description>
 
   <change-notes><![CDATA[
@@ -45,7 +39,7 @@
   ]]>
   </change-notes>
 
-  <idea-version since-build="133"/>
+  <idea-version since-build="133.0"/>
 
   <depends>com.jetbrains.php</depends>
   <depends>com.intellij.modules.platform</depends>
