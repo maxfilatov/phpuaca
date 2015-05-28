@@ -21,7 +21,12 @@ public class MockBuilderFilter extends Filter {
 
         ClassFinder.Result classFinderResult = (new ClassFinder()).find(methodReference);
         if (classFinderResult != null) {
-            setClassConstantReference(classFinderResult.getClassConstantReference());
+            if (classFinderResult.getClassConstantReference() != null) {
+                setClassConstantReference(classFinderResult.getClassConstantReference());
+            }
+            if (classFinderResult.getClassName() != null) {
+                setClassName(classFinderResult.getClassName());
+            }
         }
 
         disallowMethod("__construct");
