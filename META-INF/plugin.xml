@@ -47,6 +47,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringLiteralConfidence" id="asTrue" order="first"/>
     <completion.contributor language="PHP" implementationClass="com.phpuaca.completion.StringLiteralContributor"/>
+    <php.typeProvider2 implementation="com.phpuaca.completion.MockedClassTypeProvider"/>
   </extensions>
 
   <application-components>
