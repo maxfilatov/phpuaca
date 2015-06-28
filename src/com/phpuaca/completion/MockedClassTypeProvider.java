@@ -70,7 +70,8 @@ public class MockedClassTypeProvider implements PhpTypeProvider2
                 if (prophesizeMethod != null) {
                     PhpNamedElement prophCall = phpIndex.getBySignature(prophesizeMethod.getSignature()).iterator().next();
 
-                    if(prophCall != null && prophCall.getFQN() != null && prophCall.getFQN().equals("\\PHPUnit_Framework_TestCase.prophesize")) {
+                    if(prophCall != null && prophCall.getFQN() != null &&
+                            (prophCall.getFQN().equals("\\PHPUnit_Framework_TestCase.prophesize") || prophCall.getFQN().equals("\\Prophecy\\Prophet.prophesize"))) {
                         String prophType = prophCall.getType().toString();
                         if(prophType.equals("\\Prophecy\\Prophecy\\ObjectProphecy")) {
                             if("reveal".equals(methodReference.getName())) {
@@ -169,6 +170,7 @@ public class MockedClassTypeProvider implements PhpTypeProvider2
         signatures.add(new PhpMethodSignature("\\PHPUnit_Framework_TestCase", "getMockForAbstractClass", 0));
         signatures.add(new PhpMethodSignature("\\PHPUnit_Framework_TestCase", "getMockForTrait", 0));
         signatures.add(new PhpMethodSignature("\\PHPUnit_Framework_TestCase", "prophesize", 0));
+        signatures.add(new PhpMethodSignature("\\Prophecy\\Prophet", "prophesize", 0));
         signatures.add(new PhpMethodSignature("\\Prophecy\\Prophecy\\ObjectProphecy", "reveal", 0));
 
         return signatures;
@@ -202,6 +204,12 @@ public class MockedClassTypeProvider implements PhpTypeProvider2
         if (parameter instanceof PhpReference && (parameter instanceof ClassConstantReference || parameter instanceof FieldReference)) {
             String signature = ((PhpReference) parameter).getSignature();
             if (StringUtil.isNotEmpty(signature)) {
+                if (signature.startsWith("#K#C")) {
+                    signature = signature.substring(4);
+                }
+                if (signature.endsWith(".class")) {
+                    signature = signature.substring(0, signature.length()-6);
+                }
                 return refSignature + TRIM_KEY + signature;
             }
         }
