@@ -1,10 +1,7 @@
 package com.phpuaca.completion.filter.util;
 
 import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.ParameterList;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.phpuaca.completion.filter.FilterConfigItem;
 import com.phpuaca.completion.filter.FilterFactory;
 import com.phpuaca.completion.util.PhpMethodChain;
@@ -38,11 +35,24 @@ final public class ClassFinder {
 
         ParameterList parameterList = mockBuilderMethodReference.getParameterList();
         ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
-        if (classConstantReference == null) {
-            return null;
+        if (classConstantReference != null) {
+            return new Result(classConstantReference, filterConfigItem.getParameterNumber());
         }
 
-        return new Result(classConstantReference, filterConfigItem.getParameterNumber());
+        StringLiteralExpression stringLiteral = PsiTreeUtil.getChildOfType(parameterList, StringLiteralExpression.class);
+        if (stringLiteral != null) {
+            String className = stringLiteral.getContents();
+
+            if (!className.isEmpty()) {
+                // \\ -> \
+                className = className.replace("\\\\", "\\");
+                if (!className.isEmpty()) {
+                    return new Result(className, filterConfigItem.getParameterNumber());
+                }
+            }
+        }
+
+        return null;
     }
 
     @Nullable
@@ -54,11 +64,18 @@ final public class ClassFinder {
 
     public class Result {
         private ClassConstantReference classConstantReference;
+        private String className;
         private int parameterNumber;
 
         public Result(@NotNull ClassConstantReference classConstantReference, int parameterNumber)
         {
             this.classConstantReference = classConstantReference;
+            this.parameterNumber = parameterNumber;
+        }
+
+        public Result(@NotNull String className, int parameterNumber)
+        {
+            this.className = className;
             this.parameterNumber = parameterNumber;
         }
 
@@ -70,6 +87,10 @@ final public class ClassFinder {
         public int getParameterNumber()
         {
             return parameterNumber;
+        }
+
+        public String getClassName() {
+            return className;
         }
     }
 }
