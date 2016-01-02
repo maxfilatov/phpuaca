@@ -19,6 +19,7 @@ abstract public class Filter {
     private List<String> disallowedMethods;
 
     private ClassConstantReference classConstantReference;
+    private String className;
 
     public Filter(FilterContext context)
     {
@@ -121,5 +122,13 @@ abstract public class Filter {
     public ClassConstantReference getClassConstantReference()
     {
         return classConstantReference;
+    }
+
+    protected void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getClassName() {
+        return className;
     }
 }

@@ -2,6 +2,7 @@ package com.phpuaca.completion;
 
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.openapi.project.Project;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiWhiteSpace;
@@ -25,7 +26,8 @@ public class StringLiteralContributor extends CompletionContributor {
                 if (originalPosition != null) {
                     Filter filter = FilterFactory.getInstance().getFilter(originalPosition.getParent());
                     if (filter != null) {
-                        List<LookupElement> elements = (new LookupElementProvider()).find(filter);
+                        Project project = originalPosition.getProject();
+                        List<LookupElement> elements = (new LookupElementProvider()).find(project, filter);
                         completionResultSet.addAllElements(elements);
                     }
                 }

@@ -1,11 +1,14 @@
 package com.phpuaca.completion.util;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
 import com.jetbrains.php.lang.psi.elements.ClassReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -43,5 +46,16 @@ final public class PhpClassResolver implements IResolver {
     public PhpClass getResolvedClass()
     {
         return resolvedClass;
+    }
+
+    @Nullable
+    static public PhpClass getClass(Project project, String className) {
+        return getClass(PhpIndex.getInstance(project), className);
+    }
+
+    @Nullable
+    static public PhpClass getClass(PhpIndex phpIndex, String className) {
+        Collection<PhpClass> classes = phpIndex.getClassesByFQN(className);
+        return classes.isEmpty() ? null : classes.iterator().next();
     }
 }

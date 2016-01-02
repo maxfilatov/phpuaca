@@ -23,7 +23,12 @@ public class InvocationMockerFilter extends Filter {
                 allowModifier(PhpModifier.PROTECTED_ABSTRACT_DYNAMIC);
                 allowModifier(PhpModifier.PROTECTED_IMPLEMENTED_DYNAMIC);
 
-                setClassConstantReference(classFinderResult.getClassConstantReference());
+                if (classFinderResult.getClassConstantReference() != null) {
+                    setClassConstantReference(classFinderResult.getClassConstantReference());
+                }
+                if (classFinderResult.getClassName() != null) {
+                    setClassName(classFinderResult.getClassName());
+                }
 
                 MethodReference definitionMethodReference = (new PhpMethodChain(methodReference)).findMethodReference("setMethods");
                 if (definitionMethodReference == null) {
