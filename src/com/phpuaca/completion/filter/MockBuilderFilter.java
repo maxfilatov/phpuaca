@@ -21,12 +21,7 @@ public class MockBuilderFilter extends Filter {
 
         ClassFinder.Result classFinderResult = (new ClassFinder()).find(methodReference);
         if (classFinderResult != null) {
-            if (classFinderResult.getClassConstantReference() != null) {
-                setClassConstantReference(classFinderResult.getClassConstantReference());
-            }
-            if (classFinderResult.getClassName() != null) {
-                setClassName(classFinderResult.getClassName());
-            }
+            setPhpClass(classFinderResult.getPhpClass());
         }
 
         disallowMethod("__construct");

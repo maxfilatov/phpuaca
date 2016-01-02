@@ -2,7 +2,7 @@ PHPUnit Autocomplete Assistant
 ==============================
 PhpStorm plugin to provide smart autocomplete for mocked class methods.
 
-Supported versions of PhpStorm: 7.1, 8.
+Supported all versions of PhpStorm since 7.1
 
 Features are available for method definition arguments of these PHPUnit methods:
 * `PHPUnit_Framework_MockObject_MockBuilder::setMethods`
@@ -26,5 +26,10 @@ Releases
 
 Installation
 ------------
+Stable version:
+* Go to `PhpStorm -> Preferences... -> Plugins -> Browse repositories ...` and search for PHPUnit Autocomplete Assistant plugin
+* Restart PhpStorm
+
+Latest version:
 * Go to `PhpStorm -> Preferences... -> Plugins -> Install plugin from disk...` and choose jar file
 * Restart PhpStorm

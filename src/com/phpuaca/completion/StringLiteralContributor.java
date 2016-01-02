@@ -26,8 +26,7 @@ public class StringLiteralContributor extends CompletionContributor {
                 if (originalPosition != null) {
                     Filter filter = FilterFactory.getInstance().getFilter(originalPosition.getParent());
                     if (filter != null) {
-                        Project project = originalPosition.getProject();
-                        List<LookupElement> elements = (new LookupElementProvider()).find(project, filter);
+                        List<LookupElement> elements = (new LookupElementProvider()).find(filter);
                         completionResultSet.addAllElements(elements);
                     }
                 }

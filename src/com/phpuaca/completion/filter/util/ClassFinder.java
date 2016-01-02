@@ -4,6 +4,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.phpuaca.completion.filter.FilterConfigItem;
 import com.phpuaca.completion.filter.FilterFactory;
+import com.phpuaca.completion.util.PhpClassResolver;
 import com.phpuaca.completion.util.PhpMethodChain;
 import com.phpuaca.completion.util.PhpVariable;
 import org.jetbrains.annotations.NotNull;
@@ -33,26 +34,19 @@ final public class ClassFinder {
             return null;
         }
 
+        PhpClass phpClass = null;
         ParameterList parameterList = mockBuilderMethodReference.getParameterList();
         ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
         if (classConstantReference != null) {
-            return new Result(classConstantReference, filterConfigItem.getParameterNumber());
-        }
-
-        StringLiteralExpression stringLiteral = PsiTreeUtil.getChildOfType(parameterList, StringLiteralExpression.class);
-        if (stringLiteral != null) {
-            String className = stringLiteral.getContents();
-
-            if (!className.isEmpty()) {
-                // \\ -> \
-                className = className.replace("\\\\", "\\");
-                if (!className.isEmpty()) {
-                    return new Result(className, filterConfigItem.getParameterNumber());
-                }
+            phpClass = (new PhpClassResolver()).resolveByClassConstantReference(classConstantReference);
+        } else {
+            StringLiteralExpression stringLiteralExpression = PsiTreeUtil.getChildOfType(parameterList, StringLiteralExpression.class);
+            if (stringLiteralExpression != null) {
+                phpClass = (new PhpClassResolver()).resolveByClassStringLiteralExpression(stringLiteralExpression);
             }
         }
 
-        return null;
+        return phpClass == null ? null : new Result(phpClass, filterConfigItem.getParameterNumber());
     }
 
     @Nullable
@@ -63,34 +57,23 @@ final public class ClassFinder {
     }
 
     public class Result {
-        private ClassConstantReference classConstantReference;
-        private String className;
+        private PhpClass phpClass;
         private int parameterNumber;
 
-        public Result(@NotNull ClassConstantReference classConstantReference, int parameterNumber)
+        public Result(@NotNull PhpClass phpClass, int parameterNumber)
         {
-            this.classConstantReference = classConstantReference;
+            this.phpClass = phpClass;
             this.parameterNumber = parameterNumber;
         }
 
-        public Result(@NotNull String className, int parameterNumber)
+        public PhpClass getPhpClass()
         {
-            this.className = className;
-            this.parameterNumber = parameterNumber;
-        }
-
-        public ClassConstantReference getClassConstantReference()
-        {
-            return classConstantReference;
+            return phpClass;
         }
 
         public int getParameterNumber()
         {
             return parameterNumber;
-        }
-
-        public String getClassName() {
-            return className;
         }
     }
 }

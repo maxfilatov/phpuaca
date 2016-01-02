@@ -9,12 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
-final public class PhpMethodResolver implements IResolver {
+final public class PhpMethodResolver {
 
     private MethodReference methodReference;
     private Method resolvedMethod;
     private PhpClass resolvedClass;
-
 
     public PhpMethodResolver(@NotNull MethodReference methodReference)
     {

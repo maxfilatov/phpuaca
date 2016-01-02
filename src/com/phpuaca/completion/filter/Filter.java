@@ -3,7 +3,6 @@ package com.phpuaca.completion.filter;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocMethod;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocProperty;
 import com.jetbrains.php.lang.psi.elements.*;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,7 @@ abstract public class Filter {
     private List<String> allowedModifiers;
     private List<String> disallowedMethods;
 
-    private ClassConstantReference classConstantReference;
-    private String className;
+    private PhpClass phpClass;
 
     public Filter(FilterContext context)
     {
@@ -113,22 +111,13 @@ abstract public class Filter {
         return isModifierAllowed(modifier.toString());
     }
 
-    public void setClassConstantReference(@Nullable ClassConstantReference value)
+    public void setPhpClass(PhpClass phpClass)
     {
-        classConstantReference = value;
+        this.phpClass = phpClass;
     }
 
-    @Nullable
-    public ClassConstantReference getClassConstantReference()
+    public PhpClass getPhpClass()
     {
-        return classConstantReference;
-    }
-
-    protected void setClassName(String className) {
-        this.className = className;
-    }
-
-    public String getClassName() {
-        return className;
+        return phpClass;
     }
 }

@@ -3,59 +3,44 @@ package com.phpuaca.completion.util;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.psi.elements.ClassConstantReference;
-import com.jetbrains.php.lang.psi.elements.ClassReference;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
-final public class PhpClassResolver implements IResolver {
+final public class PhpClassResolver {
 
-    private ClassReference classReference;
-    private PhpClass resolvedClass;
-
-    public PhpClassResolver(@NotNull ClassReference classReference)
+    @Nullable
+    public PhpClass resolveByClassConstantReference(@NotNull ClassConstantReference classConstantReference)
     {
-        this.classReference = classReference;
-    }
-
-    public PhpClassResolver(@NotNull ClassConstantReference classConstantReference)
-    {
-        this.classReference = PsiTreeUtil.getChildOfType(classConstantReference, ClassReference.class);
-    }
-
-    public boolean resolve()
-    {
+        ClassReference classReference = PsiTreeUtil.getChildOfType(classConstantReference, ClassReference.class);
         if (classReference != null) {
-            Collection<?extends PhpNamedElement> resolvedCollection = classReference.resolveGlobal(false);
+            Collection<? extends PhpNamedElement> resolvedCollection = classReference.resolveGlobal(false);
             if (!resolvedCollection.isEmpty()) {
                 PhpNamedElement resolvedElement = resolvedCollection.iterator().next();
                 if (resolvedElement instanceof PhpClass) {
-                    resolvedClass = (PhpClass) resolvedElement;
-                    return true;
+                    return (PhpClass) resolvedElement;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
-    public PhpClass getResolvedClass()
+    @Nullable
+    public PhpClass resolveByClassStringLiteralExpression(@NotNull StringLiteralExpression stringLiteralExpression)
     {
-        return resolvedClass;
-    }
+        String className = stringLiteralExpression.getContents();
+        if (!className.isEmpty()) {
+            className = className.replace("\\\\", "\\");
+            Project project = stringLiteralExpression.getProject();
+            Collection<PhpClass> phpClasses = PhpIndex.getInstance(project).getClassesByFQN(className);
+            if (!phpClasses.isEmpty()) {
+                return phpClasses.iterator().next();
+            }
+        }
 
-    @Nullable
-    static public PhpClass getClass(Project project, String className) {
-        return getClass(PhpIndex.getInstance(project), className);
-    }
-
-    @Nullable
-    static public PhpClass getClass(PhpIndex phpIndex, String className) {
-        Collection<PhpClass> classes = phpIndex.getClassesByFQN(className);
-        return classes.isEmpty() ? null : classes.iterator().next();
+        return null;
     }
 }
