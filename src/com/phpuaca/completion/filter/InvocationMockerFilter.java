@@ -33,6 +33,7 @@ public class InvocationMockerFilter extends Filter {
                 MethodReference definitionMethodReference = (new PhpMethodChain(methodReference)).findMethodReference("setMethods");
                 if (definitionMethodReference == null) {
                     definitionMethodReference = methodReference;
+                    allowMethods();
                 }
 
                 ParameterList parameterList = definitionMethodReference.getParameterList();
