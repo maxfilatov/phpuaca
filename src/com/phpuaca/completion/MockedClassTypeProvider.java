@@ -219,7 +219,14 @@ public class MockedClassTypeProvider implements PhpTypeProvider2
 
     @NotNull
     private Collection<? extends PhpNamedElement> getByParameter(Project project, String parameter) {
-        return PhpIndex.getInstance(project).getClassesByFQN(parameter.startsWith("\\") ? parameter : "\\" + parameter);
-    }
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        String classFQN = parameter.startsWith("\\") ? parameter : "\\" + parameter;
+        Collection<? extends PhpNamedElement> classes = phpIndex.getClassesByFQN(classFQN);
 
+        if (classes.size() == 0) {
+            classes = phpIndex.getInterfacesByFQN(classFQN);
+        }
+
+        return classes;
+    }
 }
