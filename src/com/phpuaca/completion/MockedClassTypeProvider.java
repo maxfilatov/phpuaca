@@ -62,27 +62,42 @@ public class MockedClassTypeProvider implements PhpTypeProvider2
             String expression = ((Variable)child).getType().toString();
             // get back our original call
             int endIndex = expression.lastIndexOf(TRIM_KEY);
-            if(endIndex != -1) {
+            if (endIndex != -1) {
                 PhpIndex phpIndex = PhpIndex.getInstance(element.getProject());
 
+                // get reference to original variable assignment call: $prophecy = $this->prophesize('YourClass');
                 MethodReference prophesizeMethod = (new PhpVariable((Variable)child)).findClosestAssignment();
-
                 if (prophesizeMethod != null) {
-                    PhpNamedElement prophCall = phpIndex.getBySignature(prophesizeMethod.getSignature()).iterator().next();
 
-                    if(prophCall != null && prophCall.getFQN() != null &&
-                            (prophCall.getFQN().equals("\\PHPUnit_Framework_TestCase.prophesize") || prophCall.getFQN().equals("\\Prophecy\\Prophet.prophesize"))) {
-                        String prophType = prophCall.getType().toString();
-                        if(prophType.equals("\\Prophecy\\Prophecy\\ObjectProphecy")) {
-                            if("reveal".equals(methodReference.getName())) {
-                                return buildParameterMethodSignature(refSignature, 0, prophesizeMethod.getParameters());
-                            } else {
-                                // check if methodReference is not in ObjectProphecy (it is a mocked method)
-                                PhpMethodResolver resolver = new PhpMethodResolver(methodReference);
-                                if(resolver.resolve()) {
-                                    String resolvedClass = resolver.getResolvedClass().getFQN();
-                                    if(resolvedClass != null && !resolvedClass.equals("\\Prophecy\\Prophecy\\ObjectProphecy")) {
-                                        return "\\Prophecy\\Prophecy\\MethodProphecy";
+                    // get element for method definition of 'prophesize'
+                    Collection<? extends PhpNamedElement> prophesizeMethodElements = phpIndex.getBySignature(prophesizeMethod.getSignature());
+                    if (prophesizeMethodElements.size() == 0) {
+                        return null;
+                    }
+                    PhpNamedElement prophesizeMethodDefinition = prophesizeMethodElements.iterator().next();
+                    if (prophesizeMethodDefinition != null) {
+                        String prophesizeFQN = prophesizeMethodDefinition.getFQN();
+
+                        if (prophesizeFQN != null &&
+                            (prophesizeFQN.equals("\\PHPUnit_Framework_TestCase.prophesize") || prophesizeFQN.equals("\\Prophecy\\Prophet.prophesize"))
+                        ) {
+                            // check for correct return type
+                            String prophesizeReturnType = prophesizeMethodDefinition.getType().toString();
+                            if (prophesizeReturnType.equals("\\Prophecy\\Prophecy\\ObjectProphecy")) {
+
+                                // $prophecy->reveal() call
+                                if ("reveal".equals(methodReference.getName())) {
+                                    // return type from class parameter from ...->prophesize('YourCall') call
+                                    return buildParameterMethodSignature(refSignature, 0, prophesizeMethod.getParameters());
+                                } else {
+                                    // check if methodReference is not from ObjectProphecy (this means it is a mocked method)
+                                    PhpMethodResolver resolver = new PhpMethodResolver(methodReference);
+                                    if (resolver.resolve()) {
+                                        String resolvedClass = resolver.getResolvedClass().getFQN();
+                                        if (resolvedClass != null && !resolvedClass.equals("\\Prophecy\\Prophecy\\ObjectProphecy")) {
+                                            // overwrite the original methods return type
+                                            return "\\Prophecy\\Prophecy\\MethodProphecy";
+                                        }
                                     }
                                 }
                             }
