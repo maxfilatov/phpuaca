@@ -1,4 +1,4 @@
-package com.phpuaca.completion.filter;
+package com.phpuaca.filter;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -8,33 +8,28 @@ import java.util.Map;
 public class FilterConfig {
     Map<String, FilterConfigItem> config;
 
-    public FilterConfig()
-    {
+    public FilterConfig() {
         config = new HashMap<String, FilterConfigItem>();
     }
 
-    public FilterConfig(FilterConfig filterConfig)
-    {
+    public FilterConfig(FilterConfig filterConfig) {
         config = filterConfig.config;
     }
 
-    public FilterConfig add(FilterConfigItem filterConfigItem)
-    {
+    public FilterConfig add(FilterConfigItem filterConfigItem) {
         String hash = createHash(filterConfigItem.getClassName(), filterConfigItem.getMethodName());
         config.put(hash, filterConfigItem);
         return this;
     }
 
     @Nullable
-    public FilterConfigItem getItem(String className, String methodName)
-    {
+    public FilterConfigItem getItem(String className, String methodName) {
         String hash = createHash(className, methodName);
         return config.get(hash);
     }
 
     @Nullable
-    public FilterConfigItem getItem(String methodName)
-    {
+    public FilterConfigItem getItem(String methodName) {
         String hash = createHash("", methodName);
         for (Map.Entry<String, FilterConfigItem> entry : config.entrySet()) {
             if (entry.getKey().endsWith(hash)) {
@@ -45,8 +40,7 @@ public class FilterConfig {
         return null;
     }
 
-    private String createHash(String className, String methodName)
-    {
+    private String createHash(String className, String methodName) {
         return className + "::" + methodName;
     }
 }

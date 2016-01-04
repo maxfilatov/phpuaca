@@ -1,9 +1,9 @@
-package com.phpuaca.completion.filter;
+package com.phpuaca.filter;
 
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.phpuaca.completion.filter.util.ClassFinder;
-import com.phpuaca.completion.util.PhpClassResolver;
+import com.phpuaca.filter.util.ClassFinder;
+import com.phpuaca.util.PhpClassResolver;
 
 public class MethodMockFilter extends Filter {
 

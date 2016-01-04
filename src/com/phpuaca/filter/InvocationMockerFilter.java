@@ -1,11 +1,14 @@
-package com.phpuaca.completion.filter;
+package com.phpuaca.filter;
 
 import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.php.lang.psi.elements.*;
-import com.phpuaca.completion.filter.util.ClassFinder;
-import com.phpuaca.completion.util.PhpArrayParameter;
-import com.phpuaca.completion.util.PhpMethodChain;
-import com.phpuaca.completion.util.PhpVariable;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import com.jetbrains.php.lang.psi.elements.Variable;
+import com.phpuaca.filter.util.ClassFinder;
+import com.phpuaca.util.PhpArrayParameter;
+import com.phpuaca.util.PhpMethodChain;
+import com.phpuaca.util.PhpVariable;
 
 public class InvocationMockerFilter extends Filter {
 

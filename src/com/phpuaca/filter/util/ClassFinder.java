@@ -1,20 +1,19 @@
-package com.phpuaca.completion.filter.util;
+package com.phpuaca.filter.util;
 
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.phpuaca.completion.filter.FilterConfigItem;
-import com.phpuaca.completion.filter.FilterFactory;
-import com.phpuaca.completion.util.PhpClassResolver;
-import com.phpuaca.completion.util.PhpMethodChain;
-import com.phpuaca.completion.util.PhpVariable;
+import com.phpuaca.filter.FilterConfigItem;
+import com.phpuaca.filter.FilterFactory;
+import com.phpuaca.util.PhpClassResolver;
+import com.phpuaca.util.PhpMethodChain;
+import com.phpuaca.util.PhpVariable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 final public class ClassFinder {
 
     @Nullable
-    public Result find(@NotNull MethodReference methodReference)
-    {
+    public Result find(@NotNull MethodReference methodReference) {
         String methodNameToFind = "setMethods";
         MethodReference mockBuilderMethodReference = (new PhpMethodChain(methodReference)).findMethodReference("getMockBuilder");
         if (mockBuilderMethodReference == null) {
@@ -50,8 +49,7 @@ final public class ClassFinder {
     }
 
     @Nullable
-    public Result find(@NotNull Variable variable)
-    {
+    public Result find(@NotNull Variable variable) {
         MethodReference methodReference = (new PhpVariable(variable)).findClosestAssignment();
         return methodReference == null ? null : find(methodReference);
     }
@@ -60,19 +58,16 @@ final public class ClassFinder {
         private PhpClass phpClass;
         private int parameterNumber;
 
-        public Result(@NotNull PhpClass phpClass, int parameterNumber)
-        {
+        public Result(@NotNull PhpClass phpClass, int parameterNumber) {
             this.phpClass = phpClass;
             this.parameterNumber = parameterNumber;
         }
 
-        public PhpClass getPhpClass()
-        {
+        public PhpClass getPhpClass() {
             return phpClass;
         }
 
-        public int getParameterNumber()
-        {
+        public int getParameterNumber() {
             return parameterNumber;
         }
     }

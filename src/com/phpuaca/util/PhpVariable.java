@@ -1,4 +1,4 @@
-package com.phpuaca.completion.util;
+package com.phpuaca.util;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -11,14 +11,12 @@ public class PhpVariable {
 
     private Variable variable;
 
-    public PhpVariable(@NotNull Variable variable)
-    {
+    public PhpVariable(@NotNull Variable variable) {
         this.variable = variable;
     }
 
     @Nullable
-    public MethodReference findClosestAssignment()
-    {
+    public MethodReference findClosestAssignment() {
         String variableName = variable.getName();
         PsiElement cursor = variable;
 

@@ -1,4 +1,4 @@
-package com.phpuaca.completion.util;
+package com.phpuaca.util;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -12,8 +12,7 @@ import java.util.Collection;
 final public class PhpClassResolver {
 
     @Nullable
-    public PhpClass resolveByClassConstantReference(@NotNull ClassConstantReference classConstantReference)
-    {
+    public PhpClass resolveByClassConstantReference(@NotNull ClassConstantReference classConstantReference) {
         ClassReference classReference = PsiTreeUtil.getChildOfType(classConstantReference, ClassReference.class);
         if (classReference != null) {
             Collection<? extends PhpNamedElement> resolvedCollection = classReference.resolveGlobal(false);
@@ -29,8 +28,7 @@ final public class PhpClassResolver {
     }
 
     @Nullable
-    public PhpClass resolveByClassStringLiteralExpression(@NotNull StringLiteralExpression stringLiteralExpression)
-    {
+    public PhpClass resolveByClassStringLiteralExpression(@NotNull StringLiteralExpression stringLiteralExpression) {
         String className = stringLiteralExpression.getContents();
         if (!className.isEmpty()) {
             className = className.replace("\\\\", "\\");

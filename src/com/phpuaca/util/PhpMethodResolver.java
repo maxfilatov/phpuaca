@@ -1,4 +1,4 @@
-package com.phpuaca.completion.util;
+package com.phpuaca.util;
 
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.Method;
@@ -15,14 +15,12 @@ final public class PhpMethodResolver {
     private Method resolvedMethod;
     private PhpClass resolvedClass;
 
-    public PhpMethodResolver(@NotNull MethodReference methodReference)
-    {
+    public PhpMethodResolver(@NotNull MethodReference methodReference) {
         this.methodReference = methodReference;
     }
 
-    public boolean resolve()
-    {
-        Collection<?extends PhpNamedElement> resolvedCollection = methodReference.resolveGlobal(true);
+    public boolean resolve() {
+        Collection<? extends PhpNamedElement> resolvedCollection = methodReference.resolveGlobal(true);
         if (!resolvedCollection.isEmpty()) {
             PhpNamedElement resolvedElement = resolvedCollection.iterator().next();
             if (resolvedElement instanceof Method) {
@@ -38,13 +36,11 @@ final public class PhpMethodResolver {
         return false;
     }
 
-    public Method getResolvedMethod()
-    {
+    public Method getResolvedMethod() {
         return resolvedMethod;
     }
 
-    public PhpClass getResolvedClass()
-    {
+    public PhpClass getResolvedClass() {
         return resolvedClass;
     }
 }

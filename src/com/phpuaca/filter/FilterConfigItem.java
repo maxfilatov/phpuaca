@@ -1,4 +1,4 @@
-package com.phpuaca.completion.filter;
+package com.phpuaca.filter;
 
 public class FilterConfigItem {
 
@@ -7,31 +7,26 @@ public class FilterConfigItem {
     private int parameterNumber;
     private Class filterClass;
 
-    public FilterConfigItem(String className, String methodName, int parameterNumber, Class filterClass)
-    {
+    public FilterConfigItem(String className, String methodName, int parameterNumber, Class filterClass) {
         this.className = className;
         this.methodName = methodName;
         this.parameterNumber = parameterNumber;
         this.filterClass = filterClass;
     }
 
-    public String getClassName()
-    {
+    public String getClassName() {
         return className;
     }
 
-    public String getMethodName()
-    {
+    public String getMethodName() {
         return methodName;
     }
 
-    public int getParameterNumber()
-    {
+    public int getParameterNumber() {
         return parameterNumber;
     }
 
-    public Class getFilterClass()
-    {
+    public Class getFilterClass() {
         return filterClass;
     }
 }

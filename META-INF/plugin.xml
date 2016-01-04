@@ -45,9 +45,9 @@
   <depends>com.intellij.modules.platform</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringLiteralConfidence" id="asTrue" order="first"/>
-    <completion.contributor language="PHP" implementationClass="com.phpuaca.completion.StringLiteralContributor"/>
-    <psi.referenceContributor language="PHP" implementation="com.phpuaca.completion.StringLiteralReferenceContributor"/>
+    <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringCompletionConfidence" id="asTrue" order="first"/>
+    <completion.contributor language="PHP" implementationClass="com.phpuaca.completion.StringCompletionContributor"/>
+    <psi.referenceContributor language="PHP" implementation="com.phpuaca.reference.StringReferenceContributor"/>
   </extensions>
 
   <application-components>

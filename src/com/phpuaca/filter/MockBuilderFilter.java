@@ -1,10 +1,10 @@
-package com.phpuaca.completion.filter;
+package com.phpuaca.filter;
 
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
-import com.phpuaca.completion.filter.util.ClassFinder;
-import com.phpuaca.completion.util.PhpArrayParameter;
+import com.phpuaca.filter.util.ClassFinder;
+import com.phpuaca.util.PhpArrayParameter;
 
 public class MockBuilderFilter extends Filter {
 

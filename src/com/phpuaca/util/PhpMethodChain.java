@@ -1,4 +1,4 @@
-package com.phpuaca.completion.util;
+package com.phpuaca.util;
 
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
@@ -9,14 +9,12 @@ public class PhpMethodChain {
 
     private MethodReference entryPoint;
 
-    public PhpMethodChain(@NotNull MethodReference entryPoint)
-    {
+    public PhpMethodChain(@NotNull MethodReference entryPoint) {
         this.entryPoint = entryPoint;
     }
 
     @Nullable
-    public MethodReference findMethodReference(@NotNull String methodName)
-    {
+    public MethodReference findMethodReference(@NotNull String methodName) {
         PsiElement firstChild;
         PsiElement cursor = entryPoint;
 

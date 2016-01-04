@@ -1,4 +1,4 @@
-package com.phpuaca.completion.util;
+package com.phpuaca.util;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -15,32 +15,27 @@ public class PhpParameter {
     private PsiElement parameter;
     private int number;
 
-    public PhpParameter(@NotNull PsiElement parameter)
-    {
+    public PhpParameter(@NotNull PsiElement parameter) {
         this(parameter, NUMBER_UNDEFINED);
     }
 
-    public PhpParameter(@NotNull PsiElement parameter, int number)
-    {
+    public PhpParameter(@NotNull PsiElement parameter, int number) {
         this.parameter = parameter;
         this.number = number;
     }
 
-    final public PsiElement getParameter()
-    {
+    final public PsiElement getParameter() {
         return parameter;
     }
 
-    final public int getNumber()
-    {
+    final public int getNumber() {
         if (number == NUMBER_UNDEFINED) {
             number = calcNumber();
         }
         return number;
     }
 
-    private int calcNumber()
-    {
+    private int calcNumber() {
         ParameterList parameterList = PsiTreeUtil.getParentOfType(parameter, ParameterList.class);
         if (parameterList != null) {
             int i = 1;
@@ -57,8 +52,7 @@ public class PhpParameter {
     }
 
     @Nullable
-    public static PhpParameter create(@NotNull ParameterList parameterList, int parameterNumber)
-    {
+    public static PhpParameter create(@NotNull ParameterList parameterList, int parameterNumber) {
         PhpParameter phpParameter = null;
         PsiElement[] parameters = parameterList.getParameters();
         int position = parameterNumber - 1;
