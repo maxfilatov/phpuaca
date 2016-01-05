@@ -41,4 +41,20 @@ final public class PhpClassResolver {
 
         return null;
     }
+
+    @Nullable
+    public PhpClass resolveByParameterListContainingClassReference(@Nullable ParameterList parameterList)
+    {
+        ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
+        if (classConstantReference != null) {
+            return resolveByClassConstantReference(classConstantReference);
+        } else {
+            StringLiteralExpression stringLiteralExpression = PsiTreeUtil.getChildOfType(parameterList, StringLiteralExpression.class);
+            if (stringLiteralExpression != null) {
+                return resolveByClassStringLiteralExpression(stringLiteralExpression);
+            }
+        }
+
+        return null;
+    }
 }

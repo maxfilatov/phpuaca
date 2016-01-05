@@ -56,14 +56,17 @@ final public class FilterFactory {
             return null;
         }
 
-        PhpMethodResolver resolver = new PhpMethodResolver(methodReference);
-        if (!resolver.resolve()) {
+        Method resolvedMethod = (new PhpMethodResolver()).resolveByMethodReference(methodReference);
+        if (resolvedMethod == null) {
             return null;
         }
 
         PhpParameter phpParameter = new PhpParameter(parameter);
-        PhpClass resolvedClass = resolver.getResolvedClass();
-        Method resolvedMethod = resolver.getResolvedMethod();
+        PhpClass resolvedClass = resolvedMethod.getContainingClass();
+        if (resolvedClass == null) {
+            return null;
+        }
+
         String methodName = resolvedMethod.getName();
         int parameterNumber = phpParameter.getNumber();
 

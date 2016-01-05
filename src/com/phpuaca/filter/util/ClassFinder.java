@@ -1,6 +1,5 @@
 package com.phpuaca.filter.util;
 
-import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.phpuaca.filter.FilterConfigItem;
 import com.phpuaca.filter.FilterFactory;
@@ -33,19 +32,13 @@ final public class ClassFinder {
             return null;
         }
 
-        PhpClass phpClass = null;
         ParameterList parameterList = mockBuilderMethodReference.getParameterList();
-        ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
-        if (classConstantReference != null) {
-            phpClass = (new PhpClassResolver()).resolveByClassConstantReference(classConstantReference);
-        } else {
-            StringLiteralExpression stringLiteralExpression = PsiTreeUtil.getChildOfType(parameterList, StringLiteralExpression.class);
-            if (stringLiteralExpression != null) {
-                phpClass = (new PhpClassResolver()).resolveByClassStringLiteralExpression(stringLiteralExpression);
-            }
+        PhpClass phpClass = (new PhpClassResolver()).resolveByParameterListContainingClassReference(parameterList);
+        if (phpClass == null) {
+            return null;
         }
 
-        return phpClass == null ? null : new Result(phpClass, filterConfigItem.getParameterNumber());
+        return new Result(phpClass, filterConfigItem.getParameterNumber());
     }
 
     @Nullable
