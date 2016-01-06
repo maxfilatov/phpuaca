@@ -11,8 +11,7 @@ import java.util.Collection;
 final public class PhpMethodResolver {
 
     @Nullable
-    public Method resolveByMethodReference(@NotNull MethodReference methodReference)
-    {
+    public Method resolveByMethodReference(@NotNull MethodReference methodReference) {
         Collection<? extends PhpNamedElement> resolvedCollection = methodReference.resolveGlobal(true);
         if (!resolvedCollection.isEmpty()) {
             PhpNamedElement resolvedElement = resolvedCollection.iterator().next();

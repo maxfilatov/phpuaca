@@ -2,16 +2,20 @@ package com.phpuaca.completion;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
-import com.phpuaca.util.*;
+import com.phpuaca.util.PhpClassAdapter;
+import com.phpuaca.util.PhpClassResolver;
+import com.phpuaca.util.PhpMethodResolver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
-public class ProphecyTypeProvider implements PhpTypeProvider2 {
+public class ProphecyTypeProvider extends BaseTypeProvider {
+
+    final protected static String TYPE_SEPARATOR = "θ";
 
     final protected static String METHOD_PROPHESIZE = "prophesize";
     final protected static String METHOD_REVEAL = "reveal";
@@ -20,10 +24,6 @@ public class ProphecyTypeProvider implements PhpTypeProvider2 {
     final protected static String CLASS_OBJECT_PROPHECY = "\\Prophecy\\Prophecy\\ObjectProphecy";
     final protected static String CLASS_METHOD_PROPHECY = "\\Prophecy\\Prophecy\\MethodProphecy";
     final protected static String CLASS_PHP_UNIT_TEST_CASE = "\\PHPUnit_Framework_TestCase";
-
-    final protected static String KEY_NONE = "PROPHECY_TYPE_PROVIDER_NONE:";
-    final protected static String KEY_OBJECT_PROPHECY = "PROPHECY_TYPE_PROVIDER_OBJECT:";
-    final protected static String KEY_METHOD_PROPHECY = "PROPHECY_TYPE_PROVIDER_METHOD:";
 
     protected HashMap<String, Boolean> mockedMethods = new HashMap<String, Boolean>();
 
@@ -35,7 +35,7 @@ public class ProphecyTypeProvider implements PhpTypeProvider2 {
     @Nullable
     @Override
     public String getType(PsiElement psiElement) {
-        if (!(psiElement instanceof MethodReference)) {
+        if (!isAvailable(psiElement)) {
             return null;
         }
 
@@ -50,23 +50,15 @@ public class ProphecyTypeProvider implements PhpTypeProvider2 {
         if (methodName.equals(METHOD_PROPHESIZE)) {
             PhpClassAdapter phpClassAdapter = getPhpClassAdapterForMethod(method);
             if (phpClassAdapter != null && (phpClassAdapter.isSubclassOf(CLASS_PHP_UNIT_TEST_CASE) || phpClassAdapter.isSubclassOf(CLASS_PROPHET))) {
-                ParameterList parameterList = methodReference.getParameterList();
-                PhpClass phpClass = (new PhpClassResolver()).resolveByParameterListContainingClassReference(parameterList);
-                if (phpClass != null) {
-                    mockMethods(phpClass.getMethods());
-                    return KEY_OBJECT_PROPHECY + phpClass.getFQN();
-                }
+                return getTypeForProphesize(methodReference);
             }
-        } else if (methodName.equals(METHOD_REVEAL) && signature.contains(KEY_OBJECT_PROPHECY)) {
+        } else if (methodName.equals(METHOD_REVEAL) && signature.contains(TYPE_SEPARATOR)) {
             PhpClassAdapter phpClassAdapter = getPhpClassAdapterForMethod(method);
             if (phpClassAdapter != null && phpClassAdapter.isSubclassOf(CLASS_OBJECT_PROPHECY)) {
-                int offsetStart = signature.indexOf(KEY_OBJECT_PROPHECY);
-                int offsetEnd = signature.indexOf("." + METHOD_REVEAL);
-                String className = signature.substring(offsetStart + KEY_OBJECT_PROPHECY.length(), offsetEnd);
-                return KEY_NONE + className;
+                return getTypeForReveal(methodReference);
             }
-        } else if (isMethodMocked(method) && signature.contains(KEY_OBJECT_PROPHECY)) {
-            return KEY_METHOD_PROPHECY;
+        } else if (isMethodMocked(method) && signature.contains(TYPE_SEPARATOR)) {
+            return getTypeForMockedMethod(methodReference);
         }
 
         return null;
@@ -74,70 +66,51 @@ public class ProphecyTypeProvider implements PhpTypeProvider2 {
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project) {
-        if (s.equals(KEY_METHOD_PROPHECY)) {
-            return getMethodProphecyCollection(project);
+        Collection<PhpClass> collection = new ArrayList<PhpClass>();
+        for (String FQN : s.split(TYPE_SEPARATOR)) {
+            collection.addAll(getPhpClassCollection(project, FQN));
         }
-
-        if (s.startsWith(KEY_OBJECT_PROPHECY)) {
-            String className = s.substring(KEY_OBJECT_PROPHECY.length());
-            Collection<PhpClass> phpClassCollection = new ArrayList<PhpClass>();
-            phpClassCollection.addAll(getObjectProphecyCollection(project));
-            phpClassCollection.addAll(getPhpClassCollection(project, className));
-            return phpClassCollection;
-        }
-
-        if (s.startsWith(KEY_NONE)) {
-            String className = s.substring(KEY_NONE.length());
-            return getPhpClassCollection(project, className);
-        }
-
-        return null;
+        return collection;
     }
 
-    protected void mockMethod(@NotNull Method method)
-    {
+    @Nullable
+    protected String getTypeForProphesize(@NotNull MethodReference methodReference) {
+        ParameterList parameterList = methodReference.getParameterList();
+        PhpClass phpClass = (new PhpClassResolver()).resolveByParameterListContainingClassReference(parameterList);
+        if (phpClass == null) {
+            return null;
+        }
+
+        mockMethods(phpClass.getMethods());
+        return CLASS_OBJECT_PROPHECY + TYPE_SEPARATOR + phpClass.getFQN();
+    }
+
+    protected String getTypeForReveal(@NotNull MethodReference methodReference) {
+        String signature = methodReference.getSignature();
+        int offsetStart = signature.indexOf(TYPE_SEPARATOR);
+        int offsetEnd = signature.indexOf("." + METHOD_REVEAL);
+        return signature.substring(offsetStart + TYPE_SEPARATOR.length(), offsetEnd);
+    }
+
+    protected String getTypeForMockedMethod(@NotNull MethodReference methodReference) {
+        return CLASS_METHOD_PROPHECY;
+    }
+
+    protected void mockMethod(@NotNull Method method) {
         String hash = method.getFQN();
         if (!mockedMethods.containsKey(hash)) {
             mockedMethods.put(hash, true);
         }
     }
 
-    protected void mockMethods(Collection<Method> methods)
-    {
+    protected void mockMethods(Collection<Method> methods) {
         for (Method method : methods) {
             mockMethod(method);
         }
     }
 
-    protected boolean isMethodMocked(Method method)
-    {
+    protected boolean isMethodMocked(Method method) {
         String hash = method.getFQN();
         return mockedMethods.containsKey(hash);
-    }
-
-    protected Collection<PhpClass> getObjectProphecyCollection(@NotNull Project project)
-    {
-        return getPhpClassCollection(project, CLASS_OBJECT_PROPHECY);
-    }
-
-    protected Collection<PhpClass> getMethodProphecyCollection(@NotNull Project project)
-    {
-        return getPhpClassCollection(project, CLASS_METHOD_PROPHECY);
-    }
-
-    protected Collection<PhpClass> getPhpClassCollection(@NotNull Project project, String className)
-    {
-        return PhpIndex.getInstance(project).getClassesByFQN(className);
-    }
-
-    @Nullable
-    protected PhpClassAdapter getPhpClassAdapterForMethod(@NotNull Method method)
-    {
-        PhpClass phpClass = method.getContainingClass();
-        if (phpClass == null) {
-            return null;
-        }
-
-        return new PhpClassAdapter(phpClass);
     }
 }

@@ -43,8 +43,7 @@ final public class PhpClassResolver {
     }
 
     @Nullable
-    public PhpClass resolveByParameterListContainingClassReference(@Nullable ParameterList parameterList)
-    {
+    public PhpClass resolveByParameterListContainingClassReference(@Nullable ParameterList parameterList) {
         ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
         if (classConstantReference != null) {
             return resolveByClassConstantReference(classConstantReference);

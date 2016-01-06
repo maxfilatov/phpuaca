@@ -39,7 +39,7 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
     @Nullable
     @Override
     public String getType(PsiElement psiElement) {
-        if (!(psiElement instanceof MethodReference)) {
+        if (!isAvailable(psiElement)) {
             return null;
         }
 
@@ -68,24 +68,17 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project) {
         Collection<PhpClass> collection = new ArrayList<PhpClass>();
-        collection.addAll(getMockObjectCollection(project));
+        collection.addAll(getPhpInterfaceCollection(project, CLASS_PHP_UNIT_MOCK_OBJECT));
         collection.addAll(getPhpClassCollection(project, s));
         return collection;
     }
 
-    @NotNull
-    protected Collection<PhpClass> getMockObjectCollection(@NotNull Project project) {
-        return getPhpInterfaceCollection(project, CLASS_PHP_UNIT_MOCK_OBJECT);
-    }
-
-    protected boolean isMethodIsMockCreator(@NotNull Method method)
-    {
+    protected boolean isMethodIsMockCreator(@NotNull Method method) {
         return mockCreatorMethodMap.containsKey(method.getName());
     }
 
     @Nullable
-    protected String getTypeForMockBuilder(@NotNull MethodReference methodReference)
-    {
+    protected String getTypeForMockBuilder(@NotNull MethodReference methodReference) {
         MethodReference mockBuilderMethodReference = (new PhpMethodChain(methodReference)).findMethodReference("getMockBuilder");
         if (mockBuilderMethodReference == null) {
             return null;
@@ -100,8 +93,7 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
     }
 
     @Nullable
-    protected String getTypeForTestCase(@NotNull MethodReference methodReference)
-    {
+    protected String getTypeForTestCase(@NotNull MethodReference methodReference) {
         PhpClass phpClass = (new PhpClassResolver()).resolveByParameterListContainingClassReference(methodReference.getParameterList());
         if (phpClass == null) {
             return null;
