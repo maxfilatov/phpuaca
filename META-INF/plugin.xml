@@ -49,6 +49,7 @@
     <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringCompletionConfidence" id="asTrue" order="first"/>
     <completion.contributor language="PHP" implementationClass="com.phpuaca.completion.StringCompletionContributor"/>
     <psi.referenceContributor language="PHP" implementation="com.phpuaca.reference.StringReferenceContributor"/>
+    <php.typeProvider2 implementation="com.phpuaca.completion.PHPUnitTypeProvider"/>
     <php.typeProvider2 implementation="com.phpuaca.completion.ProphecyTypeProvider"/>
   </extensions>
 
