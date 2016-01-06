@@ -1,5 +1,9 @@
 PHPUnit Autocomplete Assistant
 ==============================
+[![Version](http://phpstorm.espend.de/badge/7722/version)](https://plugins.jetbrains.com/plugin/7722)
+[![Downloads](http://phpstorm.espend.de/badge/7722/downloads)](https://plugins.jetbrains.com/plugin/7722)
+[![Downloads last month](http://phpstorm.espend.de/badge/7722/last-month)](https://plugins.jetbrains.com/plugin/7722)
+
 PhpStorm plugin to provide smart autocomplete for mocked class methods.
 
 Supported all versions of PhpStorm since 7.1
