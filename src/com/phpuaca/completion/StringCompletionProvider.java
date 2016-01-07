@@ -37,7 +37,7 @@ public class StringCompletionProvider extends CompletionProvider<CompletionParam
 
         if (phpClass != null) {
             for (Method method : phpClass.getMethods()) {
-                if (filter.isMethodAllowed(method)) {
+                if (filter.isMethodAllowed(method) && !filter.isMethodDescribed(method)) {
                     list.add(new PhpLookupElement(method));
                 }
             }

@@ -4,6 +4,7 @@ import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.refactoring.PhpNameUtil;
 import com.phpuaca.filter.Filter;
@@ -22,10 +23,13 @@ public class StringAnnotator implements Annotator {
                 PhpClass phpClass = filter.getPhpClass();
                 if (phpClass != null) {
                     String name = PhpNameUtil.unquote(psiElement.getText());
-                    if (phpClass.findMethodByName(name) == null && phpClass.findFieldByName(name, false) == null) {
-                        TextRange textRange = psiElement.getTextRange();
-                        TextRange annotationTextRange = new TextRange(textRange.getStartOffset() + 1, textRange.getEndOffset() - 1);
+                    Method method = phpClass.findMethodByName(name);
+                    TextRange textRange = psiElement.getTextRange();
+                    TextRange annotationTextRange = new TextRange(textRange.getStartOffset() + 1, textRange.getEndOffset() - 1);
+                    if (method == null && phpClass.findFieldByName(name, false) == null) {
                         annotationHolder.createWarningAnnotation(annotationTextRange, "Method '" + name + "' not found in class " + phpClass.getName());
+                    } else if (!filter.isMethodAllowed(method)) {
+                        annotationHolder.createWarningAnnotation(annotationTextRange, "Method '" + name + "' is not allowed to use here");
                     }
                 }
             }

@@ -6,6 +6,7 @@ import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpModifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +16,15 @@ abstract public class Filter {
     private boolean isMethodsAllowed = false;
     private boolean isFieldsAllowed = false;
 
-    private List<String> allowedMethods;
-    private List<String> allowedFields;
-    private List<String> allowedModifiers;
-    private List<String> disallowedMethods;
+    private List<String> allowedMethods = new ArrayList<String>();
+    private List<String> allowedFields = new ArrayList<String>();
+    private List<String> allowedModifiers = new ArrayList<String>();
+    private List<String> disallowedMethods = new ArrayList<String>();
+    private List<String> describedMethods = new ArrayList<String>();
 
     private PhpClass phpClass;
 
     public Filter(FilterContext context) {
-        allowedMethods = new ArrayList<String>();
-        allowedFields = new ArrayList<String>();
-        allowedModifiers = new ArrayList<String>();
-        disallowedMethods = new ArrayList<String>();
     }
 
     public void allowMethod(String methodName) {
@@ -39,6 +37,10 @@ abstract public class Filter {
         allowMethods();
         allowedMethods.remove(methodName);
         disallowedMethods.add(methodName);
+    }
+
+    public void describeMethod(String methodName) {
+        describedMethods.add(methodName);
     }
 
     public void allowField(String fieldName) {
@@ -70,6 +72,12 @@ abstract public class Filter {
         }
     }
 
+    public void describeMethods(List<String> methodNames) {
+        for (String methodName : methodNames) {
+            describeMethod(methodName);
+        }
+    }
+
     public void allowFields() {
         isFieldsAllowed = true;
     }
@@ -80,6 +88,14 @@ abstract public class Filter {
 
     public boolean isMethodAllowed(Method method) {
         return !(method instanceof PhpDocMethod) && isMethodAllowed(method.getName()) && isModifierAllowed(method.getModifier());
+    }
+
+    public boolean isMethodDescribed(String methodName) {
+        return describedMethods.contains(methodName);
+    }
+
+    public boolean isMethodDescribed(@NotNull Method method) {
+        return isMethodDescribed(method.getName());
     }
 
     protected boolean isFieldAllowed(String fieldName) {

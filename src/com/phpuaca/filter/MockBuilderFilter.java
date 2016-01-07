@@ -31,7 +31,7 @@ public class MockBuilderFilter extends Filter {
         if (parameterList != null) {
             PhpArrayParameter phpArrayParameter = PhpArrayParameter.create(parameterList, context.getFilterConfigItem().getParameterNumber());
             if (phpArrayParameter != null) {
-                disallowMethods(phpArrayParameter.getValues());
+                describeMethods(phpArrayParameter.getValues());
             }
         }
     }
