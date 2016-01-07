@@ -1,9 +1,7 @@
 package com.phpuaca.completion;
 
 import com.intellij.openapi.project.DumbService;
-import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
@@ -12,21 +10,10 @@ import com.phpuaca.util.PhpClassAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-
 abstract public class BaseTypeProvider implements PhpTypeProvider2 {
 
     protected boolean isAvailable(@NotNull PsiElement psiElement) {
         return (psiElement instanceof MethodReference) && !DumbService.getInstance(psiElement.getProject()).isDumb();
-    }
-
-    protected Collection<PhpClass> getPhpInterfaceCollection(@NotNull Project project, String FQN) {
-        return PhpIndex.getInstance(project).getInterfacesByFQN(FQN);
-    }
-
-    @NotNull
-    protected Collection<PhpClass> getPhpClassCollection(@NotNull Project project, String FQN) {
-        return PhpIndex.getInstance(project).getClassesByFQN(FQN);
     }
 
     @Nullable

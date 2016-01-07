@@ -2,6 +2,7 @@ package com.phpuaca.completion;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.phpuaca.util.PhpClassAdapter;
 import com.phpuaca.util.PhpClassResolver;
@@ -66,9 +67,10 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project) {
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
         Collection<PhpClass> collection = new ArrayList<PhpClass>();
         for (String FQN : s.split(TYPE_SEPARATOR)) {
-            collection.addAll(getPhpClassCollection(project, FQN));
+            collection.addAll(phpIndex.getAnyByFQN(FQN));
         }
         return collection;
     }

@@ -33,7 +33,7 @@ final public class PhpClassResolver {
         if (!className.isEmpty()) {
             className = className.replace("\\\\", "\\");
             Project project = stringLiteralExpression.getProject();
-            Collection<PhpClass> phpClasses = PhpIndex.getInstance(project).getClassesByFQN(className);
+            Collection<PhpClass> phpClasses = PhpIndex.getInstance(project).getAnyByFQN(className);
             if (!phpClasses.isEmpty()) {
                 return phpClasses.iterator().next();
             }

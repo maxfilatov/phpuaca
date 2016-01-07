@@ -2,6 +2,7 @@ package com.phpuaca.completion;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
@@ -67,9 +68,10 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project) {
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
         Collection<PhpClass> collection = new ArrayList<PhpClass>();
-        collection.addAll(getPhpInterfaceCollection(project, CLASS_PHP_UNIT_MOCK_OBJECT));
-        collection.addAll(getPhpClassCollection(project, s));
+        collection.addAll(phpIndex.getInterfacesByFQN(CLASS_PHP_UNIT_MOCK_OBJECT));
+        collection.addAll(phpIndex.getAnyByFQN(s));
         return collection;
     }
 
