@@ -26,10 +26,14 @@ public class StringAnnotator implements Annotator {
                     Method method = phpClass.findMethodByName(name);
                     TextRange textRange = psiElement.getTextRange();
                     TextRange annotationTextRange = new TextRange(textRange.getStartOffset() + 1, textRange.getEndOffset() - 1);
-                    if (method == null && phpClass.findFieldByName(name, false) == null) {
-                        annotationHolder.createWarningAnnotation(annotationTextRange, "Method '" + name + "' not found in class " + phpClass.getName());
-                    } else if (!filter.isMethodAllowed(method)) {
-                        annotationHolder.createWarningAnnotation(annotationTextRange, "Method '" + name + "' is not allowed to use here");
+                    if (method == null) {
+                        if (phpClass.findFieldByName(name, false) == null) {
+                            annotationHolder.createWarningAnnotation(annotationTextRange, "Method '" + name + "' not found in class " + phpClass.getName());
+                        }
+                    } else {
+                        if (!filter.isMethodAllowed(method)) {
+                            annotationHolder.createWarningAnnotation(annotationTextRange, "Method '" + name + "' is not allowed to use here");
+                        }
                     }
                 }
             }

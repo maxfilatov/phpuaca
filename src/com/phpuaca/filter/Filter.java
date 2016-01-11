@@ -87,7 +87,7 @@ abstract public class Filter {
     }
 
     public boolean isMethodAllowed(Method method) {
-        return !(method instanceof PhpDocMethod) && isMethodAllowed(method.getName()) && isModifierAllowed(method.getModifier());
+        return isMethodAllowed(method.getName()) && isModifierAllowed(method.getModifier());
     }
 
     public boolean isMethodDescribed(String methodName) {
