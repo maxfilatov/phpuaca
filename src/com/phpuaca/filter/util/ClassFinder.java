@@ -1,7 +1,6 @@
 package com.phpuaca.filter.util;
 
 import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import com.phpuaca.filter.FilterConfigItem;
@@ -35,8 +34,7 @@ final public class ClassFinder {
             return null;
         }
 
-        ParameterList parameterList = mockBuilderMethodReference.getParameterList();
-        PhpClass phpClass = (new PhpClassResolver()).resolveByParameterListContainingClassReference(parameterList);
+        PhpClass phpClass = (new PhpClassResolver()).resolveByMethodReferenceContainingParameterListWithClassReference(mockBuilderMethodReference);
         if (phpClass == null) {
             return null;
         }

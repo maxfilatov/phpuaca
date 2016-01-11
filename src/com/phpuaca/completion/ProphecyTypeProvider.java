@@ -3,7 +3,10 @@ package com.phpuaca.completion;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.lang.psi.elements.Method;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.phpuaca.util.PhpClassAdapter;
 import com.phpuaca.util.PhpClassResolver;
 import com.phpuaca.util.PhpMethodResolver;
@@ -77,8 +80,7 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
 
     @Nullable
     protected String getTypeForProphesize(@NotNull MethodReference methodReference) {
-        ParameterList parameterList = methodReference.getParameterList();
-        PhpClass phpClass = (new PhpClassResolver()).resolveByParameterListContainingClassReference(parameterList);
+        PhpClass phpClass = (new PhpClassResolver()).resolveByMethodReferenceContainingParameterListWithClassReference(methodReference);
         if (phpClass == null) {
             return null;
         }

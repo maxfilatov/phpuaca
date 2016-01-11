@@ -86,7 +86,7 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
             return null;
         }
 
-        PhpClass phpClass = (new PhpClassResolver()).resolveByParameterListContainingClassReference(mockBuilderMethodReference.getParameterList());
+        PhpClass phpClass = (new PhpClassResolver()).resolveByMethodReferenceContainingParameterListWithClassReference(mockBuilderMethodReference);
         if (phpClass == null) {
             return null;
         }
@@ -96,7 +96,7 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
 
     @Nullable
     protected String getTypeForTestCase(@NotNull MethodReference methodReference) {
-        PhpClass phpClass = (new PhpClassResolver()).resolveByParameterListContainingClassReference(methodReference.getParameterList());
+        PhpClass phpClass = (new PhpClassResolver()).resolveByMethodReferenceContainingParameterListWithClassReference(methodReference);
         if (phpClass == null) {
             return null;
         }

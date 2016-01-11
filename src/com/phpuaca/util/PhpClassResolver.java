@@ -1,9 +1,11 @@
 package com.phpuaca.util;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
+import com.phpuaca.filter.util.ClassFinder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,17 +45,44 @@ final public class PhpClassResolver {
     }
 
     @Nullable
-    public PhpClass resolveByParameterListContainingClassReference(@Nullable ParameterList parameterList) {
-        ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
-        if (classConstantReference != null) {
-            return resolveByClassConstantReference(classConstantReference);
-        } else {
-            StringLiteralExpression stringLiteralExpression = PsiTreeUtil.getChildOfType(parameterList, StringLiteralExpression.class);
-            if (stringLiteralExpression != null) {
-                return resolveByClassStringLiteralExpression(stringLiteralExpression);
-            }
+    public PhpClass resolveByParameterListContainingClassReference(@NotNull ParameterList parameterList) {
+        PsiElement[] parameters = parameterList.getParameters();
+        if (parameters.length == 0) {
+            return null;
+        }
+
+        if (parameters[0] instanceof ClassConstantReference) {
+            return resolveByClassConstantReference((ClassConstantReference) parameters[0]);
+        }
+
+        if (parameters[0] instanceof StringLiteralExpression) {
+            return resolveByClassStringLiteralExpression((StringLiteralExpression) parameters[0]);
+        }
+
+        if (parameters[0] instanceof Variable) {
+            return resolveByVariable((Variable) parameters[0]);
         }
 
         return null;
+    }
+
+    @Nullable
+    public PhpClass resolveByVariable(@NotNull Variable variable) {
+        ClassFinder.Result classFinderResult = (new ClassFinder()).find(variable);
+        if (classFinderResult == null) {
+            return null;
+        }
+
+        return classFinderResult.getPhpClass();
+    }
+
+    @Nullable
+    public PhpClass resolveByMethodReferenceContainingParameterListWithClassReference(@NotNull MethodReference methodReference) {
+        ParameterList parameterList = methodReference.getParameterList();
+        if (parameterList == null) {
+            return null;
+        }
+
+        return resolveByParameterListContainingClassReference(parameterList);
     }
 }

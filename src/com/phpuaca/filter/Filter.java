@@ -1,6 +1,5 @@
 package com.phpuaca.filter;
 
-import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocMethod;
 import com.jetbrains.php.lang.documentation.phpdoc.psi.PhpDocProperty;
 import com.jetbrains.php.lang.psi.elements.Field;
 import com.jetbrains.php.lang.psi.elements.Method;

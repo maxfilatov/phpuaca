@@ -1,8 +1,8 @@
 package com.phpuaca.filter;
 
-import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.php.lang.psi.elements.*;
-import com.phpuaca.filter.util.ClassFinder;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.PhpModifier;
 import com.phpuaca.util.PhpClassResolver;
 
 public class MethodMockFilter extends Filter {
@@ -10,22 +10,8 @@ public class MethodMockFilter extends Filter {
     public MethodMockFilter(FilterContext context) {
         super(context);
 
-        PhpClass phpClass = null;
-        ParameterList parameterList = context.getMethodReference().getParameterList();
-        ClassConstantReference classConstantReference = PsiTreeUtil.getChildOfType(parameterList, ClassConstantReference.class);
-        if (classConstantReference == null) {
-            // MethodMock::callProtectedMethod($Variable, 'doSomething');
-            Variable variable = PsiTreeUtil.getChildOfType(parameterList, Variable.class);
-            if (variable != null) {
-                ClassFinder.Result classFinderResult = (new ClassFinder()).find(variable);
-                if (classFinderResult != null) {
-                    phpClass = classFinderResult.getPhpClass();
-                }
-            }
-        } else {
-            phpClass = (new PhpClassResolver()).resolveByClassConstantReference(classConstantReference);
-        }
-
+        MethodReference methodReference = context.getMethodReference();
+        PhpClass phpClass = (new PhpClassResolver()).resolveByMethodReferenceContainingParameterListWithClassReference(methodReference);
         if (phpClass == null) {
             return;
         }
