@@ -27,7 +27,7 @@ Example #2: autocomplete for argument `$constraint` of `PHPUnit_Framework_MockOb
 Releases
 --------
 * Stable [phpuaca-1.2.1.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.2.1/phpuaca-1.2.1.jar)
-* Latest [phpuaca-1.3.0-unstable-3.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.3.0-unstable-3/phpuaca-1.3.0-unstable-3.jar)
+* Latest [phpuaca-1.3.0-unstable-4.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.3.0-unstable-4/phpuaca-1.3.0-unstable-4.jar)
 
 Installation
 ------------
