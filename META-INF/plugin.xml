@@ -6,10 +6,10 @@
 
     <description><![CDATA[
     <p>PhpStorm plugin to provide smart autocomplete, code navigation and refactoring features for mocked class methods.</p>
-    <h2>Feature list</h2>
+    <p><h2>Feature list</h2></p>
     <ul style="margin-bottom: 8px;">
         <li>
-            method autocomplete for class, abstract class and trait mock objects;
+            <p>method autocomplete for class, abstract class and trait mock objects;</p>
             <ul>
                 <li>type providers: <tt>getMock</tt>, <tt>getMockForAbstractClass</tt>, etc. will return mock object with methods of mocking class and <tt>PHPUnit_Framework_MockObject_MockObject</tt>;</li>
                 <li>
@@ -27,10 +27,10 @@
         <li>highlighting of incorrect method usages;</li>
         <li>Prophecy support.</li>
     </ul>
-    <h2>Examples</h2>
-    <h3>Mock creation</h3>
+    <p><h2>Examples</h2></p>
+    <p><h3>Mock creation</h3></p>
     <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pmb.png" alt="" width="346" height="186" /></p>
-    <h3>Mock usage</h3>
+    <p><h3>Mock usage</h3></p>
     <p><img src="https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pim.png" alt="" width="346" height="340" /></p>
   ]]></description>
 
