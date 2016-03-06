@@ -8,7 +8,8 @@ PhpStorm plugin to provide smart autocomplete, code navigation and refactoring f
 
 Supported all versions of PhpStorm since 7.1.
 
-Feature list:
+Feature list
+------------
 
 * method autocomplete for class, abstract class and trait mock objects;
   * type providers: `getMock`, `getMockForAbstractClass`, etc. will return mock object with methods of mocking class and `PHPUnit_Framework_MockObject_MockObject`;
@@ -25,9 +26,12 @@ Feature list:
 
 Examples
 --------
-* Mock creation:
+Mock creation:
+
 ![PHPUnit_Framework_MockObject_MockBuilder::setMethods](https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pmb.png)
-* Mock usage:
+
+Mock usage:
+
 ![PHPUnit_Framework_MockObject_Builder_InvocationMocker::method](https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pim.png)
 
 Releases
