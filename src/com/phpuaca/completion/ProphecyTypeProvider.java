@@ -33,7 +33,7 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
 
     @Override
     public char getKey() {
-        return 'φ';
+        return '言';
     }
 
     @Nullable

@@ -34,7 +34,7 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
 
     @Override
     public char getKey() {
-        return 'υ';
+        return '元';
     }
 
     @Nullable
