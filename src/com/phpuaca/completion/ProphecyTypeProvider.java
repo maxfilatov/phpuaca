@@ -1,12 +1,17 @@
 package com.phpuaca.completion;
 
+import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.psi.elements.FieldReference;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.Parameter;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.phpuaca.util.PhpClassAdapter;
 import com.phpuaca.util.PhpClassResolver;
 import com.phpuaca.util.PhpMethodResolver;
@@ -16,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class ProphecyTypeProvider extends BaseTypeProvider {
 
@@ -39,7 +45,25 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
     @Nullable
     @Override
     public String getType(PsiElement psiElement) {
-        if (!isAvailable(psiElement)) {
+        Project project = psiElement.getProject();
+
+        if (DumbService.getInstance(project).isDumb()) {
+            return null;
+        }
+
+        if (psiElement instanceof FieldReference) {
+            FieldReference fieldReference = (FieldReference) psiElement;
+
+            return getTypeForField(fieldReference, project);
+        }
+
+        if (psiElement instanceof Variable) {
+            Variable variable = (Variable) psiElement;
+
+            return getTypeForVariable(variable, project);
+        }
+
+        if (!(psiElement instanceof MethodReference)) {
             return null;
         }
 
@@ -65,7 +89,9 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
             return getTypeForMockedMethod(methodReference);
         }
 
-        return null;
+        PhpType phpType = method.getType();
+
+        return getTypeForPhpType(phpType, project);
     }
 
     @Override
@@ -85,8 +111,7 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
             return null;
         }
 
-        mockMethods(phpClass.getMethods());
-        return CLASS_OBJECT_PROPHECY + TYPE_SEPARATOR + phpClass.getFQN();
+        return getTypeForPhpClass(phpClass);
     }
 
     protected String getTypeForReveal(@NotNull MethodReference methodReference) {
@@ -116,5 +141,51 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
     protected boolean isMethodMocked(Method method) {
         String hash = method.getFQN();
         return mockedMethods.containsKey(hash);
+    }
+
+    @Nullable
+    private String getTypeForField(@NotNull FieldReference fieldReference, Project project) {
+        PhpType phpType = fieldReference.resolveLocalType();
+
+        return getTypeForPhpType(phpType, project);
+    }
+
+    private String getTypeForPhpClass(@NotNull PhpClass phpClass) {
+        mockMethods(phpClass.getMethods());
+
+        return CLASS_OBJECT_PROPHECY + TYPE_SEPARATOR + phpClass.getFQN();
+    }
+
+    @Nullable
+    private String getTypeForPhpType(PhpType phpType, Project project) {
+        Set<String> typeNames = phpType.getTypes();
+
+        if (typeNames.size() == 2 && typeNames.contains(CLASS_OBJECT_PROPHECY)) {
+            for (String typeName : typeNames) {
+                if (typeName.equals(CLASS_OBJECT_PROPHECY)) {
+                    continue;
+                }
+
+                Collection<PhpClass> phpClasses = PhpIndex.getInstance(project).getAnyByFQN(typeName);
+
+                return getTypeForPhpClass(phpClasses.iterator().next());
+            }
+        }
+
+        return null;
+    }
+
+    @Nullable
+    private String getTypeForVariable(@NotNull Variable variable, Project project) {
+        PsiElement parameterCandidate = variable.resolve();
+
+        if (!(parameterCandidate instanceof Parameter)) {
+            return null;
+        }
+
+        Parameter parameter = (Parameter) parameterCandidate;
+        PhpType phpType = parameter.getType().global(project);
+
+        return getTypeForPhpType(phpType, project);
     }
 }
