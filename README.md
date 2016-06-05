@@ -36,8 +36,8 @@ Mock usage:
 
 Releases
 --------
-* Stable [phpuaca-1.3.1.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.3.1/phpuaca-1.3.1.jar)
-* Previous stable [phpuaca-1.2.1.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.2.1/phpuaca-1.2.1.jar)
+* Latest (for PhpStorm 2016 and later, JDK 8 is required) [phpuaca-1.3.4-since145.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.3.4/phpuaca-1.3.4-since145.jar)
+* Latest (for previous versions) [phpuaca-1.3.3-since133-until144.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.3.4/phpuaca-1.3.3-since133-until144.jar)
 
 Installation
 ------------
