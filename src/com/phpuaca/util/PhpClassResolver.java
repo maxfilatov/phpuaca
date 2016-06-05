@@ -1,5 +1,6 @@
 package com.phpuaca.util;
 
+import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -31,13 +32,15 @@ final public class PhpClassResolver {
 
     @Nullable
     public PhpClass resolveByClassStringLiteralExpression(@NotNull StringLiteralExpression stringLiteralExpression) {
-        String className = stringLiteralExpression.getContents();
-        if (!className.isEmpty()) {
-            className = className.replace("\\\\", "\\");
-            Project project = stringLiteralExpression.getProject();
-            Collection<PhpClass> phpClasses = PhpIndex.getInstance(project).getAnyByFQN(className);
-            if (!phpClasses.isEmpty()) {
-                return phpClasses.iterator().next();
+        Project project = stringLiteralExpression.getProject();
+        if (!DumbService.getInstance(project).isDumb()) {
+            String className = stringLiteralExpression.getContents();
+            if (!className.isEmpty()) {
+                className = className.replace("\\\\", "\\");
+                Collection<PhpClass> phpClasses = PhpIndex.getInstance(project).getAnyByFQN(className);
+                if (!phpClasses.isEmpty()) {
+                    return phpClasses.iterator().next();
+                }
             }
         }
 
