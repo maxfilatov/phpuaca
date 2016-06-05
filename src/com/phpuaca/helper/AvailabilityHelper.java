@@ -1,5 +1,6 @@
 package com.phpuaca.helper;
 
+import com.intellij.openapi.project.DumbService;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
@@ -18,6 +19,10 @@ public class AvailabilityHelper {
 
     public boolean checkScope(@Nullable PsiElement psiElement) {
         if (!(psiElement instanceof StringLiteralExpression)) {
+            return false;
+        }
+
+        if (DumbService.isDumb(psiElement.getProject())) {
             return false;
         }
 

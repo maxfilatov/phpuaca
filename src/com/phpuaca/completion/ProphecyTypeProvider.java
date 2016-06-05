@@ -4,13 +4,7 @@ import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.psi.elements.FieldReference;
-import com.jetbrains.php.lang.psi.elements.Method;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.Parameter;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
-import com.jetbrains.php.lang.psi.elements.Variable;
+import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.phpuaca.util.PhpClassAdapter;
 import com.phpuaca.util.PhpClassResolver;
@@ -46,8 +40,7 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
     @Override
     public String getType(PsiElement psiElement) {
         Project project = psiElement.getProject();
-
-        if (DumbService.getInstance(project).isDumb()) {
+        if (DumbService.isDumb(project)) {
             return null;
         }
 
@@ -96,6 +89,10 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project) {
+        if (DumbService.isDumb(project)) {
+            return null;
+        }
+
         PhpIndex phpIndex = PhpIndex.getInstance(project);
         Collection<PhpClass> collection = new ArrayList<PhpClass>();
         for (String FQN : s.split(TYPE_SEPARATOR)) {

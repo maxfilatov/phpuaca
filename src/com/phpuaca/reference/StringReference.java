@@ -1,6 +1,7 @@
 package com.phpuaca.reference;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
@@ -35,6 +36,10 @@ public class StringReference implements PsiReference {
     @Nullable
     @Override
     public PsiElement resolve() {
+        if (DumbService.isDumb(getElement().getProject())) {
+            return null;
+        }
+
         PsiElement resolvedElement = null;
         Filter filter = FilterFactory.getInstance().getFilter(getElement());
         if (filter != null) {

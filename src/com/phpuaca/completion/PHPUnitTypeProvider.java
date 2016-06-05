@@ -1,5 +1,6 @@
 package com.phpuaca.completion;
 
+import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
@@ -40,7 +41,12 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
     @Nullable
     @Override
     public String getType(PsiElement psiElement) {
-        if (!isAvailable(psiElement)) {
+        Project project = psiElement.getProject();
+        if (DumbService.isDumb(project)) {
+            return null;
+        }
+
+        if (!(psiElement instanceof MethodReference)) {
             return null;
         }
 
@@ -68,6 +74,10 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String s, Project project) {
+        if (DumbService.isDumb(project)) {
+            return null;
+        }
+
         PhpIndex phpIndex = PhpIndex.getInstance(project);
         Collection<PhpClass> collection = new ArrayList<PhpClass>();
         collection.addAll(phpIndex.getInterfacesByFQN(CLASS_PHP_UNIT_MOCK_OBJECT));

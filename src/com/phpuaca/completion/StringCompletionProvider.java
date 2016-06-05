@@ -4,6 +4,7 @@ import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.openapi.project.DumbService;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.completion.PhpLookupElement;
@@ -22,7 +23,7 @@ public class StringCompletionProvider extends CompletionProvider<CompletionParam
     @Override
     protected void addCompletions(@NotNull CompletionParameters completionParameters, ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
         PsiElement originalPosition = completionParameters.getOriginalPosition();
-        if (originalPosition != null) {
+        if (originalPosition != null && !DumbService.isDumb(originalPosition.getProject())) {
             Filter filter = FilterFactory.getInstance().getFilter(originalPosition.getParent());
             if (filter != null) {
                 completionResultSet.addAllElements(getLookupElements(filter));
