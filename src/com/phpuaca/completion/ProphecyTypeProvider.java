@@ -2,6 +2,7 @@ package com.phpuaca.completion;
 
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
@@ -39,10 +40,14 @@ public class ProphecyTypeProvider extends BaseTypeProvider {
     @Nullable
     @Override
     public String getType(PsiElement psiElement) {
-        Project project = psiElement.getProject();
-        if (DumbService.isDumb(project)) {
-            return null;
+        Project[] projects = ProjectManager.getInstance().getOpenProjects();
+        for (Project project : projects) {
+            if (DumbService.isDumb(project)) {
+                return null;
+            }
         }
+
+        Project project = psiElement.getProject();
 
         if (psiElement instanceof FieldReference) {
             FieldReference fieldReference = (FieldReference) psiElement;

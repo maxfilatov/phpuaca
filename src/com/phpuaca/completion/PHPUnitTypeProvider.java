@@ -1,13 +1,10 @@
 package com.phpuaca.completion;
 
-import com.intellij.openapi.project.DumbService;
-import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.*;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.psi.elements.Method;
-import com.jetbrains.php.lang.psi.elements.MethodReference;
-import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
+import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.phpuaca.util.PhpClassAdapter;
 import com.phpuaca.util.PhpClassResolver;
 import com.phpuaca.util.PhpMethodChain;
@@ -41,9 +38,11 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
     @Nullable
     @Override
     public String getType(PsiElement psiElement) {
-        Project project = psiElement.getProject();
-        if (DumbService.isDumb(project)) {
-            return null;
+        Project[] projects = ProjectManager.getInstance().getOpenProjects();
+        for (Project project : projects) {
+            if (DumbService.isDumb(project)) {
+                return null;
+            }
         }
 
         if (!(psiElement instanceof MethodReference)) {
