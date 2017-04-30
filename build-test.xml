@@ -24,9 +24,6 @@
         <fileset dir="${plugins}/php/lib">
             <include name="*.jar"/>
         </fileset>
-        <fileset dir="${plugins}/twig/lib">
-            <include name="*.jar"/>
-        </fileset>
         <fileset dir="${idea.build}/plugins/properties/lib">
             <include name="*.jar"/>
         </fileset>
@@ -54,9 +51,6 @@
             <include name="*.jar"/>
         </fileset>
         <fileset dir="${plugins}/php/lib">
-            <include name="*.jar"/>
-        </fileset>
-        <fileset dir="${plugins}/twig/lib">
             <include name="*.jar"/>
         </fileset>
         <fileset dir="${idea.build}/plugins/properties/lib">
