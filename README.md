@@ -1,14 +1,25 @@
-PHPUnit Autocomplete Assistant
+IntelliJ IDEA / PhpStorm PHPUnit Enhancement
 ==============================
 
 [![Build Status](https://travis-ci.org/Haehnchen/idea-php-phpunit-plugin.svg?branch=master)](https://travis-ci.org/Haehnchen/idea-php-phpunit-plugin)
-[![Version](http://phpstorm.espend.de/badge/7722/version)](https://plugins.jetbrains.com/plugin/7722)
-[![Downloads](http://phpstorm.espend.de/badge/7722/downloads)](https://plugins.jetbrains.com/plugin/7722)
-[![Downloads last month](http://phpstorm.espend.de/badge/7722/last-month)](https://plugins.jetbrains.com/plugin/7722)
+[![Version](http://phpstorm.espend.de/badge/9674/version)](https://plugins.jetbrains.com/plugin/9674)
+[![Downloads](http://phpstorm.espend.de/badge/9674/downloads)](https://plugins.jetbrains.com/plugin/9674)
+[![Downloads last month](http://phpstorm.espend.de/badge/9674/last-month)](https://plugins.jetbrains.com/plugin/9674)
 
-PhpStorm plugin to provide smart autocomplete, code navigation and refactoring features for mocked class methods.
+PhpStorm plugin to provide smart autocomplete, code navigation and refactoring features for mocked class methods. Supported all versions of PhpStorm since 2017.1
 
-Supported all versions of PhpStorm since 7.1.
+Key         | Value
+----------- | -----------
+Plugin Url  | https://plugins.jetbrains.com/plugin/9674
+ID          | de.espend.idea.php.phpunit
+Changelog   | [CHANGELOG](CHANGELOG.md)
+Origin Fork | [maxfilatov/phpuaca](https://github.com/maxfilatov/phpuaca/)
+
+Installation
+------------
+Stable version, JetBrains repository:
+* Go to `PhpStorm -> Preferences... -> Plugins -> Browse repositories ...` and search for PHPUnit Autocomplete Assistant plugin
+* Restart PhpStorm
 
 Feature list
 ------------
@@ -30,24 +41,8 @@ Examples
 --------
 Mock creation:
 
-![PHPUnit_Framework_MockObject_MockBuilder::setMethods](https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pmb.png)
+![PHPUnit_Framework_MockObject_MockBuilder::setMethods](https://jetbrains-plugins.s3.amazonaws.com/9674/screenshot_16946.png)
 
-Mock usage:
+![PHPUnit_Framework_MockObject_Builder_InvocationMocker::method](https://jetbrains-plugins.s3.amazonaws.com/9674/screenshot_16945.png)
 
-![PHPUnit_Framework_MockObject_Builder_InvocationMocker::method](https://raw.githubusercontent.com/maxfilatov/phpuaca/master/img/pim.png)
-
-Releases
---------
-* Latest (JDK 8 is required) [phpuaca-1.3.5.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.3.5/phpuaca-1.3.5.jar)
-* Previuos (unstable, for PhpStorm 2016 and later, JDK 8 is required) [phpuaca-1.3.4-since145.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.3.4/phpuaca-1.3.4-since145.jar)
-* Previous (unstable, for previous versions) [phpuaca-1.3.3-since133-until144.jar](https://github.com/maxfilatov/phpuaca/releases/download/1.3.4/phpuaca-1.3.3-since133-until144.jar)
-
-Installation
-------------
-Stable version, JetBrains repository:
-* Go to `PhpStorm -> Preferences... -> Plugins -> Browse repositories ...` and search for PHPUnit Autocomplete Assistant plugin
-* Restart PhpStorm
-
-Latest version, installation from disk:
-* Go to `PhpStorm -> Preferences... -> Plugins -> Install plugin from disk...` and choose jar file
-* Restart PhpStorm
+![PHPUnit_Framework_MockObject_Builder_InvocationMocker::method](https://jetbrains-plugins.s3.amazonaws.com/9674/screenshot_16944.png)
