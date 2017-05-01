@@ -1,8 +1,12 @@
 # Changelog
 
 ## Versions
-* 2.0: PhpStorm 2017.1+
-* 1.0: PhpStorm 2016.1+ (no support)
+* 2.x: PhpStorm 2017.1+
+* 1.x: PhpStorm 2016.1+ (no support)
+
+## 2.1
+* Add custom linemarker runner for units test method and classes and provide intention [#4](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/4)
+* Reimplement TypeProvider in the correct way without index access [#6](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/6)
 
 ## 2.0
 * Initial release fork of [maxfilatov/phpuaca](https://github.com/maxfilatov/phpuaca/)
