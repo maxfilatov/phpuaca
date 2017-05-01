@@ -33,7 +33,7 @@ public class MockProphecyTypeProvider implements PhpTypeProvider3 {
         put("getMockForAbstractClass", PHPUNIT_CLASSES);
         put("getMockForTrait", PHPUNIT_CLASSES);
         put("createMock", PHPUNIT_CLASSES);
-        put("prophecy", PROPHESIZE_CLASSES);
+        put("prophesize", PROPHESIZE_CLASSES);
     }};
 
     @Override

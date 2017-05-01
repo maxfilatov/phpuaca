@@ -5,7 +5,7 @@ namespace PHPUnit\Framework
     class TestCase
     {
         static function createMock() {}
-        static function prophecy() {}
+        static function prophesize() {}
     };
 }
 

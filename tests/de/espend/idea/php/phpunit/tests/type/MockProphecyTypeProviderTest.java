@@ -42,7 +42,7 @@ public class MockProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixture
         assertPhpReferenceResolveTo(PhpFileType.INSTANCE,
             "<?php" +
                 "/** @var $t \\PHPUnit\\Framework\\TestCase $d */\n" +
-                "$t->prophecy(Foo::class)->b<caret>ar();",
+                "$t->prophesize(Foo::class)->b<caret>ar();",
             PlatformPatterns.psiElement(Method.class).withName("bar")
         );
     }
