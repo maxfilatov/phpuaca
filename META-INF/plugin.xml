@@ -46,6 +46,10 @@
     <depends>com.jetbrains.php</depends>
     <depends>com.intellij.modules.platform</depends>
 
+    <extensions defaultExtensionNs="com.jetbrains.php">
+        <typeProvider3 implementation="de.espend.idea.php.phpunit.type.MockProphecyTypeProvider"/>
+    </extensions>
+
     <extensions defaultExtensionNs="com.intellij">
         <annotator language="PHP" implementationClass="com.phpuaca.annotator.StringAnnotator"/>
         <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringCompletionConfidence"
@@ -62,8 +66,10 @@
             <descriptionDirectoryName>TestRunIntentionAction</descriptionDirectoryName>
         </intentionAction>
 
-        <!--<php.typeProvider2 implementation="com.phpuaca.completion.PHPUnitTypeProvider"/>
-        <php.typeProvider2 implementation="com.phpuaca.completion.ProphecyTypeProvider"/>-->
+        <!--
+        @TODO: Check what this stuff does in additional to type resolve
+        <php.typeProvider2 implementation="com.phpuaca.completion.ProphecyTypeProvider"/>
+        -->
     </extensions>
 
     <application-components>

@@ -6,9 +6,12 @@ import com.intellij.codeInsight.daemon.LineMarkerProviders;
 import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInsight.intention.IntentionManager;
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import com.intellij.patterns.ElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiRecursiveElementVisitor;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+import com.jetbrains.php.lang.psi.elements.PhpReference;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -87,6 +90,23 @@ public abstract class PhpUnitLightCodeInsightFixtureTestCase extends LightCodeIn
         }
 
         fail(String.format("Fail intention action '%s' is available in element '%s' with '%s'", intentionText, psiElement.getText(), items));
+    }
+
+    public void assertPhpReferenceResolveTo(LanguageFileType languageFileType, String configureByText, ElementPattern<?> pattern) {
+        myFixture.configureByText(languageFileType, configureByText);
+        PsiElement psiElement = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
+
+        psiElement = PsiTreeUtil.getParentOfType(psiElement, PhpReference.class);
+        if (psiElement == null) {
+            fail("Element is not PhpReference.");
+        }
+
+        PsiElement resolve = ((PhpReference) psiElement).resolve();
+        if(!pattern.accepts(resolve)) {
+            fail(String.format("failed pattern matches element of '%s'", resolve == null ? "null" : resolve.toString()));
+        }
+
+        assertTrue(pattern.accepts(resolve));
     }
 
     @NotNull
