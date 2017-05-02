@@ -4,6 +4,10 @@
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
+### 2.2
+* Reimplement magic Prophecy method [#8](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/8)
+* Add Prophecy reveal type provider [#9](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/9)
+
 ## 2.1
 * Add custom linemarker runner for units test method and classes and provide intention [#4](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/4)
 * Reimplement TypeProvider in the correct way without index access [#6](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/6)
