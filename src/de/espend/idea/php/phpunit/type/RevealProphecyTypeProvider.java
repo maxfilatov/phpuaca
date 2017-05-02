@@ -15,22 +15,21 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * $this->prophesize(Foobar::class)->find()->will<caret>Return;
+ * $foobar = $this->prophesize(Foobar::class);
+ * $foobar->reveal();
  *
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
-public class ProphecyTypeProvider implements PhpTypeProvider3 {
-    private static char TRIM_KEY = '\u1536';
-
+public class RevealProphecyTypeProvider implements PhpTypeProvider3 {
     @Override
     public char getKey() {
-        return '\u1530';
+        return '\u1537';
     }
 
     @Nullable
     @Override
     public PhpType getType(PsiElement element) {
-        if(element instanceof MethodReference) {
+        if(element instanceof MethodReference && "reveal".equals(((MethodReference) element).getName())) {
             PhpExpression classReference = ((MethodReference) element).getClassReference();
             if(classReference instanceof Variable || classReference instanceof MethodReference) {
                 Method method = PhpPsiUtil.getParentByCondition(element, Method.INSTANCEOF);
@@ -41,7 +40,7 @@ public class ProphecyTypeProvider implements PhpTypeProvider3 {
                     if(containingClass != null && containingClass.getName().endsWith("Test")) {
                         String prophesize = ProphecyTypeUtil.getProphesizeSignatureFromTypes(classReference.getType().getTypes());
                         if(prophesize != null) {
-                            return new PhpType().add("#" + this.getKey() + prophesize + TRIM_KEY + ((MethodReference) element).getName());
+                            return new PhpType().add("#" + this.getKey() + prophesize);
                         }
                     }
                 }
@@ -53,23 +52,13 @@ public class ProphecyTypeProvider implements PhpTypeProvider3 {
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String expression, Set<String> visited, int depth, Project project) {
-        // SIGNATURE.METHOD_NAME
-        String[] split = expression.split(String.valueOf(TRIM_KEY));
-        if(split.length != 2) {
-            return null;
-        }
-
         PhpIndex phpIndex = PhpIndex.getInstance(project);
 
-        String resolvedParameter = PhpTypeProviderUtil.getResolvedParameter(phpIndex, split[0]);
+        String resolvedParameter = PhpTypeProviderUtil.getResolvedParameter(phpIndex, expression);
         if(resolvedParameter == null) {
             return null;
         }
 
-        if(phpIndex.getAnyByFQN(resolvedParameter).stream().noneMatch(phpClass -> phpClass.findMethodByName(split[1]) != null)) {
-            return null;
-        }
-
-        return phpIndex.getAnyByFQN("\\Prophecy\\Prophecy\\MethodProphecy");
+        return phpIndex.getAnyByFQN(resolvedParameter);
     }
 }

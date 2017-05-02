@@ -16,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class MockProphecyTypeProvider implements PhpTypeProvider3 {
-    static final char CHAR = '元';
-    static char TRIM_KEY = '\u0192';
+    public static final char CHAR = '元';
+    public static char TRIM_KEY = '\u0192';
 
     private static Collection<String> PHPUNIT_CLASSES = new HashSet<String>() {{
         add("\\PHPUnit\\Framework\\TestCase");

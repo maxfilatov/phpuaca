@@ -55,6 +55,7 @@
     <extensions defaultExtensionNs="com.jetbrains.php">
         <typeProvider3 implementation="de.espend.idea.php.phpunit.type.MockProphecyTypeProvider"/>
         <typeProvider3 implementation="de.espend.idea.php.phpunit.type.ProphecyTypeProvider"/>
+        <typeProvider3 implementation="de.espend.idea.php.phpunit.type.RevealProphecyTypeProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">

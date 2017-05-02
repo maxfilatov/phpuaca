@@ -109,6 +109,18 @@ public abstract class PhpUnitLightCodeInsightFixtureTestCase extends LightCodeIn
         assertTrue(pattern.accepts(resolve));
     }
 
+    public void assertPhpReferenceNotResolveTo(LanguageFileType languageFileType, String configureByText, ElementPattern<?> pattern) {
+        myFixture.configureByText(languageFileType, configureByText);
+        PsiElement psiElement = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
+
+        psiElement = PsiTreeUtil.getParentOfType(psiElement, PhpReference.class);
+        if (psiElement == null) {
+            fail("Element is not PhpReference.");
+        }
+
+        assertFalse(pattern.accepts(((PhpReference) psiElement).resolve()));
+    }
+
     @NotNull
     private List<PsiElement> collectPsiElementsRecursive(@NotNull PsiElement psiElement) {
         final List<PsiElement> elements = new ArrayList<PsiElement>();

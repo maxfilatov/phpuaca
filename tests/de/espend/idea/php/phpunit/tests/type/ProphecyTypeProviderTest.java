@@ -28,10 +28,38 @@ public class ProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixtureTest
             "        public function testFoobar()\n" +
             "        {\n" +
             "            $foo = $this->prophesize(Foo::class);\n" +
-            "            $foo->find()->will<caret>Return();\n" +
+            "            $foo->getBar()->will<caret>Return();\n" +
             "        }\n" +
             "    }",
             PlatformPatterns.psiElement(Method.class).withName("willReturn")
+        );
+    }
+
+    public void testThatProphesizeForVariableWithStringClassIsResolved() {
+        assertPhpReferenceResolveTo(PhpFileType.INSTANCE, "<?php\n" +
+                "class FooTest extends \\PHPUnit\\Framework\\TestCase\n" +
+                "    {\n" +
+                "        public function testFoobar()\n" +
+                "        {\n" +
+                "            $foo = $this->prophesize('Foo');\n" +
+                "            $foo->getBar()->will<caret>Return();\n" +
+                "        }\n" +
+                "    }",
+            PlatformPatterns.psiElement(Method.class).withName("willReturn")
+        );
+    }
+
+    public void testThatProphesizeForVariableIsNotResolvedForUnknownMethods() {
+        assertPhpReferenceNotResolveTo(PhpFileType.INSTANCE, "<?php\n" +
+                "class FooTest extends \\PHPUnit\\Framework\\TestCase\n" +
+                "    {\n" +
+                "        public function testFoobar()\n" +
+                "        {\n" +
+                "            $foo = $this->prophesize(Foo::class);\n" +
+                "            $foo->unknown()->will<caret>Return();\n" +
+                "        }\n" +
+                "    }",
+            PlatformPatterns.psiElement()
         );
     }
 
@@ -41,7 +69,7 @@ public class ProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixtureTest
                 "    {\n" +
                 "        public function testFoobar()\n" +
                 "        {\n" +
-                "            $foo = $this->prophesize(Foo::class)->find()->will<caret>Return();\n" +
+                "            $foo = $this->prophesize(Foo::class)->getBar()->will<caret>Return();\n" +
                 "        }\n" +
                 "    }",
             PlatformPatterns.psiElement(Method.class).withName("willReturn")
