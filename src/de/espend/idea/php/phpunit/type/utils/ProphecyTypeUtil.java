@@ -4,7 +4,6 @@ import de.espend.idea.php.phpunit.type.MockProphecyTypeProvider;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.function.Function;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>

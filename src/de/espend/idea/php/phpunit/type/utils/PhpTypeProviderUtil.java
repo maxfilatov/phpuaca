@@ -11,11 +11,51 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
 public class PhpTypeProviderUtil {
+
+    /**
+     * Creates a signature for PhpType implementation which must be resolved inside 'getBySignature'
+     *
+     * eg. foo(MyClass::class) => "#F\\foo|#K#C\\Foo.class"
+     *
+     * foo($this->foo), foo('foobar')
+     */
+    @Nullable
+    public static String getReferenceSignatureByFirstParameter1(@NotNull FunctionReference functionReference) {
+        PsiElement[] parameters = functionReference.getParameters();
+        if(parameters.length == 0) {
+            return null;
+        }
+
+        PsiElement parameter = parameters[0];
+
+        // we already have a string value
+        if ((parameter instanceof StringLiteralExpression)) {
+            String param = ((StringLiteralExpression)parameter).getContents();
+            if (StringUtil.isNotEmpty(param)) {
+                return param;
+            }
+
+            return null;
+        }
+
+        // whitelist here; we can also provide some more but think of performance
+        // Service::NAME, $this->name and Entity::CLASS;
+        if (parameter instanceof PhpReference && (parameter instanceof ClassConstantReference || parameter instanceof FieldReference)) {
+            String signature = ((PhpReference) parameter).getSignature();
+            if (StringUtil.isNotEmpty(signature)) {
+                return signature;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Creates a signature for PhpType implementation which must be resolved inside 'getBySignature'
      *
@@ -65,6 +105,15 @@ public class PhpTypeProviderUtil {
      */
     @Nullable
     public static String getResolvedParameter(@NotNull PhpIndex phpIndex, @NotNull String parameter) {
+        return getResolvedParameter(phpIndex, parameter, null, 0);
+    }
+
+    /**
+     * we can also pipe php references signatures and resolve them here
+     * overwrite parameter to get string value
+     */
+    @Nullable
+    public static String getResolvedParameter(@NotNull PhpIndex phpIndex, @NotNull String parameter, @Nullable Set<String> visited, int depth) {
 
         // PHP 5.5 class constant: "Class\Foo::class"
         if(parameter.startsWith("#K#C")) {
@@ -79,7 +128,7 @@ public class PhpTypeProviderUtil {
         if(parameter.startsWith("#")) {
 
             // get psi element from signature
-            Collection<? extends PhpNamedElement> signTypes = phpIndex.getBySignature(parameter, null, 0);
+            Collection<? extends PhpNamedElement> signTypes = phpIndex.getBySignature(parameter, visited, depth);
             if(signTypes.size() == 0) {
                 return null;
             }
