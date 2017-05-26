@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/Haehnchen/idea-php-phpunit-plugin">
     <id>de.espend.idea.php.phpunit</id>
     <name>PHPUnit Enhancement</name>
-    <version>2.2</version>
+    <version>2.2.1</version>
     <vendor email="daniel@espendiller.net" url="http://espend.de">Daniel Espendiller</vendor>
 
     <description><![CDATA[
@@ -33,6 +33,11 @@
   ]]></description>
 
     <change-notes><![CDATA[
+    <h3>2.2.1</h3>
+    <ul>
+        <li>Add MockBuilder->getMock TypeProvider <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/10">#10</a></li>
+    </ul>
+
     <h3>2.2</h3>
     <ul>
         <li>Reimplement magic Prophecy method <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/8">#8</a></li>

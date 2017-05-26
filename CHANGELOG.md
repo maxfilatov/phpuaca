@@ -4,7 +4,10 @@
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
-### 2.2
+## 2.2.1
+* Add MockBuilder->getMock TypeProvider [#10](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/10)
+
+## 2.2
 * Reimplement magic Prophecy method [#8](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/8)
 * Add Prophecy reveal type provider [#9](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/9)
 
