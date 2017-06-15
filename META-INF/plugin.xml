@@ -86,11 +86,6 @@
             <category>PHPUnit</category>
             <descriptionDirectoryName>TestRunIntentionAction</descriptionDirectoryName>
         </intentionAction>
-
-        <!--
-        @TODO: Check what this stuff does in additional to type resolve
-        <php.typeProvider2 implementation="com.phpuaca.completion.ProphecyTypeProvider"/>
-        -->
     </extensions>
 
     <application-components>

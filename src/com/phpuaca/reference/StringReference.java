@@ -3,13 +3,13 @@ package com.phpuaca.reference;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.php.lang.parser.PhpElementTypes;
 import com.jetbrains.php.lang.psi.PhpPsiElementFactory;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.refactoring.PhpNameUtil;
 import com.phpuaca.filter.Filter;
 import com.phpuaca.filter.FilterFactory;
 import org.jetbrains.annotations.NotNull;
@@ -98,7 +98,7 @@ public class StringReference implements PsiReference {
     }
 
     protected String getName() {
-        return PhpNameUtil.unquote(getText());
+        return StringUtil.unquoteString(getText());
     }
 
     protected String getText() {

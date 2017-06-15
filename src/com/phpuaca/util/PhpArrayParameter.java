@@ -1,9 +1,9 @@
 package com.phpuaca.util;
 
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;
 import com.jetbrains.php.lang.psi.elements.ParameterList;
-import com.jetbrains.php.refactoring.PhpNameUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,10 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhpArrayParameter extends PhpParameter {
-
-    public PhpArrayParameter(@NotNull PsiElement parameter) {
-        super(parameter);
-    }
 
     public PhpArrayParameter(@NotNull PsiElement parameter, int number) {
         super(parameter, number);
@@ -24,7 +20,7 @@ public class PhpArrayParameter extends PhpParameter {
         List<String> values = new ArrayList<String>();
         ArrayCreationExpression arrayCreationExpression = (ArrayCreationExpression) getParameter();
         for (PsiElement child : arrayCreationExpression.getChildren()) {
-            values.add(PhpNameUtil.unquote(child.getText()));
+            values.add(StringUtil.unquoteString(child.getText()));
         }
         return values;
     }
