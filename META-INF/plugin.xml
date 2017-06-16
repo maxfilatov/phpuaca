@@ -69,6 +69,7 @@
         <typeProvider3 implementation="de.espend.idea.php.phpunit.type.RevealProphecyTypeProvider"/>
         <typeProvider3 implementation="de.espend.idea.php.phpunit.type.GetMockBuilderTypeProvider"/>
         <typeProvider3 implementation="de.espend.idea.php.phpunit.type.GetMockTypeProvider"/>
+        <typeProvider3 implementation="de.espend.idea.php.phpunit.type.SetUpTypeProvider"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
