@@ -36,10 +36,6 @@ public class StringReference implements PsiReference {
     @Nullable
     @Override
     public PsiElement resolve() {
-        if (DumbService.isDumb(getElement().getProject())) {
-            return null;
-        }
-
         PsiElement resolvedElement = null;
         Filter filter = FilterFactory.getInstance().getFilter(getElement());
         if (filter != null) {

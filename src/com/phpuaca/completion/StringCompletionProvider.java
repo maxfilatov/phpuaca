@@ -23,7 +23,7 @@ public class StringCompletionProvider extends CompletionProvider<CompletionParam
     @Override
     protected void addCompletions(@NotNull CompletionParameters completionParameters, ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
         PsiElement originalPosition = completionParameters.getOriginalPosition();
-        if (originalPosition != null && !DumbService.isDumb(originalPosition.getProject())) {
+        if (originalPosition != null) {
             Filter filter = FilterFactory.getInstance().getFilter(originalPosition.getParent());
             if (filter != null) {
                 completionResultSet.addAllElements(getLookupElements(filter));

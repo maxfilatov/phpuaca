@@ -22,10 +22,6 @@ public class AvailabilityHelper {
             return false;
         }
 
-        if (DumbService.isDumb(psiElement.getProject())) {
-            return false;
-        }
-
         // $this->method('cursor');
         PsiElement stringLiteralExpressionContext = psiElement.getContext();
         if (stringLiteralExpressionContext instanceof ParameterList) {
