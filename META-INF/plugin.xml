@@ -76,8 +76,12 @@
         <annotator language="PHP" implementationClass="com.phpuaca.annotator.StringAnnotator"/>
         <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringCompletionConfidence"
                                id="asTrue" order="first"/>
-        <completion.contributor language="PHP"
-                                implementationClass="com.phpuaca.completion.StringCompletionContributor"/>
+
+        <completion.contributor language="PHP" implementationClass="com.phpuaca.completion.StringCompletionContributor"/>
+
+        <completion.contributor language="PHP" implementationClass="de.espend.idea.php.phpunit.completion.PhpUnitCompletionContributor"/>
+        <psi.referenceContributor language="PHP" implementation="de.espend.idea.php.phpunit.reference.PhpUnitReferenceContributor"/>
+
         <psi.referenceContributor language="PHP" implementation="com.phpuaca.reference.StringReferenceContributor"/>
 
         <codeInsight.lineMarkerProvider language="PHP" implementationClass="de.espend.idea.php.phpunit.linemarker.TestRunLineMarkerProvider"/>

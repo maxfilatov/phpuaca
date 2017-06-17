@@ -7,8 +7,7 @@ import com.intellij.codeInsight.intention.IntentionAction;
 import com.intellij.codeInsight.intention.IntentionManager;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.patterns.ElementPattern;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiRecursiveElementVisitor;
+import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import com.jetbrains.php.lang.psi.elements.PhpReference;
@@ -119,6 +118,38 @@ public abstract class PhpUnitLightCodeInsightFixtureTestCase extends LightCodeIn
         }
 
         assertFalse(pattern.accepts(((PhpReference) psiElement).resolve()));
+    }
+
+    public void assertReferencesMatch(LanguageFileType languageFileType, String configureByText, ElementPattern<?> pattern) {
+        myFixture.configureByText(languageFileType, configureByText);
+        PsiElement psiElement = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
+
+        // get parent for references; mostly we are inside a token element
+        PsiElement parent = psiElement.getParent();
+
+        for (PsiReference psiReference : parent.getReferences()) {
+            // multi resolve
+            if(psiReference instanceof PsiPolyVariantReference) {
+                for (ResolveResult resolveResult : ((PsiPolyVariantReference) psiReference).multiResolve(true)) {
+                    PsiElement element = resolveResult.getElement();
+                    if(pattern.accepts(element)) {
+                        return;
+                    }
+                }
+            }
+
+            // single result
+            PsiElement resolve = psiReference.resolve();
+            if(resolve == null) {
+                continue;
+            }
+
+            if(pattern.accepts(resolve)) {
+                return;
+            }
+        }
+
+        fail(String.format("Failed pattern matches element of '%d' elements", parent.getReferences().length));
     }
 
     @NotNull

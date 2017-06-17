@@ -6,10 +6,15 @@ import com.intellij.execution.actions.ConfigurationFromContext;
 import com.intellij.execution.actions.RunConfigurationProducer;
 import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.psi.PsiElement;
+import com.jetbrains.php.lang.psi.elements.MethodReference;
+import com.jetbrains.php.lang.psi.elements.ParameterList;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
+import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import com.jetbrains.php.phpunit.PhpUnitRuntimeConfigurationProducer;
+import de.espend.idea.php.phpunit.utils.processor.CreateMockMethodReferenceProcessor;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
@@ -51,5 +56,26 @@ public class PhpUnitPluginUtil {
             "PHPUnit_Framework_TestCase".equalsIgnoreCase(superFQN) ||
             "Symfony\\Bundle\\FrameworkBundle\\Test\\WebTestCase".equalsIgnoreCase(superFQN)
         ;
+    }
+
+    /**
+     * $foo = $this->createMock('Foobar')
+     * $foo->method('<caret>')
+     */
+    @Nullable
+    public static String findCreateMockParameterOnParameterScope(@NotNull StringLiteralExpression psiElement) {
+        PsiElement parameterList = psiElement.getParent();
+        if(parameterList instanceof ParameterList) {
+            PsiElement methodReference = parameterList.getParent();
+            if(methodReference instanceof MethodReference && (
+                PhpElementsUtil.isMethodReferenceInstanceOf((MethodReference) methodReference, "PHPUnit_Framework_MockObject_MockObject", "method") ||
+                PhpElementsUtil.isMethodReferenceInstanceOf((MethodReference) methodReference, "PHPUnit_Framework_MockObject_Builder_InvocationMocker", "method")
+                ))
+            {
+                return CreateMockMethodReferenceProcessor.createParameter((MethodReference) methodReference);
+            }
+        }
+
+        return null;
     }
 }
