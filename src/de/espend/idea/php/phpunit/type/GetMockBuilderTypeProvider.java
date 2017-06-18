@@ -35,7 +35,7 @@ public class GetMockBuilderTypeProvider implements PhpTypeProvider3 {
 
         String name = ((MethodReference) psiElement).getName();
         if("getMockBuilder".equals(name)) {
-            String signature = PhpTypeProviderUtil.getReferenceSignatureByFirstParameter1((MethodReference) psiElement);
+            String signature = PhpTypeProviderUtil.getReferenceSignatureByFirstParameter((MethodReference) psiElement);
             return signature == null ? null : new PhpType().add("#" + SIGNATURE_KEY + signature + TRIM_KEY);
         }
 

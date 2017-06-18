@@ -31,18 +31,15 @@ public class ProphecyTypeProvider implements PhpTypeProvider3 {
     @Override
     public PhpType getType(PsiElement element) {
         if(element instanceof MethodReference) {
-            PhpExpression classReference = ((MethodReference) element).getClassReference();
-            if(classReference instanceof Variable || classReference instanceof MethodReference) {
-                Method method = PhpPsiUtil.getParentByCondition(element, Method.INSTANCEOF);
-                if(method != null) {
-                    PhpClass containingClass = method.getContainingClass();
+            Method method = PhpPsiUtil.getParentByCondition(element, Method.INSTANCEOF);
+            if(method != null) {
+                PhpClass containingClass = method.getContainingClass();
 
-                    // filter phpunit test methods
-                    if(containingClass != null && containingClass.getName().endsWith("Test")) {
-                        String prophesize = ProphecyTypeUtil.getProphesizeSignatureFromTypes(classReference.getType().getTypes());
-                        if(prophesize != null) {
-                            return new PhpType().add("#" + this.getKey() + prophesize + TRIM_KEY + ((MethodReference) element).getName());
-                        }
+                // filter phpunit test methods
+                if(containingClass != null && containingClass.getName().endsWith("Test")) {
+                    String prophesize = ProphecyTypeUtil.getLocalProphesizeType((MethodReference) element);
+                    if(prophesize != null) {
+                        return new PhpType().add("#" + this.getKey() + prophesize + TRIM_KEY + ((MethodReference) element).getName());
                     }
                 }
             }

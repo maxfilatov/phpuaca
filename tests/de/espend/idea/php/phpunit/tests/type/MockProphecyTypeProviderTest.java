@@ -25,14 +25,14 @@ public class MockProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixture
     public void testResolveForPhpunitMock() {
         assertPhpReferenceResolveTo(PhpFileType.INSTANCE,
             "<?php" +
-                "/** @var $t \\PHPUnit\\Framework\\TestCase $d */\n" +
+                "/** @var $t \\PHPUnit\\Framework\\TestCase */\n" +
                 "$t->createMock(Foo::class)->b<caret>ar();",
             PlatformPatterns.psiElement(Method.class).withName("bar")
         );
 
         assertPhpReferenceResolveTo(PhpFileType.INSTANCE,
             "<?php" +
-                "/** @var $t \\PHPUnit\\Framework\\TestCase $d */\n" +
+                "/** @var $t \\PHPUnit\\Framework\\TestCase */\n" +
                 "$t->createMock('Foo')->b<caret>ar();",
             PlatformPatterns.psiElement(Method.class).withName("bar")
         );
@@ -41,7 +41,7 @@ public class MockProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixture
     public void testResolveForProphecyMock() {
         assertPhpReferenceResolveTo(PhpFileType.INSTANCE,
             "<?php" +
-                "/** @var $t \\PHPUnit\\Framework\\TestCase $d */\n" +
+                "/** @var $t \\PHPUnit\\Framework\\TestCase */\n" +
                 "$t->prophesize(Foo::class)->b<caret>ar();",
             PlatformPatterns.psiElement(Method.class).withName("bar")
         );
@@ -50,7 +50,7 @@ public class MockProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixture
     public void testResolveForProphecyMockWithStringClass() {
         assertPhpReferenceResolveTo(PhpFileType.INSTANCE,
             "<?php" +
-                "/** @var $t \\PHPUnit\\Framework\\TestCase $d */\n" +
+                "/** @var $t \\PHPUnit\\Framework\\TestCase */\n" +
                 "$t->prophesize('Foo')->b<caret>ar();",
             PlatformPatterns.psiElement(Method.class).withName("bar")
         );

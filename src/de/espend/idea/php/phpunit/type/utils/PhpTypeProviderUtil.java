@@ -26,7 +26,7 @@ public class PhpTypeProviderUtil {
      * foo($this->foo), foo('foobar')
      */
     @Nullable
-    public static String getReferenceSignatureByFirstParameter1(@NotNull FunctionReference functionReference) {
+    public static String getReferenceSignatureByFirstParameter(@NotNull FunctionReference functionReference) {
         PsiElement[] parameters = functionReference.getParameters();
         if(parameters.length == 0) {
             return null;

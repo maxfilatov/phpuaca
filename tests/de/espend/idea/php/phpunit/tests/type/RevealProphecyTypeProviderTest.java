@@ -48,4 +48,21 @@ public class RevealProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixtu
             PlatformPatterns.psiElement(Method.class).withName("getBar")
         );
     }
+
+    public void testThatRevealForPropertyIsResolved() {
+        assertPhpReferenceResolveTo(PhpFileType.INSTANCE, "<?php\n" +
+                "class FooTest extends \\PHPUnit\\Framework\\TestCase\n" +
+                "    {\n" +
+                "        public function setUp()\n" +
+                "        {\n" +
+                "            $this->foo = $this->prophesize(Foo::class);\n" +
+                "        }\n" +
+                "        public function testFoobar()\n" +
+                "        {\n" +
+                "            $this->foo->reveal()->getB<caret>ar();\n" +
+                "        }\n" +
+                "    }",
+            PlatformPatterns.psiElement(Method.class).withName("getBar")
+        );
+    }
 }

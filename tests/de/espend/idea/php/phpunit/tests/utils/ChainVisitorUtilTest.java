@@ -14,6 +14,7 @@ import java.io.File;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
+ * @see de.espend.idea.php.phpunit.utils.ChainVisitorUtil
  */
 public class ChainVisitorUtilTest extends PhpUnitLightCodeInsightFixtureTestCase {
     public void setUp() throws Exception {
@@ -52,6 +53,24 @@ public class ChainVisitorUtilTest extends PhpUnitLightCodeInsightFixtureTestCase
     }
 
     public void testThatChainingFieldClassIsResolved() {
+        assertEquals("Foo", findCreateMockParameter("<?php\n" +
+            "class Foo extends \\PHPUnit\\Framework\\TestCase\n" +
+            "{\n" +
+            "" +
+            "   public function setUp()\n" +
+            "   {\n" +
+            "       $this->foo = $this->createMock('Foo');\n" +
+            "   }\n" +
+            "" +
+            "   public function foobar()\n" +
+            "   {\n" +
+            "       $this->foo->method('<caret>');\n" +
+            "   }\n" +
+            "}"
+        ));
+    }
+
+    public void testThatChainingFieldClassIsResolved2() {
         assertEquals("Foo", findCreateMockParameter("<?php\n" +
             "class Foo extends \\PHPUnit\\Framework\\TestCase\n" +
             "{\n" +

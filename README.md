@@ -1,5 +1,4 @@
-IntelliJ IDEA / PhpStorm PHPUnit Enhancement
-==============================
+# IntelliJ IDEA / PhpStorm PHPUnit Enhancement
 
 [![Build Status](https://travis-ci.org/Haehnchen/idea-php-phpunit-plugin.svg?branch=master)](https://travis-ci.org/Haehnchen/idea-php-phpunit-plugin)
 [![Version](http://phpstorm.espend.de/badge/9674/version)](https://plugins.jetbrains.com/plugin/9674)
@@ -15,14 +14,13 @@ ID          | de.espend.idea.php.phpunit
 Changelog   | [CHANGELOG](CHANGELOG.md)
 Origin Fork | [maxfilatov/phpuaca](https://github.com/maxfilatov/phpuaca/)
 
-Installation
-------------
+## Installation
+
 Stable version, JetBrains repository:
-* Go to `PhpStorm -> Preferences... -> Plugins -> Browse repositories ...` and search for PHPUnit Autocomplete Assistant plugin
+* Go to `PhpStorm -> Preferences... -> Plugins -> Browse repositories ...` and search for PHPUnit Enhancement plugin
 * Restart PhpStorm
 
-Feature list
-------------
+## Feature list
 
 * method autocomplete for class, abstract class and trait mock objects;
   * type providers: `getMock`, `getMockForAbstractClass`, etc. will return mock object with methods of mocking class and `PHPUnit_Framework_MockObject_MockObject`;
@@ -36,6 +34,97 @@ Feature list
 * code navigation (go to declaration, find usages, etc.) and refactoring (rename methods);
 * highlighting of incorrect method usages;
 * Prophecy support.
+
+### Mocks
+
+```php
+/** @var $x \PHPUnit\Framework\TestCase */
+$x->createMock(Foo::class)->bar();
+```
+
+```php
+/** @var $x \PHPUnit\Framework\TestCase */
+$x->prophesize(Foo::class)->bar();
+```
+
+```php
+class Foo extends \PHPUnit\Framework\TestCase
+{
+   public function foobar()
+   {
+       $foo = $this->createMock(Foo::class);
+       $foo->method('<caret>')
+   }
+}
+```
+
+```php
+class Foo extends \PHPUnit\Framework\TestCase
+{
+   public function setUp()
+   {
+       $this->foo = $this->createMock('Foo\Bar');
+   }
+   public function foobar()
+   {
+       $this->foo->method('<caret>');
+   }
+}
+```
+
+```php
+class FooTest extends \PHPUnit\Framework\TestCase
+    {
+        public function setUp()
+        {
+            $this->foo = $this->prophesize(Foo::class);
+        }
+        public function testFoobar()
+        {
+            $this->foo->getBar()->willReturn();
+        }
+    }
+```
+
+### Prophecy
+
+```php
+class FooTest extends \PHPUnit\Framework\TestCase
+{
+    public function testFoobar()
+    {
+        $foo = $this->prophesize(Foo::class);
+        $foo->getBar()->willReturn();
+    }
+}
+```
+
+```php
+class FooTest extends \PHPUnit\Framework\TestCase
+{
+    public function setUp()
+    {
+        $this->foo = $this->prophesize(Foo::class);
+    }
+    
+    public function testFoobar()
+    {
+        $this->foo->getBar()->willReturn();
+    }
+}
+
+```
+
+```php
+class FooTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testFoobar()
+        {
+            $foo = $this->prophesize(Foo::class);
+            $foo->reveal()->getBar();
+        }
+    }
+```
 
 Examples
 --------
