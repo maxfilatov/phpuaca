@@ -4,6 +4,11 @@
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 2.3
+* Pipe property declaration of setUp test method [#11](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/11) [#13](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/13) [#14](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/14) [#17](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/17)
+* Migrate createMock, getMock and reveal types to chaining method detection [#11](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/11) [#13](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/13) [#14](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/14) [#17](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/17)
+* Optimize completion for createMock to use chaining detection
+
 ## 2.2.1
 * Add MockBuilder->getMock TypeProvider [#10](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/10)
 

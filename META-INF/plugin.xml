@@ -33,6 +33,14 @@
   ]]></description>
 
     <change-notes><![CDATA[
+
+    <h3>2.3</h3>
+    <ul>
+        <li>Pipe property declaration of setUp test method <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/11">#11</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/13">#13</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/14">#14</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/17">#17</a></li>
+        <li>Migrate createMock, getMock and reveal types to chaining method detection <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/11">#11</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/13">#13</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/14">#14</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/17">#17</a></li>
+        <li>Optimize completion for createMock to use chaining detection</li>
+    </ul>
+
     <h3>2.2.1</h3>
     <ul>
         <li>Add MockBuilder->getMock TypeProvider <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/10">#10</a></li>
