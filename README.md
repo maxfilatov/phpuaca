@@ -86,6 +86,20 @@ class FooTest extends \PHPUnit\Framework\TestCase
     }
 ```
 
+```php
+class FooTest extends \PHPUnit\Framework\TestCase
+    {
+        public function setUp()
+        {
+            $this->foo = $this->getMockBuilder(\Foo::class);
+        }
+        public function testFoobar()
+        {
+            $this->foo->getMock()->bar();
+        }
+    }
+```
+
 ### Prophecy
 
 ```php

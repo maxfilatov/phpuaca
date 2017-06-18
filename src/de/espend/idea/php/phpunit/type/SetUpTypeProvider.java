@@ -77,7 +77,8 @@ public class SetUpTypeProvider implements PhpTypeProvider3 {
 
         Collection<PhpNamedElement> phpNamedElements = new ArrayList<>();
 
-        for (PhpClass phpClass : PhpIndex.getInstance(project).getAnyByFQN(split[0])) {
+        PhpIndex phpIndex = PhpIndex.getInstance(project);
+        for (PhpClass phpClass : phpIndex.getAnyByFQN(split[0])) {
             Method setUp = phpClass.findOwnMethodByName("setUp");
             if(setUp == null) {
                 continue;
@@ -92,10 +93,16 @@ public class SetUpTypeProvider implements PhpTypeProvider3 {
                     continue;
                 }
 
-                Set<String> types = assignmentExpression.getType().getTypes();
+                // completeType needed for incomplete resolve elements:
+                // getBySignature needs valid signatures
+                Set<String> types = phpIndex.completeType(project, assignmentExpression.getType(), visited).getTypes();
                 for (String s : types) {
-                    Collection<? extends PhpNamedElement> bySignature = PhpIndex.getInstance(project).getBySignature(s);
-                    phpNamedElements.addAll(bySignature);
+                    if(PhpType.isUnresolved(s)) {
+                        phpNamedElements.addAll(phpIndex.getBySignature(s, visited, depth));
+                    } else {
+                        // \Class\Name
+                        phpNamedElements.addAll(phpIndex.getAnyByFQN(s));
+                    }
                 }
             }
         }

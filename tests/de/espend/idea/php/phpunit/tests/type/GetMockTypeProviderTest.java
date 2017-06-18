@@ -24,8 +24,7 @@ public class GetMockTypeProviderTest extends PhpUnitLightCodeInsightFixtureTestC
     public void testGetMockGeneratorProvidesNavigation() {
         assertPhpReferenceResolveTo(PhpFileType.INSTANCE, "<?php\n" +
                 "/** @var $t \\PHPUnit\\Framework\\TestCase */\n" +
-                "$x = $t->getMockBuilder('Foo')" +
-                "->getMock()" +
+                "$x = $t->getMockBuilder('Foo')->getMock()" +
                 "$x->b<caret>ar();\n",
             PlatformPatterns.psiElement(Method.class).withName("bar")
         );
@@ -39,6 +38,23 @@ public class GetMockTypeProviderTest extends PhpUnitLightCodeInsightFixtureTestC
             "->disableOriginalConstructor()" +
             "->getMock()" +
             "$x->b<caret>ar();\n",
+            PlatformPatterns.psiElement(Method.class).withName("bar")
+        );
+    }
+
+    public void testThatProphesizeForVariableWithStringClassIsResolved() {
+        assertPhpReferenceResolveTo(PhpFileType.INSTANCE, "<?php\n" +
+                "class FooTest extends \\PHPUnit\\Framework\\TestCase\n" +
+                "    {\n" +
+                "        public function setUp()\n" +
+                "        {\n" +
+                "            $this->foo = $this->getMockBuilder(\\Foo::class);\n" +
+                "        }\n" +
+                "        public function testFoobar()\n" +
+                "        {\n" +
+                "            $this->foo->getMock()->b<caret>ar();\n" +
+                "        }\n" +
+                "    }",
             PlatformPatterns.psiElement(Method.class).withName("bar")
         );
     }

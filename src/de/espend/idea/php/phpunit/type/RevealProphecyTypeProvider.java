@@ -9,6 +9,7 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider3;
 import de.espend.idea.php.phpunit.type.utils.PhpTypeProviderUtil;
 import de.espend.idea.php.phpunit.type.utils.ProphecyTypeUtil;
+import org.apache.commons.net.util.Base64;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -38,7 +39,7 @@ public class RevealProphecyTypeProvider implements PhpTypeProvider3 {
                 if (containingClass != null && containingClass.getName().endsWith("Test")) {
                     String prophesize = ProphecyTypeUtil.getLocalProphesizeType((MethodReference) element);
                     if (prophesize != null) {
-                        return new PhpType().add("#" + this.getKey() + prophesize);
+                        return new PhpType().add("#" + this.getKey() + Base64.encodeBase64String(prophesize.getBytes()));
                     }
                 }
             }
@@ -51,7 +52,7 @@ public class RevealProphecyTypeProvider implements PhpTypeProvider3 {
     public Collection<? extends PhpNamedElement> getBySignature(String expression, Set<String> visited, int depth, Project project) {
         PhpIndex phpIndex = PhpIndex.getInstance(project);
 
-        String resolvedParameter = PhpTypeProviderUtil.getResolvedParameter(phpIndex, expression);
+        String resolvedParameter = PhpTypeProviderUtil.getResolvedParameter(phpIndex, new String(Base64.decodeBase64(expression)));
         if(resolvedParameter == null) {
             return null;
         }
