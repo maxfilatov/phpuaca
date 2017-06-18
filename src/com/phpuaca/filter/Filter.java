@@ -42,11 +42,6 @@ abstract public class Filter {
         describedMethods.add(methodName);
     }
 
-    public void allowField(String fieldName) {
-        allowFields();
-        allowedFields.add(fieldName);
-    }
-
     public void allowModifier(String modifierName) {
         allowedModifiers.add(modifierName);
     }
@@ -62,12 +57,6 @@ abstract public class Filter {
     public void allowMethods(List<String> methodNames) {
         for (String methodName : methodNames) {
             allowMethod(methodName);
-        }
-    }
-
-    public void disallowMethods(List<String> methodNames) {
-        for (String methodName : methodNames) {
-            disallowMethod(methodName);
         }
     }
 
