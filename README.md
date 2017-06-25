@@ -140,6 +140,28 @@ class FooTest extends \PHPUnit\Framework\TestCase
     }
 ```
 
+### Intention / Generator
+
+Use intention / generator to add new method mocks. Every caret position inside a mock object is detected
+
+```php
+$foo = $this->getMockBuilder(Foobar::class)->getMock();
+$foo->method('getFoobar')->willReturn();
+
+$foo = $this->createMock(Foobar::class);
+$foo->method('getFoobar')->willReturn();
+```
+
+```php
+$this->foobar = $this->getMockBuilder(Foobar::class)->getMock();
+// ...
+$this->foobar->method('getFoobar')->willReturn();
+
+$this->foobar = $this->createMock(Foobar::class);
+// ...
+$this->foobar->method('getFoobar')->willReturn();
+```
+
 Examples
 --------
 

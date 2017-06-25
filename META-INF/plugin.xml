@@ -98,6 +98,12 @@
             <category>PHPUnit</category>
             <descriptionDirectoryName>TestRunIntentionAction</descriptionDirectoryName>
         </intentionAction>
+
+        <intentionAction>
+            <className>de.espend.idea.php.phpunit.intention.AddMockMethodIntention</className>
+            <category>PHPUnit</category>
+            <descriptionDirectoryName>AddMethodIntention</descriptionDirectoryName>
+        </intentionAction>
     </extensions>
 
     <application-components>
