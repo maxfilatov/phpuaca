@@ -15,42 +15,45 @@ import java.util.Collections;
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
 public class ChainVisitorUtil {
-    public static void visit(@NotNull MethodReference methodReference, @NotNull ChainProcessorInterface processor) {
-        visit(methodReference, processor, 10);
+    public static void visit(@NotNull MethodReference methodReference, @NotNull ChainProcessorInterface processor, boolean skipCurrent) {
+        visit(skipCurrent ? methodReference.getFirstChild() : methodReference, processor, 10);
     }
 
-    private static void visit(@NotNull PsiElement psiElement, @NotNull ChainProcessorInterface processor, int depth) {
+    public static void visit(@NotNull MethodReference methodReference, @NotNull ChainProcessorInterface processor) {
+        visit(methodReference, processor, true);
+    }
+
+    private static void visit(@Nullable PsiElement psiElement, @NotNull ChainProcessorInterface processor, int depth) {
         if(depth <= 0) {
             return;
         }
 
-        PsiElement firstChild = psiElement.getFirstChild();
-        if(firstChild == null) {
+        if(psiElement == null) {
             return;
         }
 
-        if(firstChild instanceof MethodReference) {
-            if(!processor.process((MethodReference) firstChild)) {
+        if(psiElement instanceof MethodReference) {
+            if(!processor.process((MethodReference) psiElement)) {
                 return;
             }
 
-            visit(firstChild, processor, --depth);
-        } else if(firstChild instanceof FieldReference) {
-            PhpPsiElement phpPsiElement = resolveField((FieldReference) firstChild);
+            visit(psiElement.getFirstChild(), processor, --depth);
+        } else if(psiElement instanceof FieldReference) {
+            PhpPsiElement phpPsiElement = resolveField((FieldReference) psiElement);
             if(phpPsiElement instanceof MethodReference) {
                 if(!processor.process((MethodReference) phpPsiElement)) {
                     return;
                 }
 
-                visit(phpPsiElement, processor, --depth);
+                visit(phpPsiElement.getFirstChild(), processor, --depth);
             }
-        } else if(firstChild instanceof Variable && !((Variable) firstChild).isDeclaration()) {
-            for (PhpPsiElement phpPsiElement : resolveVariable((Variable) firstChild)) {
+        } else if(psiElement instanceof Variable && !((Variable) psiElement).isDeclaration()) {
+            for (PhpPsiElement phpPsiElement : resolveVariable((Variable) psiElement)) {
                 if(phpPsiElement instanceof MethodReference && !processor.process((MethodReference) phpPsiElement)) {
                     return;
                 }
 
-                visit(phpPsiElement, processor, --depth);
+                visit(phpPsiElement.getFirstChild(), processor, --depth);
             }
         }
     }
@@ -59,7 +62,7 @@ public class ChainVisitorUtil {
     private static Collection<PhpPsiElement> resolveVariable(@NotNull Variable variable) {
         String name = variable.getName();
 
-        Method methodScope = PhpPsiUtil.getParentByCondition(variable, Method.INSTANCEOF);
+        Function methodScope = PhpPsiUtil.getParentByCondition(variable, Function.INSTANCEOF);
         if(methodScope == null) {
             return Collections.emptyList();
         }
