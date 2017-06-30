@@ -162,6 +162,15 @@ $this->foobar = $this->createMock(Foobar::class);
 $this->foobar->method('getFoobar')->willReturn();
 ```
 
+```php
+new Foobar();
+// ...
+new Foobar(
+    $this->createMock(Foo::class),
+    $this->createMock(FooBar::class)
+);
+```
+
 Examples
 --------
 

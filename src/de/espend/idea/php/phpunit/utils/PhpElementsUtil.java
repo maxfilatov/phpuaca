@@ -4,11 +4,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.ResolveResult;
 import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.codeInsight.PhpCodeInsightUtil;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
+import com.jetbrains.php.refactoring.PhpAliasImporter;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
@@ -112,5 +116,29 @@ public class PhpElementsUtil {
         }
 
         return isMethodReferenceInstanceOf(methodReference, expectedClassName);
+    }
+
+    @Nullable
+    public static String insertUseIfNecessary(@NotNull PsiElement scope, @NotNull String fqnClasName) {
+        if(!fqnClasName.startsWith("\\")) {
+            fqnClasName = "\\" + fqnClasName;
+        }
+
+        PhpPsiElement scopeForUseOperator = PhpCodeInsightUtil.findScopeForUseOperator(scope);
+        if(scopeForUseOperator == null) {
+            return null;
+        }
+
+        if(!PhpCodeInsightUtil.getAliasesInScope(scopeForUseOperator).values().contains(fqnClasName)) {
+            PhpAliasImporter.insertUseStatement(fqnClasName, scopeForUseOperator);
+        }
+
+        for (Map.Entry<String, String> entry : PhpCodeInsightUtil.getAliasesInScope(scopeForUseOperator).entrySet()) {
+            if(fqnClasName.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+
+        return null;
     }
 }

@@ -109,6 +109,12 @@
             <category>PHPUnit</category>
             <descriptionDirectoryName>AddMethodIntention</descriptionDirectoryName>
         </intentionAction>
+
+        <intentionAction>
+            <className>de.espend.idea.php.phpunit.intention.ConstructorMockIntention</className>
+            <category>PHPUnit</category>
+            <descriptionDirectoryName>ConstructorMockIntention</descriptionDirectoryName>
+        </intentionAction>
     </extensions>
 
     <application-components>
