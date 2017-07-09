@@ -123,7 +123,7 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
             int length = parameters.length;
 
             int pos = 0;
-            for (Parameter parameter : ((Method) method).getParameters()) {
+            for (Parameter parameter : method.getParameters()) {
                 String className = parameter.getDeclaredType().toString();
 
                 if(pos++ < length) {
@@ -135,6 +135,9 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
 
             PsiDocumentManager.getInstance(scope.getProject())
                 .doPostponedOperationsAndUnblockDocument(editor.getDocument());
+
+            PsiDocumentManager.getInstance(scope.getProject())
+                .commitDocument(editor.getDocument());
 
             List<String> collect = strings
                 .stream()
