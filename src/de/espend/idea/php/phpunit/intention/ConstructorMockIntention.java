@@ -14,6 +14,7 @@ import de.espend.idea.php.phpunit.utils.PhpElementsUtil;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
     @Override
     public void invoke(@NotNull Project project, Editor editor, @NotNull PsiElement psiElement) throws IncorrectOperationException {
-        NewExpression newExpression = PsiTreeUtil.getParentOfType(psiElement, NewExpression.class);
+        NewExpression newExpression = getScopeForOperation(psiElement);
         if(newExpression != null) {
             ClassReference classReference = newExpression.getClassReference();
             if (classReference != null) {
@@ -42,8 +43,8 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
 
     @Override
     public boolean isAvailable(@NotNull Project project, Editor editor, @NotNull PsiElement psiElement) {
-        NewExpression parentOfType = PsiTreeUtil.getParentOfType(psiElement, NewExpression.class);
-        if(parentOfType == null) {
+        NewExpression newExpression = getScopeForOperation(psiElement);
+        if(newExpression == null) {
             return false;
         }
 
@@ -67,6 +68,26 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
     @Override
     public String getText() {
         return "PHPUnit: Add constructor mocks";
+    }
+
+    @Nullable
+    private NewExpression getScopeForOperation(@NotNull PsiElement psiElement) {
+        // $foo = new Foo<caret>bar();
+        NewExpression newExpression = PsiTreeUtil.getParentOfType(psiElement, NewExpression.class);
+
+        if(newExpression == null) {
+            // scope outside method reference chaining
+            // $f<caret>oo = new Foobar();
+            PsiElement variable = psiElement.getParent();
+            if(variable instanceof Variable) {
+                PsiElement assignmentExpression = variable.getParent();
+                if(assignmentExpression instanceof AssignmentExpression) {
+                    newExpression = PsiTreeUtil.getChildOfAnyType(assignmentExpression, NewExpression.class);
+                }
+            }
+        }
+
+        return newExpression;
     }
 
     private static class MyConstructorCommandActionArgument extends WriteCommandAction.Simple {

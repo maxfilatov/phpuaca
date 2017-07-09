@@ -55,13 +55,40 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
         );
     }
 
-    public void testThatIntentionIsAvaibleForConstructorContext() {
+    public void testThatMockIsCreatedForEmptyConstructorWithParameterAsVariableDeclaration() {
+        myFixture.configureByText(PhpFileType.INSTANCE, "<?php\n" +
+            "$f<caret>oo = new \\Foo\\BarNext($this->createMock(Foo::class));"
+        );
+
+        String text = invokeAndGetText();
+
+        assertEquals(
+            "<?php\n" +
+                "use Bar\\Car;\n" +
+                "\n" +
+                "$foo = new \\Foo\\BarNext($this->createMock(Foo::class), $this->createMock(Car::class), $this->createMock(Car::class), $this->createMock(Car::class));",
+            text
+        );
+    }
+
+    public void testThatIntentionIsAvailableForConstructorContext() {
         assertIntentionIsAvailable(PhpFileType.INSTANCE, "<?php\n" +
                 "class FooTest extends \\PHPUnit\\Framework\\TestCase\n" +
                 "    {\n" +
                 "        public function testFoobar()\n" +
                 "        {\n" +
                 "            $foo = new Fo<caret>obar()\n" +
+                "        }\n" +
+                "    }",
+            "PHPUnit: Add constructor mocks"
+        );
+
+        assertIntentionIsAvailable(PhpFileType.INSTANCE, "<?php\n" +
+                "class FooTest extends \\PHPUnit\\Framework\\TestCase\n" +
+                "    {\n" +
+                "        public function testFoobar()\n" +
+                "        {\n" +
+                "            $fo<caret>o = new Foobar()\n" +
                 "        }\n" +
                 "    }",
             "PHPUnit: Add constructor mocks"
