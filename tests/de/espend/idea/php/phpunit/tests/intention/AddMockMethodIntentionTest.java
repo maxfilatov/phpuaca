@@ -43,6 +43,15 @@ public class AddMockMethodIntentionTest extends PhpUnitLightCodeInsightFixtureTe
                 "}",
             "PHPUnit: Add mock method"
         );
+
+        assertIntentionIsAvailable(PhpFileType.INSTANCE, "<?php\n" +
+                "function testFoo()" +
+                "{\n" +
+                "  /** @var $t \\PHPUnit\\Framework\\TestCase */\n" +
+                "  $<caret>x = $t->getMockBuilder(\\Foo\\Bar::class)->getMock()" +
+                "}",
+            "PHPUnit: Add mock method"
+        );
     }
 
     public void testThatInspectionIsInvokedForCreateMockWithInlined() {

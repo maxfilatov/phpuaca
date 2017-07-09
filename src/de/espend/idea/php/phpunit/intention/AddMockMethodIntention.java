@@ -75,7 +75,21 @@ public class AddMockMethodIntention extends PsiElementBaseIntentionAction {
 
     @Nullable
     private String getMockInstanceFromMethodReferenceScope(@NotNull PsiElement psiElement) {
+        // $foo = $this->creat<caret>eMock()
         MethodReference methodReference = PsiTreeUtil.getTopmostParentOfType(psiElement, MethodReference.class);
+
+        if(methodReference == null) {
+            // scope outside method reference chaining
+            // $f<caret>oo = $this->createMock()
+            PsiElement variable = psiElement.getParent();
+            if(variable instanceof Variable) {
+                PsiElement assignmentExpression = variable.getParent();
+                if(assignmentExpression instanceof AssignmentExpression) {
+                    methodReference = PsiTreeUtil.getChildOfAnyType(assignmentExpression, MethodReference.class);
+                }
+            }
+        }
+
         if(methodReference == null) {
             return null;
         }
