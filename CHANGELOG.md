@@ -4,6 +4,12 @@
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 2.5
+* Add intention to create mocked constructor parameters
+* Extend scope for method reference chaining detection in method mock generator
+* Fix scope detection for test runner
+* Constructor intention must allow variable declaration scope
+
 ## 2.4
 * Add mock method intention / generator [#5](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/5)
 
