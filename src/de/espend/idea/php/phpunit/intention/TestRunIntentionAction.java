@@ -43,7 +43,7 @@ public class TestRunIntentionAction extends PsiElementBaseIntentionAction {
             return phpClass;
         }
 
-        return phpClass;
+        return null;
     }
 
     @Nls
