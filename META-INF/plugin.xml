@@ -6,6 +6,8 @@
 
     <description><![CDATA[
 
+    <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin">GitHub</a> | <a href="https://www.paypal.me/DanielEspendiller">Donate</a>
+
     <p>Fork of <a href="https://github.com/maxfilatov/phpuaca/">PHPUnit Autocomplete Assistant</a></p>
 
     <p>PhpStorm plugin to provide smart autocomplete, code navigation and refactoring features for mocked class methods.</p>
