@@ -31,12 +31,6 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
         if(newExpression != null) {
             ClassReference classReference = newExpression.getClassReference();
             if (classReference != null) {
-                // parameter list not found: new Foo"()"
-                ParameterList parameterList = PsiTreeUtil.getChildOfType(newExpression, ParameterList.class);
-                if(parameterList == null) {
-                    return;
-                }
-
                 String fqn = classReference.getFQN();
 
                 for (PhpClass phpClass : PhpIndex.getInstance(project).getAnyByFQN(fqn)) {
@@ -50,7 +44,7 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
                     // execute string insertions and stop iteration
                     new MyConstructorCommandActionArgument(
                         psiElement,
-                        parameterList,
+                        PsiTreeUtil.getChildOfType(newExpression, ParameterList.class),
                         constructor,
                         newExpression,
                         editor
@@ -118,7 +112,7 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
         @NotNull
         private final PsiElement scope;
 
-        @NotNull
+        @Nullable
         private final ParameterList parameterList;
 
         @NotNull
@@ -130,7 +124,7 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
         @NotNull
         private final Editor editor;
 
-        private MyConstructorCommandActionArgument(@NotNull PsiElement scope, @NotNull ParameterList parameterList, @NotNull Method method, @NotNull NewExpression newExpression, @NotNull Editor editor) {
+        private MyConstructorCommandActionArgument(@NotNull PsiElement scope, @Nullable ParameterList parameterList, @NotNull Method method, @NotNull NewExpression newExpression, @NotNull Editor editor) {
             super(scope.getProject(), scope.getContainingFile());
             this.scope = scope;
             this.parameterList = parameterList;
@@ -141,12 +135,14 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
 
         @Override
         protected void run() throws Throwable {
-            List<String> strings = new ArrayList<>();
 
-            PsiElement[] parameters = parameterList.getParameters();
+            // current parameter state
+            PsiElement[] parameters = parameterList != null ? parameterList.getParameters() : new PsiElement[0];
             int length = parameters.length;
 
+            // pre insert "use imports"
             int pos = 0;
+            List<String> classes = new ArrayList<>();
             for (Parameter parameter : method.getParameters()) {
                 String className = parameter.getDeclaredType().toString();
 
@@ -154,7 +150,8 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
                     continue;
                 }
 
-                strings.add(PhpElementsUtil.insertUseIfNecessary(newExpression, className));
+                // try import and get class name result; result can also be an alias
+                classes.add(PhpElementsUtil.insertUseIfNecessary(newExpression, className));
             }
 
             PsiDocumentManager.getInstance(scope.getProject())
@@ -163,29 +160,39 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
             PsiDocumentManager.getInstance(scope.getProject())
                 .commitDocument(editor.getDocument());
 
-            List<String> collect = strings
+            List<String> collect = classes
                 .stream()
                 .map(s -> String.format("$this->createMock(%s::class)", s))
                 .collect(Collectors.toList());
 
-            String join = StringUtils.join(collect, ", ");
+            String insert = StringUtils.join(collect, ", ");
 
-            int startOffset = parameterList.getTextRange().getStartOffset();
-            if(parameters.length > 0) {
-                PsiElement parameter = parameters[parameters.length - 1];
-                startOffset = parameter.getTextRange().getEndOffset();
+            // condition for new Foobar() and new Foobar
+            int startOffset;
+            if(parameterList != null) {
+                startOffset = parameterList.getTextRange().getStartOffset();
 
-                join = ", " + join;
+                // we already have a parameter so append string
+                if(length > 0) {
+                    PsiElement parameter = parameters[parameters.length - 1];
+                    startOffset = parameter.getTextRange().getEndOffset();
+
+                    insert = ", " + insert;
+                }
+            } else {
+                // new Foobar we need wrap parameter with "()"
+                startOffset = newExpression.getTextRange().getEndOffset();
+                insert = "(" + insert + ")";
             }
 
-            editor.getDocument().insertString(startOffset, join);
+            editor.getDocument().insertString(startOffset, insert);
 
             PsiElement statement = newExpression.getParent();
 
             CodeStyleManager.getInstance(scope.getProject()).reformatText(
                 newExpression.getContainingFile(),
                 statement.getTextRange().getStartOffset(),
-                statement.getTextRange().getEndOffset() + join.length()
+                statement.getTextRange().getEndOffset() + insert.length()
             );
         }
     }
