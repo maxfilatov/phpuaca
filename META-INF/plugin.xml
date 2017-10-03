@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/Haehnchen/idea-php-phpunit-plugin">
     <id>de.espend.idea.php.phpunit</id>
     <name>PHPUnit Enhancement</name>
-    <version>2.5</version>
+    <version>2.6</version>
     <vendor email="daniel@espendiller.net" url="http://espend.de">Daniel Espendiller</vendor>
 
     <description><![CDATA[
@@ -35,49 +35,12 @@
   ]]></description>
 
     <change-notes><![CDATA[
-
-    <h3>2.5</h3>
     <ul>
-        <li>Add intention to create mocked constructor parameters</li>
-        <li>Extend scope for method reference chaining detection in method mock generator</li>
-        <li>Fix scope detection for test runner</li>
-        <li>Constructor intention must allow variable declaration scope</li>
+        <li>Support parent construct methods in "Add constructor mocks"</li>
+        <li>Support newExpression without parameter list for "Add constructor mocks"</li>
     </ul>
 
-    <h3>2.4</h3>
-    <ul>
-        <li>Add mock method intention / generator <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/5">#5</a></li>
-    </ul>
-
-    <h3>2.3</h3>
-    <ul>
-        <li>Pipe property declaration of setUp test method <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/11">#11</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/13">#13</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/14">#14</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/17">#17</a></li>
-        <li>Migrate createMock, getMock and reveal types to chaining method detection <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/11">#11</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/13">#13</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/14">#14</a> <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/17">#17</a></li>
-        <li>Optimize completion for createMock to use chaining detection</li>
-    </ul>
-
-    <h3>2.2.1</h3>
-    <ul>
-        <li>Add MockBuilder->getMock TypeProvider <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/10">#10</a></li>
-    </ul>
-
-    <h3>2.2</h3>
-    <ul>
-        <li>Reimplement magic Prophecy method <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/8">#8</a></li>
-        <li>Add Prophecy reveal type provider <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/9">#9</a></li>
-    </ul>
-
-    <h3>2.1</h3>
-    <ul>
-        <li>Add custom linemarker runner for units test method and classes and provide intention <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/4">#4</a></li>
-        <li>Reimplement TypeProvider in the correct way without index access <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/6">#6</a></li>
-    </ul>
-
-    <h3>2.0</h3>
-    <ul>
-        <li>Initial release fork of <a href="https://github.com/maxfilatov/phpuaca/">maxfilatov/phpuaca</a></li>
-        <li>Support class constants in createMock method completion</li>
-    </ul>
+    <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/blob/master/CHANGELOG.md">see full changelog</a> | <a href="https://www.paypal.me/DanielEspendiller">Donate</a>
   ]]>
     </change-notes>
 

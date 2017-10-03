@@ -4,6 +4,10 @@
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 2.6
+* Support parent construct methods in "Add constructor mocks"
+* Support newExpression without parameter list for "Add constructor mocks"
+
 ## 2.5
 * Add intention to create mocked constructor parameters
 * Extend scope for method reference chaining detection in method mock generator
