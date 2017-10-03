@@ -89,6 +89,22 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
         );
     }
 
+    public void testThatMockIsCreatedForEmptyConstructorWithPrimitiveTypes() {
+        myFixture.configureByText(PhpFileType.INSTANCE, "<?php\n" +
+            "new \\Foo\\<caret>BarPrimitives();"
+        );
+
+        String text = invokeAndGetText();
+
+        assertEquals(
+            "<?php\n" +
+                "use Bar\\Car;\n" +
+                "\n" +
+                "new \\Foo\\BarPrimitives('?', -1, true, $this->createMock(Car::class));",
+            text
+        );
+    }
+
     public void testThatMockIsCreatedForEmptyConstructorWithParameterAsVariableDeclaration() {
         myFixture.configureByText(PhpFileType.INSTANCE, "<?php\n" +
             "$f<caret>oo = new \\Foo\\BarNext($this->createMock(Foo::class));"

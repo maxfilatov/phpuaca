@@ -11,6 +11,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import de.espend.idea.php.phpunit.utils.PhpElementsUtil;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nls;
@@ -150,8 +151,13 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
                     continue;
                 }
 
-                // try import and get class name result; result can also be an alias
-                classes.add(PhpElementsUtil.insertUseIfNecessary(newExpression, className));
+                boolean primitiveType = PhpType.isPrimitiveType(className);
+                if(primitiveType) {
+                    classes.add("\\" + className);
+                } else {
+                    // try import and get class name result; result can also be an alias
+                    classes.add(PhpElementsUtil.insertUseIfNecessary(newExpression, className));
+                }
             }
 
             PsiDocumentManager.getInstance(scope.getProject())
@@ -162,7 +168,21 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
 
             List<String> collect = classes
                 .stream()
-                .map(s -> String.format("$this->createMock(%s::class)", s))
+                .map(s -> {
+                    // PrimitiveType
+                    if(s.startsWith("\\")) {
+                        if(s.equalsIgnoreCase("\\int")) {
+                            return "-1";
+                        } else if(s.equalsIgnoreCase("\\bool") || s.equalsIgnoreCase("\\boolean")) {
+                            return "true";
+                        }
+
+                        // fallback
+                        return "'?'";
+                    }
+
+                    return String.format("$this->createMock(%s::class)", s);
+                })
                 .collect(Collectors.toList());
 
             String insert = StringUtils.join(collect, ", ");

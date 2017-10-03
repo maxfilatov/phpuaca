@@ -32,6 +32,13 @@ namespace Foo
     class FooExtends extends Bar
     {
     }
+
+    class BarPrimitives
+    {
+        public function __construct(string $foo1, int $foo2, bool $foo4, Car $car)
+        {
+        }
+    }
 }
 
 namespace PHPUnit\Framework
