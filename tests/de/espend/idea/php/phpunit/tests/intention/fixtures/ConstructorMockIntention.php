@@ -28,6 +28,10 @@ namespace Foo
         {
         }
     }
+
+    class FooExtends extends Bar
+    {
+    }
 }
 
 namespace PHPUnit\Framework

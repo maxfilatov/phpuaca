@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
 import de.espend.idea.php.phpunit.utils.PhpElementsUtil;
 import org.apache.commons.lang.StringUtils;
@@ -30,12 +31,32 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
         if(newExpression != null) {
             ClassReference classReference = newExpression.getClassReference();
             if (classReference != null) {
-                PsiElement method = classReference.resolve();
-                if(method instanceof Method) {
-                    ParameterList parameterList = PsiTreeUtil.getChildOfType(newExpression, ParameterList.class);
-                    if(parameterList != null) {
-                        new MyConstructorCommandActionArgument(psiElement, parameterList, (Method) method, newExpression, editor).execute();
+                // parameter list not found: new Foo"()"
+                ParameterList parameterList = PsiTreeUtil.getChildOfType(newExpression, ParameterList.class);
+                if(parameterList == null) {
+                    return;
+                }
+
+                String fqn = classReference.getFQN();
+
+                for (PhpClass phpClass : PhpIndex.getInstance(project).getAnyByFQN(fqn)) {
+                    Method constructor = phpClass.getConstructor();
+
+                    // first constructor wins on non unique class names
+                    if(constructor == null) {
+                        continue;
                     }
+
+                    // execute string insertions and stop iteration
+                    new MyConstructorCommandActionArgument(
+                        psiElement,
+                        parameterList,
+                        constructor,
+                        newExpression,
+                        editor
+                    ).execute();
+
+                    return;
                 }
             }
         }
@@ -90,6 +111,9 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
         return newExpression;
     }
 
+    /**
+     * new Foobar($this->createMock(Foobar::class))
+     */
     private static class MyConstructorCommandActionArgument extends WriteCommandAction.Simple {
         @NotNull
         private final PsiElement scope;
