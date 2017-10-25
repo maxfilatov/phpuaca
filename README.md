@@ -172,6 +172,17 @@ new Foobar(
 );
 ```
 
+```php
+/**
+ * @expectedException \Foo\FooException
+ */
+public function testExpectedException()
+{
+    $foo = new FooBar();
+    $foo->throwFooException();
+}
+```
+
 Examples
 --------
 
@@ -185,3 +196,4 @@ Examples
 
 ![PHPUnit Prophecy](https://jetbrains-plugins.s3.amazonaws.com/9674/screenshot_16953.png)
 
+![PHPUnit Expected exception](https://download.plugins.jetbrains.com/9674/screenshot_17449.png)

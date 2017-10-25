@@ -88,6 +88,12 @@
             <category>PHPUnit</category>
             <descriptionDirectoryName>ConstructorMockIntention</descriptionDirectoryName>
         </intentionAction>
+
+        <intentionAction>
+            <className>de.espend.idea.php.phpunit.intention.MethodExceptionIntentionAction</className>
+            <category>PHPUnit</category>
+            <descriptionDirectoryName>MethodExceptionIntentionAction</descriptionDirectoryName>
+        </intentionAction>
     </extensions>
 
     <application-components>
