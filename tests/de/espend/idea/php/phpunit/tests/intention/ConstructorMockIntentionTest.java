@@ -29,14 +29,9 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
 
         String text = invokeAndGetText();
 
-        assertEquals(
-            "<?php\n" +
-                "use Bar\\Car;\n" +
-                "use Bar\\Foo;\n" +
-                "\n" +
-                "new \\Foo\\Bar($this->createMock(Foo::class), $this->createMock(Car::class));",
-            text
-        );
+        assertTrue(text.contains("use Bar\\Car;\n"));
+        assertTrue(text.contains("use Bar\\Foo;\n"));
+        assertTrue(text.contains("new \\Foo\\Bar($this->createMock(Foo::class), $this->createMock(Car::class));"));
     }
 
     public void testThatMockIsCreatedForEmptyConstructorWithParentConstructor() {
@@ -46,14 +41,9 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
 
         String text = invokeAndGetText();
 
-        assertEquals(
-            "<?php\n" +
-                "use Bar\\Car;\n" +
-                "use Bar\\Foo;\n" +
-                "\n" +
-                "new \\Foo\\FooExtends($this->createMock(Foo::class), $this->createMock(Car::class));",
-            text
-        );
+        assertTrue(text.contains("use Bar\\Car;\n"));
+        assertTrue(text.contains("use Bar\\Foo;\n"));
+        assertTrue(text.contains("new \\Foo\\FooExtends($this->createMock(Foo::class), $this->createMock(Car::class));"));
     }
 
     public void testThatMockIsCreatedForEmptyConstructorWithoutParameterList() {
@@ -63,14 +53,9 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
 
         String text = invokeAndGetText();
 
-        assertEquals(
-            "<?php\n" +
-                "use Bar\\Car;\n" +
-                "use Bar\\Foo;\n" +
-                "\n" +
-                "new \\Foo\\FooExtends($this->createMock(Foo::class), $this->createMock(Car::class));",
-            text
-        );
+        assertTrue(text.contains("use Bar\\Car;\n"));
+        assertTrue(text.contains("use Bar\\Foo;\n"));
+        assertTrue(text.contains("new \\Foo\\FooExtends($this->createMock(Foo::class), $this->createMock(Car::class));"));
     }
 
     public void testThatMockIsCreatedForEmptyConstructorWithParameter() {
@@ -80,13 +65,8 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
 
         String text = invokeAndGetText();
 
-        assertEquals(
-            "<?php\n" +
-                "use Bar\\Car;\n" +
-                "\n" +
-                "new \\Foo\\BarNext($this->createMock(Foo::class), $this->createMock(Car::class), $this->createMock(Car::class), $this->createMock(Car::class));",
-            text
-        );
+        assertTrue(text.contains("use Bar\\Car;\n"));
+        assertTrue(text.contains("new \\Foo\\BarNext($this->createMock(Foo::class), $this->createMock(Car::class), $this->createMock(Car::class), $this->createMock(Car::class));"));
     }
 
     public void testThatMockIsCreatedForEmptyConstructorWithPrimitiveTypes() {
@@ -96,12 +76,10 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
 
         String text = invokeAndGetText();
 
-        assertEquals(
-            "<?php\n" +
-                "use Bar\\Car;\n" +
-                "\n" +
-                "new \\Foo\\BarPrimitives('?', -1, true, $this->createMock(Car::class));",
-            text
+        assertTrue(text.contains("use Bar\\Car;"));
+
+        assertTrue(
+            text.contains("new \\Foo\\BarPrimitives('?', -1, true, $this->createMock(Car::class));")
         );
     }
 
@@ -112,12 +90,10 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
 
         String text = invokeAndGetText();
 
-        assertEquals(
-            "<?php\n" +
-                "use Bar\\Car;\n" +
-                "\n" +
-                "$foo = new \\Foo\\BarNext($this->createMock(Foo::class), $this->createMock(Car::class), $this->createMock(Car::class), $this->createMock(Car::class));",
-            text
+        assertTrue(text.contains("use Bar\\Car;"));
+
+        assertTrue(
+            text.contains("$foo = new \\Foo\\BarNext($this->createMock(Foo::class), $this->createMock(Car::class), $this->createMock(Car::class), $this->createMock(Car::class));")
         );
     }
 
