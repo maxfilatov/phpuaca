@@ -4,6 +4,9 @@
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 2.7
+* Provide expectedException generator for given method scope [#27](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/27)
+    
 ## 2.6
 * Support parent construct methods in "Add constructor mocks"
 * Support newExpression without parameter list for "Add constructor mocks"
