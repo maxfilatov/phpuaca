@@ -1,6 +1,7 @@
 # Changelog
 
 ## Versions
+* 3.x: PhpStorm 2017.3+
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
