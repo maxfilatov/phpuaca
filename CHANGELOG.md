@@ -5,6 +5,9 @@
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 3.7
+* Handle deletion of PhpThrownExceptionsAnalyzer#getExceptionClasses in PhpStorm 2017.3 [#28](https://github.com/Haehnchen/idea-php-phpunit-plugin/pull/28)
+
 ## 2.7
 * Provide expectedException generator for given method scope [#27](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/27)
     
