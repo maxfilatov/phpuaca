@@ -5,6 +5,9 @@
 * 2.x: PhpStorm 2017.1+
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 3.8
+* Fix performance issue: migrate test linemarker runner to leaf elements
+
 ## 3.7
 * Handle deletion of PhpThrownExceptionsAnalyzer#getExceptionClasses in PhpStorm 2017.3 [#28](https://github.com/Haehnchen/idea-php-phpunit-plugin/pull/28)
 

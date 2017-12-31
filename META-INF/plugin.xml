@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/Haehnchen/idea-php-phpunit-plugin">
     <id>de.espend.idea.php.phpunit</id>
     <name>PHPUnit Enhancement</name>
-    <version>3.7</version>
+    <version>3.8</version>
     <vendor email="daniel@espendiller.net" url="http://espend.de">Daniel Espendiller</vendor>
 
     <description><![CDATA[
@@ -36,7 +36,7 @@
 
     <change-notes><![CDATA[
     <ul>
-        <li>Handle deletion of PhpThrownExceptionsAnalyzer#getExceptionClasses in PhpStorm 2017.3 <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/pull/28">#28</a></li>
+        <li>Fix performance issue: migrate test linemarker runner to leaf elements</li>
     </ul>
 
     <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/blob/master/CHANGELOG.md">see full changelog</a> | <a href="https://www.paypal.me/DanielEspendiller">Donate</a>
