@@ -10,6 +10,8 @@ import java.io.File;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
+ *
+ * @see de.espend.idea.php.phpunit.linemarker.TestRunLineMarkerProvider
  * @see com.intellij.testIntegration.TestRunLineMarkerProvider
  */
 public class TestRunLineMarkerProviderTest extends PhpUnitLightCodeInsightFixtureTestCase {
@@ -41,7 +43,7 @@ public class TestRunLineMarkerProviderTest extends PhpUnitLightCodeInsightFixtur
         assertNotNull(method);
 
         assertLineMarker(method.getParent(), markerInfo ->
-            markerInfo.getElement() instanceof Method && "Run Test".equals(markerInfo.getLineMarkerTooltip())
+            markerInfo.getElement().getParent() instanceof Method && "Run Test".equals(markerInfo.getLineMarkerTooltip())
         );
     }
 }
