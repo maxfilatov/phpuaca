@@ -6,10 +6,12 @@ import com.intellij.codeInsight.daemon.LineMarkerProvider;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.util.ConstantFunction;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.phpunit.PhpUnitUtil;
+import de.espend.idea.php.phpunit.utils.PatternUtil;
 import de.espend.idea.php.phpunit.utils.PhpUnitPluginUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,16 +37,30 @@ public class TestRunLineMarkerProvider implements LineMarkerProvider {
     @Override
     public void collectSlowLineMarkers(@NotNull List<PsiElement> psiElements, @NotNull Collection<LineMarkerInfo> collection) {
         for (PsiElement psiElement : psiElements) {
-            if(psiElement instanceof Method && PhpUnitUtil.isTestMethod((Method) psiElement)) {
-                collection.add(createLineMakerInfo(psiElement, AllIcons.RunConfigurations.TestState.Run));
-            } else if(psiElement instanceof PhpClass && PhpUnitUtil.isTestClass((PhpClass) psiElement)) {
-                collection.add(createLineMakerInfo(psiElement, AllIcons.RunConfigurations.TestState.Run_run));
+            if(!(psiElement instanceof LeafPsiElement)) {
+                continue;
+            }
+
+            if(PatternUtil.getMethodNamePattern().accepts(psiElement)) {
+                // attach Method runner
+
+                PsiElement method = psiElement.getParent();
+                if(method instanceof Method && PhpUnitUtil.isTestMethod((Method) method)) {
+                    collection.add(createLineMakerInfo((LeafPsiElement) psiElement, AllIcons.RunConfigurations.TestState.Run));
+                }
+            } else if(PatternUtil.getClassNamePattern().accepts(psiElement)) {
+                // attach PhpClass runner
+
+                PsiElement phpClass = psiElement.getParent();
+                if(phpClass instanceof PhpClass && PhpUnitUtil.isTestClass((PhpClass) phpClass)) {
+                    collection.add(createLineMakerInfo((LeafPsiElement) psiElement, AllIcons.RunConfigurations.TestState.Run_run));
+                }
             }
         }
     }
 
     @NotNull
-    private LineMarkerInfo<PsiElement> createLineMakerInfo(@NotNull PsiElement psiElement, @NotNull Icon icon) {
+    private LineMarkerInfo<PsiElement> createLineMakerInfo(@NotNull LeafPsiElement psiElement, @NotNull Icon icon) {
         return new LineMarkerInfo<>(
             psiElement,
             psiElement.getTextRange(),
