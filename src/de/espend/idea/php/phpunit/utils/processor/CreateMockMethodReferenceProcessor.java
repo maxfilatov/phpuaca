@@ -31,7 +31,9 @@ public class CreateMockMethodReferenceProcessor implements ChainVisitorUtil.Chai
 
         return
             PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit_Framework_MockObject_MockObject") ||
-            PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit_Framework_MockObject_Builder_InvocationMocker");
+            PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit_Framework_MockObject_Builder_InvocationMocker") ||
+            PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit\\Framework\\MockObject\\MockObject", "method") ||
+            PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker", "method");
     }
 
     @Nullable

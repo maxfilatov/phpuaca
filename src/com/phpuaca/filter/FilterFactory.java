@@ -25,6 +25,8 @@ final public class FilterFactory {
                 .add(new FilterConfigItem("PHPUnit_Framework_TestCase", "getMockForTrait", 7, MockBuilderFilter.class))
                 .add(new FilterConfigItem("PHPUnit_Framework_MockObject_Builder_InvocationMocker", "method", 1, InvocationMockerFilter.class))
                 .add(new FilterConfigItem("PHPUnit_Framework_MockObject_MockObject", "method", 1, InvocationMockerFilter.class))
+                .add(new FilterConfigItem("PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker", "method", 1, InvocationMockerFilter.class))
+                .add(new FilterConfigItem("PHPUnit\\Framework\\MockObject\\MockObject", "method", 1, InvocationMockerFilter.class))
                 .add(new FilterConfigItem("MethodMock", "resetMethodCalledStack", 2, MethodMockFilter.class))
                 .add(new FilterConfigItem("MethodMock", "getCalledArgs", 2, MethodMockFilter.class))
                 .add(new FilterConfigItem("MethodMock", "isMethodCalled", 2, MethodMockFilter.class))
