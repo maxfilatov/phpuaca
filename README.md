@@ -1,9 +1,5 @@
 PHPUnit Autocomplete Assistant
 ==============================
-[![Version](http://phpstorm.espend.de/badge/7722/version)](https://plugins.jetbrains.com/plugin/7722)
-[![Downloads](http://phpstorm.espend.de/badge/7722/downloads)](https://plugins.jetbrains.com/plugin/7722)
-[![Downloads last month](http://phpstorm.espend.de/badge/7722/last-month)](https://plugins.jetbrains.com/plugin/7722)
-
 PhpStorm plugin to provide smart autocomplete, code navigation and refactoring features for mocked class methods.
 
 Supported all versions of PhpStorm since 7.1.
@@ -40,10 +36,6 @@ Releases
 
 Installation
 ------------
-Stable version, JetBrains repository:
-* Go to `PhpStorm -> Preferences... -> Plugins -> Browse repositories ...` and search for PHPUnit Autocomplete Assistant plugin
-* Restart PhpStorm
-
 Latest version, installation from disk:
-* Go to `PhpStorm -> Preferences... -> Plugins -> Install plugin from disk...` and choose jar file
+* Go to `PhpStorm -> Preferences... -> Plugins -> (Gear Icon) -> Install plugin from disk...` and choose jar file
 * Restart PhpStorm
