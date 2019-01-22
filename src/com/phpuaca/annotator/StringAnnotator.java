@@ -28,7 +28,7 @@ public class StringAnnotator implements Annotator {
                     TextRange annotationTextRange = new TextRange(textRange.getStartOffset() + 1, textRange.getEndOffset() - 1);
                     if (method == null) {
                         if (phpClass.findFieldByName(name, false) == null) {
-                            annotationHolder.createWarningAnnotation(annotationTextRange, "Method '" + name + "' not found in class " + phpClass.getName());
+                            annotationHolder.createWarningAnnotation(annotationTextRange, "Method '" + name + "' not found in class " + phpClass.getFQN());
                         }
                     } else {
                         if (!filter.isMethodAllowed(method)) {

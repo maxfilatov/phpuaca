@@ -19,10 +19,6 @@ import java.util.Map;
 
 public class PHPUnitTypeProvider extends BaseTypeProvider {
 
-    final protected static String CLASS_PHP_UNIT_TEST_CASE = "\\PHPUnit_Framework_TestCase";
-    final protected static String CLASS_PHP_UNIT_MOCK_BUILDER = "\\PHPUnit_Framework_MockObject_MockBuilder";
-    final protected static String CLASS_PHP_UNIT_MOCK_OBJECT = "\\PHPUnit_Framework_MockObject_MockObject";
-
     protected Map<String, Boolean> mockCreatorMethodMap = new HashMap<String, Boolean>() {{
         put("getMock", true);
         put("getMockClass", true);
@@ -58,11 +54,11 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
         if (isMethodIsMockCreator(method)) {
             PhpClassAdapter phpClassAdapter = getPhpClassAdapterForMethod(method);
             if (phpClassAdapter != null) {
-                if (phpClassAdapter.isSubclassOf(CLASS_PHP_UNIT_MOCK_BUILDER)) {
+                if (phpClassAdapter.isSubclassOf("\\PHPUnit\\Framework\\MockObject\\MockBuilder") || phpClassAdapter.isSubclassOf("\\PHPUnit_Framework_MockObject_MockBuilder")) {
                     return getTypeForMockBuilder(methodReference);
                 }
 
-                if (phpClassAdapter.isSubclassOf(CLASS_PHP_UNIT_TEST_CASE)) {
+                if (phpClassAdapter.isSubclassOf("\\PHPUnit\\Framework\\TestCase") || phpClassAdapter.isSubclassOf("\\PHPUnit_Framework_TestCase")) {
                     return getTypeForTestCase(methodReference);
                 }
             }
@@ -79,7 +75,8 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
 
         PhpIndex phpIndex = PhpIndex.getInstance(project);
         Collection<PhpClass> collection = new ArrayList<PhpClass>();
-        collection.addAll(phpIndex.getInterfacesByFQN(CLASS_PHP_UNIT_MOCK_OBJECT));
+        collection.addAll(phpIndex.getInterfacesByFQN("\\PHPUnit\\Framework\\MockObject\\MockObject"));
+        collection.addAll(phpIndex.getInterfacesByFQN("\\PHPUnit_Framework_MockObject_MockObject"));
         collection.addAll(phpIndex.getAnyByFQN(s));
         return collection;
     }
