@@ -8,7 +8,6 @@ Feature list
 ------------
 
 * method autocomplete for class, abstract class and trait mock objects;
-  * type providers: `getMock`, `getMockForAbstractClass`, etc. will return mock object with methods of mocking class and `PHPUnit_Framework_MockObject_MockObject`;
   * supported PHPUnit methods:
     * `\PHPUnit\Framework\MockObject\MockBuilder::setMethods`
     * `\PHPUnit\Framework\TestCase::getMock`
@@ -18,7 +17,6 @@ Feature list
     * `\PHPUnit\Framework\MockObject_Builder_InvocationMocker::method`
 * code navigation (go to declaration, find usages, etc.) and refactoring (rename methods);
 * highlighting of incorrect method usages;
-* Prophecy support.
 
 Examples
 --------
