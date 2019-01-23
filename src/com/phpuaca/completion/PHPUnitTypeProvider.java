@@ -24,6 +24,7 @@ public class PHPUnitTypeProvider extends BaseTypeProvider {
         put("getMockClass", true);
         put("getMockForAbstractClass", true);
         put("getMockForTrait", true);
+        put("createMock", true);
     }};
 
     @Override

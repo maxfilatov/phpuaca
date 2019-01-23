@@ -19,9 +19,13 @@ final public class ClassFinder {
         MethodReference mockBuilderMethodReference = (new PhpMethodChain(methodReference)).findMethodReference("getMockBuilder");
         if (mockBuilderMethodReference == null) {
             String methodName = methodReference.getName();
-            if (methodName != null && methodName.startsWith("getMock")) {
+            if (methodName != null && (methodName.startsWith("getMock") || methodName.startsWith("createMock"))) {
                 mockBuilderMethodReference = methodReference;
-                methodNameToFind = methodName;
+                if (methodName.startsWith("createMock")) {
+                    methodNameToFind = "getMock";
+                } else {
+                    methodNameToFind = methodName;
+                }
             }
         }
 
