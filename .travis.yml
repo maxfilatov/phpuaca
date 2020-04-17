@@ -25,5 +25,4 @@ before_install:
   - java -version
 
 script:
-  - "./gradlew check"
-  - "./gradlew buildPlugin"
+  - "./gradlew check verifyPlugin buildPlugin"
