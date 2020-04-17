@@ -68,8 +68,6 @@
 
         <psi.referenceContributor language="PHP" implementation="com.phpuaca.reference.StringReferenceContributor"/>
 
-        <codeInsight.lineMarkerProvider language="PHP" implementationClass="de.espend.idea.php.phpunit.linemarker.TestRunLineMarkerProvider"/>
-
         <intentionAction>
             <className>de.espend.idea.php.phpunit.intention.TestRunIntentionAction</className>
             <category>PHPUnit</category>
