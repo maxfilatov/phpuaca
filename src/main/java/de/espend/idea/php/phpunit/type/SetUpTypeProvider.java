@@ -25,7 +25,7 @@ import java.util.Set;
  */
 public class SetUpTypeProvider implements PhpTypeProvider3 {
 
-    private static char FOO = '\u1212';
+    private static final char TRIM_KEY = '\u1212';
 
     @Override
     public char getKey() {
@@ -53,7 +53,7 @@ public class SetUpTypeProvider implements PhpTypeProvider3 {
                                 // remember or field name and attach is for a later resolve
                                 if(variable instanceof FieldReference && name.equals(variable.getName())) {
                                     return new PhpType().add(
-                                        "#" + this.getKey() + StringUtils.stripStart(phpClass.getFQN(), "\\") + String.valueOf(FOO) + method.getName() + String.valueOf(FOO) + name
+                                        "#" + this.getKey() + StringUtils.stripStart(phpClass.getFQN(), "\\") + String.valueOf(TRIM_KEY) + method.getName() + String.valueOf(TRIM_KEY) + name
                                     );
                                 }
                             }
@@ -70,7 +70,7 @@ public class SetUpTypeProvider implements PhpTypeProvider3 {
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String expression, Set<String> visited, int depth, Project project) {
         // split: CLASS|setUp|FIELD_NAME
-        String[] split = expression.split(String.valueOf(FOO));
+        String[] split = expression.split(String.valueOf(TRIM_KEY));
         if(split.length != 3) {
             return null;
         }

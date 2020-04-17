@@ -33,7 +33,7 @@ public class PhpElementsUtil {
         }
 
         String typeName = ((PhpReference) classReference).getFQN();
-        return typeName != null && StringUtils.isNotBlank(typeName) ? StringUtils.stripStart(typeName, "\\") : null;
+        return StringUtils.isNotBlank(typeName) ? StringUtils.stripStart(typeName, "\\") : null;
     }
 
     @Nullable
@@ -129,7 +129,7 @@ public class PhpElementsUtil {
             return null;
         }
 
-        if(!PhpCodeInsightUtil.getAliasesInScope(scopeForUseOperator).values().contains(fqnClasName)) {
+        if(!PhpCodeInsightUtil.getAliasesInScope(scopeForUseOperator).containsValue(fqnClasName)) {
             PhpAliasImporter.insertUseStatement(fqnClasName, scopeForUseOperator);
         }
 

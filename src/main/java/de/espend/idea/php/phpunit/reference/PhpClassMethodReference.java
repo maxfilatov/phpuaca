@@ -41,7 +41,7 @@ public class PhpClassMethodReference extends PsiPolyVariantReferenceBase<PsiElem
             }
         }
 
-        return resolveResults.toArray(new ResolveResult[resolveResults.size()]);
+        return resolveResults.toArray(new ResolveResult[0]);
     }
 
     @NotNull

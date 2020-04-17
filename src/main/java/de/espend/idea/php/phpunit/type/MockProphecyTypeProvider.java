@@ -19,17 +19,17 @@ public class MockProphecyTypeProvider implements PhpTypeProvider3 {
     public static final char CHAR = '元';
     public static char TRIM_KEY = '\u0192';
 
-    private static Collection<String> PHPUNIT_CLASSES = new HashSet<String>() {{
+    private static final Collection<String> PHPUNIT_CLASSES = new HashSet<>() {{
         add("\\PHPUnit\\Framework\\TestCase");
         add("\\PHPUnit_Framework_TestCase");
     }};
 
-    private static Collection<String> PROPHESIZE_CLASSES = new HashSet<String>(PHPUNIT_CLASSES) {{
+    private static final Collection<String> PROPHESIZE_CLASSES = new HashSet<>(PHPUNIT_CLASSES) {{
         add("\\Prophecy\\Prophet");
         add("\\Prophecy\\PhpUnit\\ProphecyTrait");
     }};
 
-    private static Map<String, Collection<String>> METHODS = new HashMap<String, Collection<String>>() {{
+    private static final Map<String, Collection<String>> METHODS = new HashMap<>() {{
         put("getMock", PHPUNIT_CLASSES);
         put("getMockClass", PHPUNIT_CLASSES);
         put("getMockForAbstractClass", PHPUNIT_CLASSES);
@@ -46,7 +46,7 @@ public class MockProphecyTypeProvider implements PhpTypeProvider3 {
     @Nullable
     @Override
     public PhpType getType(PsiElement psiElement) {
-        if(!(psiElement instanceof MethodReference) || !METHODS.keySet().contains(((MethodReference) psiElement).getName())) {
+        if(!(psiElement instanceof MethodReference) || !METHODS.containsKey(((MethodReference) psiElement).getName())) {
             return null;
         }
 
