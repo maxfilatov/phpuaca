@@ -1,23 +1,28 @@
-os: linux
+sudo: false
 language: java
-dist: trusty
 jdk:
-  - oraclejdk8
-  
-script: "./travis.sh"
+  - oraclejdk11
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -fr $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+  - rm -fr $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+
 cache:
   directories:
-    - .cache
-before_script:
- - sudo apt-get -qq update
- - sudo apt-get install ant-optional
- - chmod +x travis.sh
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
 
-env:
-  - PHPSTORM_ENV=2017.3.2 IDEA_ENV=2017.3.7
-  - PHPSTORM_ENV=eap      IDEA_ENV=eap
+matrix:
+  include:
+    - env: IDEA_VERSION="IU-2019.2" PHP_PLUGIN_VERSION="192.5728.108"
 
-jobs:
-  allow_failures:
-    - env: PHPSTORM_ENV=eap      IDEA_ENV=eap
-    
+before_install:
+  - "export ORG_GRADLE_PROJECT_ideaVersion=${IDEA_VERSION}"
+  - "export ORG_GRADLE_PROJECT_phpPluginVersion=${PHP_PLUGIN_VERSION}"
+  - java -version
+
+script:
+  - "./gradlew check"
+  - "./gradlew buildPlugin"
