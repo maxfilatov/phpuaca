@@ -168,12 +168,14 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
 
             List<String> collect = classes
                 .stream()
-                .map(s -> {
+                .map(type -> {
                     // PrimitiveType
-                    if(s.startsWith("\\")) {
-                        if(s.equalsIgnoreCase("\\int")) {
+                    if(PhpType.isPrimitiveType(type)) {
+                        String s1 = "\\" + StringUtils.stripStart(type, "\\");
+
+                        if(s1.equalsIgnoreCase("\\int")) {
                             return "-1";
-                        } else if(s.equalsIgnoreCase("\\bool") || s.equalsIgnoreCase("\\boolean")) {
+                        } else if(s1.equalsIgnoreCase("\\bool") || s1.equalsIgnoreCase("\\boolean")) {
                             return "true";
                         }
 
@@ -181,7 +183,7 @@ public class ConstructorMockIntention extends PsiElementBaseIntentionAction {
                         return "'?'";
                     }
 
-                    return String.format("$this->createMock(%s::class)", s);
+                    return String.format("$this->createMock(%s::class)", type);
                 })
                 .collect(Collectors.toList());
 
