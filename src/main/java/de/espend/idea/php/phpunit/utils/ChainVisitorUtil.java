@@ -98,17 +98,19 @@ public class ChainVisitorUtil {
             Method methodScope = PhpPsiUtil.getParentByCondition(fieldReference, Method.INSTANCEOF);
             if(methodScope != null) {
                 PhpClass phpClass = methodScope.getContainingClass();
-                if(phpClass != null/* && PhpUnitPluginUtil.isTestClassWithoutIndexAccess(phpClass) */) {
-                    Method method = phpClass.findOwnMethodByName("setUp");
+                if(phpClass != null) {
+                    for (String setupMethod : new String[]{"setUp", "setUpBeforeTest"}) {
+                        Method method = phpClass.findOwnMethodByName(setupMethod);
 
-                    // "setUp" is our "constructor" for test classes
-                    if(method != null) {
-                        for (AssignmentExpression assignmentExpression : PsiTreeUtil.collectElementsOfType(method, AssignmentExpression.class)) {
-                            PhpPsiElement variable = assignmentExpression.getVariable();
+                        // "setUp" is our "constructor" for test classes
+                        if(method != null) {
+                            for (AssignmentExpression assignmentExpression : PsiTreeUtil.collectElementsOfType(method, AssignmentExpression.class)) {
+                                PhpPsiElement variable = assignmentExpression.getVariable();
 
-                            // remember or field name and attach is for a later resolve
-                            if(variable instanceof FieldReference && name.equals(variable.getName())) {
-                                return assignmentExpression.getValue();
+                                // remember or field name and attach is for a later resolve
+                                if(variable instanceof FieldReference && name.equals(variable.getName())) {
+                                    return assignmentExpression.getValue();
+                                }
                             }
                         }
                     }
