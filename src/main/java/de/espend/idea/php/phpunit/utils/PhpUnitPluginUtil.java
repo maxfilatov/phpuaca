@@ -25,19 +25,16 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
 public class PhpUnitPluginUtil {
-    private static final Stream<String> EXTENDS_TEST_CLASSES = Arrays.stream(new String[]{
+    private static final String[] EXTENDS_TEST_CLASSES = new String[]{
         "\\PHPUnit\\Framework\\TestCase",
         "\\PHPUnit_Framework_TestCase",
         "\\Symfony\\Bundle\\FrameworkBundle\\Test\\WebTestCase",
         "\\Behat\\Behat\\Context\\BehatContext"
-    });
+    };
 
     /**
      * Run tests for given element
@@ -71,18 +68,18 @@ public class PhpUnitPluginUtil {
 
         // find "extends" classes
         String superFQN = "\\" + StringUtils.stripStart(phpClass.getSuperFQN(), "\\");
-        boolean isExtendsMatch = EXTENDS_TEST_CLASSES.anyMatch(s -> s.equalsIgnoreCase(superFQN));
-        if (isExtendsMatch) {
-            return true;
+
+        for (String extendsTestClass : EXTENDS_TEST_CLASSES) {
+            if (extendsTestClass.equalsIgnoreCase(superFQN)) {
+                return true;
+            }
         }
 
-        // find via implementations
-        boolean isInterfaceMatch = Arrays.stream(phpClass.getInterfaceNames())
-            .map(s -> "\\" + StringUtils.stripStart(s, "\\")) // normalize it
-            .anyMatch(s -> s.equalsIgnoreCase("\\Behat\\Behat\\Context\\Context"));
-
-        if (isInterfaceMatch) {
-            return true;
+        for (String interfaceName : phpClass.getInterfaceNames()) {
+            String interfaceName2 = "\\" + StringUtils.stripStart(interfaceName, "\\");
+            if (interfaceName2.equalsIgnoreCase("\\Behat\\Behat\\Context\\Context")) {
+                return true;
+            }
         }
 
         // find somehow inside a project test folder
