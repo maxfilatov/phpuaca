@@ -1,5 +1,6 @@
-sudo: false
+os: linux
 language: java
+dist: trusty
 jdk:
   - oraclejdk8
   
@@ -13,9 +14,10 @@ before_script:
  - chmod +x travis.sh
 
 env:
-  - PHPSTORM_ENV=2017.3.2
-  - PHPSTORM_ENV=eap
+  - PHPSTORM_ENV=2017.3.2 IDEA_ENV=2017.3.7
+  - PHPSTORM_ENV=eap      IDEA_ENV=eap
 
-matrix:
+jobs:
   allow_failures:
-    - env: PHPSTORM_ENV=eap
+    - env: PHPSTORM_ENV=eap      IDEA_ENV=eap
+    
