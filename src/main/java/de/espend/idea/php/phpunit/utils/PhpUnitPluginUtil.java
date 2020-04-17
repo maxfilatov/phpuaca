@@ -76,8 +76,8 @@ public class PhpUnitPluginUtil {
         }
 
         for (String interfaceName : phpClass.getInterfaceNames()) {
-            String interfaceName2 = "\\" + StringUtils.stripStart(interfaceName, "\\");
-            if (interfaceName2.equalsIgnoreCase("\\Behat\\Behat\\Context\\Context")) {
+            String interfaceNameNormalized = "\\" + StringUtils.stripStart(interfaceName, "\\");
+            if (interfaceNameNormalized.equalsIgnoreCase("\\Behat\\Behat\\Context\\Context")) {
                 return true;
             }
         }
@@ -87,7 +87,16 @@ public class PhpUnitPluginUtil {
         for (VirtualFile contentRoot : ProjectRootManager.getInstance(phpClass.getProject()).getContentRoots()) {
             String relativePath = VfsUtil.getRelativePath(containingFile1, contentRoot, '/');
 
-            if (relativePath != null && (relativePath.toLowerCase().contains("/test/") || relativePath.toLowerCase().contains("/tests/"))) {
+            if (relativePath == null) {
+                continue;
+            }
+
+            // PhpUnit and Behat folder structure
+            if (relativePath.toLowerCase().contains("/test/") ||
+                relativePath.toLowerCase().contains("/tests/")  ||
+                relativePath.toLowerCase().contains("/feature/")  ||
+                relativePath.toLowerCase().contains("/features/")
+            ) {
                 return true;
             }
         }
