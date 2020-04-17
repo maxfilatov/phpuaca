@@ -1,6 +1,5 @@
 package com.phpuaca.helper;
 
-import com.intellij.openapi.project.DumbService;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.jetbrains.php.lang.psi.elements.ArrayCreationExpression;

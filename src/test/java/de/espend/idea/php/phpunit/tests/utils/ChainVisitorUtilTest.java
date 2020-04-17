@@ -10,8 +10,6 @@ import de.espend.idea.php.phpunit.utils.processor.CreateMockMethodReferenceProce
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  * @see de.espend.idea.php.phpunit.utils.ChainVisitorUtil

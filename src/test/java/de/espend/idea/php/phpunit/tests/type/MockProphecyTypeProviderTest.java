@@ -6,8 +6,6 @@ import com.jetbrains.php.lang.psi.elements.Method;
 import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
 import de.espend.idea.php.phpunit.type.MockProphecyTypeProvider;
 
-import java.io.File;
-
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  * @see MockProphecyTypeProvider

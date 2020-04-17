@@ -5,8 +5,6 @@ import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.psi.elements.Method;
 import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
 
-import java.io.File;
-
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  * @see de.espend.idea.php.phpunit.type.RevealProphecyTypeProvider

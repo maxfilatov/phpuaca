@@ -1,6 +1,5 @@
 package de.espend.idea.php.phpunit.tests.utils;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.psi.PsiDocumentManager;

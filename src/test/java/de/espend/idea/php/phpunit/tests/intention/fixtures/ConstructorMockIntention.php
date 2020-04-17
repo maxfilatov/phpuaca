@@ -12,6 +12,7 @@ namespace Bar
 
 namespace Foo
 {
+
     use Bar\Car;
     use Bar\Foo;
 

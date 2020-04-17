@@ -6,8 +6,6 @@ import com.jetbrains.php.lang.psi.elements.MethodReference;
 import de.espend.idea.php.phpunit.intention.AddMockMethodIntention;
 import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
 
-import java.io.File;
-
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  * @see de.espend.idea.php.phpunit.intention.AddMockMethodIntention

@@ -3,8 +3,6 @@ package de.espend.idea.php.phpunit.tests.intention;
 import com.jetbrains.php.lang.PhpFileType;
 import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
 
-import java.io.File;
-
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  * @see de.espend.idea.php.phpunit.intention.TestRunIntentionAction

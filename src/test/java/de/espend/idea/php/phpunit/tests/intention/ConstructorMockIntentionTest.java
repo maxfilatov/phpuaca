@@ -5,8 +5,6 @@ import com.jetbrains.php.lang.PhpFileType;
 import de.espend.idea.php.phpunit.intention.ConstructorMockIntention;
 import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
 
-import java.io.File;
-
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  *
