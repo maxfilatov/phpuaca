@@ -6,6 +6,9 @@ import com.intellij.execution.actions.ConfigurationFromContext;
 import com.intellij.execution.actions.RunConfigurationProducer;
 import com.intellij.execution.executors.DefaultDebugExecutor;
 import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.codeStyle.CodeStyleManager;
@@ -22,10 +25,20 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
 public class PhpUnitPluginUtil {
+    private static final Stream<String> EXTENDS_TEST_CLASSES = Arrays.stream(new String[]{
+        "\\PHPUnit\\Framework\\TestCase",
+        "\\PHPUnit_Framework_TestCase",
+        "\\Symfony\\Bundle\\FrameworkBundle\\Test\\WebTestCase",
+        "\\Behat\\Behat\\Context\\BehatContext"
+    });
+
     /**
      * Run tests for given element
      *
@@ -51,17 +64,38 @@ public class PhpUnitPluginUtil {
      * FooTest or on extends eg PHPUnit\Framework\TestCase
      */
     public static boolean isTestClassWithoutIndexAccess(@NotNull PhpClass phpClass) {
-        if(phpClass.getName().endsWith("Test")) {
+        String name = phpClass.getName();
+        if (name.endsWith("Test") || name.endsWith("Context")) {
+           return true;
+        }
+
+        // find "extends" classes
+        String superFQN = "\\" + StringUtils.stripStart(phpClass.getSuperFQN(), "\\");
+        boolean isExtendsMatch = EXTENDS_TEST_CLASSES.anyMatch(s -> s.equalsIgnoreCase(superFQN));
+        if (isExtendsMatch) {
             return true;
         }
 
-        String superFQN = StringUtils.stripStart(phpClass.getSuperFQN(), "\\");
+        // find via implementations
+        boolean isInterfaceMatch = Arrays.stream(phpClass.getInterfaceNames())
+            .map(s -> "\\" + StringUtils.stripStart(s, "\\")) // normalize it
+            .anyMatch(s -> s.equalsIgnoreCase("\\Behat\\Behat\\Context\\Context"));
 
-        return
-            "PHPUnit\\Framework\\TestCase".equalsIgnoreCase(superFQN) ||
-            "PHPUnit_Framework_TestCase".equalsIgnoreCase(superFQN) ||
-            "Symfony\\Bundle\\FrameworkBundle\\Test\\WebTestCase".equalsIgnoreCase(superFQN)
-        ;
+        if (isInterfaceMatch) {
+            return true;
+        }
+
+        // find somehow inside a project test folder
+        VirtualFile containingFile1 = phpClass.getContainingFile().getVirtualFile();
+        for (VirtualFile contentRoot : ProjectRootManager.getInstance(phpClass.getProject()).getContentRoots()) {
+            String relativePath = VfsUtil.getRelativePath(containingFile1, contentRoot, '/');
+
+            if (relativePath != null && (relativePath.toLowerCase().contains("/test/") || relativePath.toLowerCase().contains("/tests/"))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

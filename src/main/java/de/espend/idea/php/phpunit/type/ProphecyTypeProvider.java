@@ -9,6 +9,7 @@ import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider3;
 import de.espend.idea.php.phpunit.type.utils.PhpTypeProviderUtil;
 import de.espend.idea.php.phpunit.type.utils.ProphecyTypeUtil;
+import de.espend.idea.php.phpunit.utils.PhpUnitPluginUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -36,7 +37,7 @@ public class ProphecyTypeProvider implements PhpTypeProvider3 {
                 PhpClass containingClass = method.getContainingClass();
 
                 // filter phpunit test methods
-                if(containingClass != null && containingClass.getName().endsWith("Test")) {
+                if(containingClass != null && PhpUnitPluginUtil.isTestClassWithoutIndexAccess(containingClass)) {
                     String prophesize = ProphecyTypeUtil.getLocalProphesizeType((MethodReference) element);
                     if(prophesize != null) {
                         return new PhpType().add("#" + this.getKey() + prophesize + TRIM_KEY + ((MethodReference) element).getName());
