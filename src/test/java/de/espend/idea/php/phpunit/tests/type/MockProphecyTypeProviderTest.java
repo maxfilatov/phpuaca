@@ -55,4 +55,13 @@ public class MockProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixture
             PlatformPatterns.psiElement(Method.class).withName("bar")
         );
     }
+
+    public void testResolveForProphecyMockWithStringClassWithTrait() {
+        assertPhpReferenceResolveTo(PhpFileType.INSTANCE,
+            "<?php" +
+                "/** @var $t \\Prophecy\\PhpUnit\\ProphecyTrait */\n" +
+                "$t->prophesize('Foo')->b<caret>ar();",
+            PlatformPatterns.psiElement(Method.class).withName("bar")
+        );
+    }
 }

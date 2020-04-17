@@ -26,6 +26,7 @@ public class MockProphecyTypeProvider implements PhpTypeProvider3 {
 
     private static Collection<String> PROPHESIZE_CLASSES = new HashSet<String>(PHPUNIT_CLASSES) {{
         add("\\Prophecy\\Prophet");
+        add("\\Prophecy\\PhpUnit\\ProphecyTrait");
     }};
 
     private static Map<String, Collection<String>> METHODS = new HashMap<String, Collection<String>>() {{

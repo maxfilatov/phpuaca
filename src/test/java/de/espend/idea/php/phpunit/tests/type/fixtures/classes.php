@@ -16,3 +16,13 @@ namespace
         public function bar() {}
     }
 }
+
+namespace Prophecy\PhpUnit
+{
+    trait ProphecyTrait
+    {
+        protected function prophesize(?string $classOrInterface = null): ObjectProphecy
+        {
+        }
+    }
+}
