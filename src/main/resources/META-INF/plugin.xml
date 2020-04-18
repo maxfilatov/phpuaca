@@ -5,14 +5,14 @@
     <vendor email="daniel@espendiller.net" url="http://espend.de">espend_de</vendor>
 
     <description><![CDATA[
+    <p>Provide smart autocomplete, code navigation and refactoring features for mocked class methods of PhpUnit and Prophecy.</p>
+
+    <br/>
 
     <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin">GitHub</a> | <a href="https://www.paypal.me/DanielEspendiller">Donate</a>
 
-    <p>Fork of <a href="https://github.com/maxfilatov/phpuaca/">PHPUnit Autocomplete Assistant</a></p>
-
-    <p>PhpStorm plugin to provide smart autocomplete, code navigation and refactoring features for mocked class methods.</p>
     <p><h2>Feature list</h2></p>
-    <ul style="margin-bottom: 8px;">
+    <ul>
         <li>
             <p>method autocomplete for class, abstract class and trait mock objects;</p>
             <ul>
@@ -32,16 +32,9 @@
         <li>highlighting of incorrect method usages;</li>
         <li>Prophecy support.</li>
     </ul>
+
+    <p>Fork of <a href="https://github.com/maxfilatov/phpuaca/">PHPUnit Autocomplete Assistant</a></p>
   ]]></description>
-
-    <change-notes><![CDATA[
-    <ul>
-        <li>Fix performance issue: migrate test linemarker runner to leaf elements</li>
-    </ul>
-
-    <a href="https://github.com/Haehnchen/idea-php-phpunit-plugin/blob/master/CHANGELOG.md">see full changelog</a> | <a href="https://www.paypal.me/DanielEspendiller">Donate</a>
-  ]]>
-    </change-notes>
 
     <idea-version since-build="173.2290"/>
 
