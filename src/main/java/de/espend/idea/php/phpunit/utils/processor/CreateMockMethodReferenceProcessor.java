@@ -8,6 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
+ * Try to find a "createMock" method inside a call chain
+ *
+ *  - $this->createMock(...)->expects()->method('foobar')
+ *  - $this->foo->expects()->method('foobar') // via eg "setup" method
+ *
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
 public class CreateMockMethodReferenceProcessor implements ChainVisitorUtil.ChainProcessorInterface {
@@ -29,11 +34,14 @@ public class CreateMockMethodReferenceProcessor implements ChainVisitorUtil.Chai
             return false;
         }
 
-        return
-            PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit_Framework_MockObject_MockObject") ||
-            PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit_Framework_MockObject_Builder_InvocationMocker") ||
-            PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit\\Framework\\MockObject\\MockObject", "method") ||
-            PhpElementsUtil.isMethodReferenceInstanceOf(methodReference, "PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker", "method");
+        // allowed chain of classes types
+        return PhpElementsUtil.isMethodReferenceInstanceOf(
+            methodReference,
+            "PHPUnit_Framework_MockObject_MockObject",
+            "PHPUnit_Framework_MockObject_Builder_InvocationMocker",
+            "PHPUnit\\Framework\\MockObject\\MockObject",
+            "PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker"
+        );
     }
 
     @Nullable

@@ -84,7 +84,7 @@ public class PhpElementsUtil {
     /**
      * Resolves MethodReference and compare containing class against implementations instances
      */
-    public static boolean isMethodReferenceInstanceOf(@NotNull MethodReference methodReference, @NotNull String expectedClassName) {
+    public static boolean isMethodReferenceInstanceOf(@NotNull MethodReference methodReference, @NotNull String ...expectedClassNameAsOr) {
         for (ResolveResult resolveResult : methodReference.multiResolve(false)) {
             PsiElement resolve = resolveResult.getElement();
 
@@ -97,11 +97,11 @@ public class PhpElementsUtil {
                 continue;
             }
 
-            if(!PhpElementsUtil.isInstanceOf(containingClass, expectedClassName)) {
-                continue;
+            for (String expectedClassName : expectedClassNameAsOr) {
+                if (PhpElementsUtil.isInstanceOf(containingClass, expectedClassName)) {
+                    return true;
+                }
             }
-
-            return true;
         }
 
         return false;
