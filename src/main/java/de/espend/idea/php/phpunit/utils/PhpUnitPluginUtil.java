@@ -11,6 +11,7 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.documentation.phpdoc.lexer.PhpDocTokenTypes;
@@ -83,9 +84,18 @@ public class PhpUnitPluginUtil {
         }
 
         // find somehow inside a project test folder
-        VirtualFile containingFile1 = phpClass.getContainingFile().getVirtualFile();
+        PsiFile containingFile = phpClass.getContainingFile();
+        if (containingFile == null) {
+            return false;
+        }
+
+        VirtualFile virtualFile = containingFile.getVirtualFile();
+        if (virtualFile == null) {
+            return false;
+        }
+
         for (VirtualFile contentRoot : ProjectRootManager.getInstance(phpClass.getProject()).getContentRoots()) {
-            String relativePath = VfsUtil.getRelativePath(containingFile1, contentRoot, '/');
+            String relativePath = VfsUtil.getRelativePath(virtualFile, contentRoot, '/');
 
             if (relativePath == null) {
                 continue;
