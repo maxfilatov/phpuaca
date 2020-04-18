@@ -127,7 +127,8 @@ public class PhpUnitPluginUtil {
                 PhpElementsUtil.isMethodReferenceInstanceOf((MethodReference) methodReference, "PHPUnit_Framework_MockObject_MockObject", "method") ||
                 PhpElementsUtil.isMethodReferenceInstanceOf((MethodReference) methodReference, "PHPUnit_Framework_MockObject_Builder_InvocationMocker", "method") ||
                 PhpElementsUtil.isMethodReferenceInstanceOf((MethodReference) methodReference, "PHPUnit\\Framework\\MockObject\\MockObject", "method") ||
-                PhpElementsUtil.isMethodReferenceInstanceOf((MethodReference) methodReference, "PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker", "method")
+                PhpElementsUtil.isMethodReferenceInstanceOf((MethodReference) methodReference, "PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker", "method") ||
+                PhpElementsUtil.isMethodReferenceInstanceOf((MethodReference) methodReference, "PHPUnit\\Framework\\MockObject\\Stub", "method")
                 ))
             {
                 return CreateMockMethodReferenceProcessor.createParameter((MethodReference) methodReference);
