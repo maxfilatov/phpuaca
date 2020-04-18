@@ -1,9 +1,26 @@
 # Changelog
 
 ## Versions
-* 3.x: PhpStorm 2017.3+
-* 2.x: PhpStorm 2017.1+
+* 4.x: PhpStorm 2020.1+
+* 3.x: PhpStorm 2017.3+ (no support)
+* 2.x: PhpStorm 2017.1+ (no support)
 * 1.x: PhpStorm 2016.1+ (no support)
+
+## 4.0
+* Allow all PhpUnit mock instance in chaining for finding createMock [#39](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/39) (Daniel Espendiller)
+* Provide support for "PHPUnit\\Framework\\MockObject\\Stub::method" [#42](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/42) [#39](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/39) (Daniel Espendiller)
+* Dropping feature support for build < 2020.1; api is still valid so by now no build-since highering needed (Daniel Espendiller)
+* Support also Behat tests file structure (Daniel Espendiller)
+* Fix isPrimitiveType checking for constructor creation intention (Daniel Espendiller)
+* Remove deprecated code (Daniel Espendiller)
+* Remove runner linemarker in favor of already provide by PhpStorm (Daniel Espendiller)
+* Add plugin icon (Daniel Espendiller)
+* Allow "setUpBeforeTest" to be a valid "setUp" method for checking property types #35 (Daniel Espendiller)
+* Allow some more use cases for checking test context eg for Behat [#37](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/37) (Daniel Espendiller)
+* Add support for phpspec/prophecy-phpunit where "prophesize" method is provided as a trait [#46](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/46) (Daniel Espendiller)
+* Move to gradle build (Daniel Espendiller)
+* Fix for build on travis ([#45](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/45)) (Roman Tymoshyk)
+* Add missing namespaces PhpUnit mock instances (Daniel Espendiller)
 
 ## 3.8
 * Fix performance issue: migrate test linemarker runner to leaf elements

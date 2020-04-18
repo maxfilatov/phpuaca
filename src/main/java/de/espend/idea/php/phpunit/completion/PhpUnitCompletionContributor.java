@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class PhpUnitCompletionContributor extends CompletionContributor {
     public PhpUnitCompletionContributor() {
-        extend(CompletionType.BASIC, PatternUtil.getMethodReferenceWithParameterInsideTokenStringPattern(), new CompletionProvider<>() {
+        extend(CompletionType.BASIC, PatternUtil.getMethodReferenceWithParameterInsideTokenStringPattern(), new CompletionProvider<CompletionParameters>() {
             @Override
             protected void addCompletions(@NotNull CompletionParameters completionParameters, @NotNull ProcessingContext processingContext, @NotNull CompletionResultSet resultSet) {
                 PsiElement psiElement = completionParameters.getPosition();
