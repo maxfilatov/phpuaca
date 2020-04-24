@@ -24,11 +24,12 @@ import java.util.Set;
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
 public class ProphecyTypeProvider implements PhpTypeProvider3 {
-    private static final char TRIM_KEY = '\u1536';
+    public static final char TRIM_KEY = '\u1536';
+    public static final char TYPE_KEY = '\u1530';
 
     @Override
     public char getKey() {
-        return '\u1530';
+        return TYPE_KEY;
     }
 
     @Nullable

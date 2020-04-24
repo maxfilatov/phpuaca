@@ -10,7 +10,10 @@ import com.intellij.patterns.ElementPattern;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.PhpReference;
+import com.jetbrains.php.lang.psi.elements.PhpTypedElement;
+import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -150,6 +153,24 @@ public abstract class PhpUnitLightCodeInsightFixtureTestCase extends LightCodeIn
         }
 
         fail(String.format("Failed pattern matches element of '%d' elements", parent.getReferences().length));
+    }
+
+    public void assertMethodContainsTypes(@NotNull LanguageFileType languageFileType, @NotNull String configureByText, @NotNull String... types) {
+        myFixture.configureByText(languageFileType, configureByText);
+        PsiElement psiElement = myFixture.getFile().findElementAt(myFixture.getCaretOffset());
+
+        psiElement = PsiTreeUtil.getParentOfType(psiElement, PhpTypedElement.class);
+        if (psiElement == null) {
+            fail("Element is not a PhpTypedElement.");
+        }
+
+        PhpType phpType = PhpIndex.getInstance(psiElement.getProject()).completeType(
+            psiElement.getProject(),
+            ((PhpTypedElement) psiElement).getType(),
+            new HashSet<>()
+        );
+
+        assertContainsElements(phpType.getTypes(), types);
     }
 
     @NotNull
