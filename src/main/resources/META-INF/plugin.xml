@@ -47,6 +47,8 @@
         <typeProvider3 implementation="de.espend.idea.php.phpunit.type.RevealProphecyTypeProvider"/>
         <typeProvider3 implementation="de.espend.idea.php.phpunit.type.GetMockTypeProvider"/>
         <typeProvider3 implementation="de.espend.idea.php.phpunit.type.SetUpTypeProvider"/>
+
+        <libraryRoot id="doctrine_meta" path="/phpstorm-meta/" runtime="false"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
