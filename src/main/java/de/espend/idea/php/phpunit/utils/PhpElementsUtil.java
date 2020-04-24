@@ -108,6 +108,46 @@ public class PhpElementsUtil {
     }
 
     /**
+     * Try to match the class instance of the method references without calling any phpindex to be usable in index process
+     *
+     * Note: only local file is taken so only direct instances are detected
+     */
+    public static boolean isLocalResolveMethodReferenceInstanceOf(@NotNull MethodReference methodReference, @NotNull String ...expectedClassNameAsOr) {
+        PhpExpression classReference = methodReference.getClassReference();
+        if (classReference != null) {
+            for (String type : classReference.getType().getTypes()) {
+                // check the class name based on the type; also normalize any slashes
+                String typeFqn = "\\" + StringUtils.stripStart(type, "\\");
+                for (String expected : expectedClassNameAsOr) {
+                    String expectedFqn = "\\" + StringUtils.stripStart(expected, "\\");
+                    if (expectedFqn.equalsIgnoreCase(typeFqn)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get the position of the given element to its parent ParameterList
+     */
+    @Nullable
+    public static Integer getParameterIndex(@NotNull ParameterList parameterList, @NotNull PsiElement parameter) {
+        PsiElement[] parameters = parameterList.getParameters();
+
+        int i;
+        for(i = 0; i < parameters.length; i = i + 1) {
+            if(parameters[i].equals(parameter)) {
+                return i;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Resolves MethodReference and compare containing class against implementations instances
      */
     public static boolean isMethodReferenceInstanceOf(@NotNull MethodReference methodReference, @NotNull String expectedClassName, @NotNull String methodName) {
