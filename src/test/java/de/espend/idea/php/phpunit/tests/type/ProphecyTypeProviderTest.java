@@ -33,6 +33,22 @@ public class ProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixtureTest
         );
     }
 
+    public void testThatProphesizeForVariableIsResolvedForClosure() {
+        assertPhpReferenceResolveTo(PhpFileType.INSTANCE, "<?php\n" +
+                "class FooTest extends \\PHPUnit\\Framework\\TestCase\n" +
+                "    {\n" +
+                "        public function testFoobar()\n" +
+                "        {\n" +
+                "            $foo = $this->prophesize(Foo::class);\n" +
+                "            $closure = function() use ($class) {\n" +
+                "               $foo->getBar()->will<caret>Return();\n" +
+                "            };" +
+                "        }\n" +
+                "    }",
+            PlatformPatterns.psiElement(Method.class).withName("willReturn")
+        );
+    }
+
     public void testThatProphesizeForVariableInPropertyIsResolved() {
         assertPhpReferenceResolveTo(PhpFileType.INSTANCE, "<?php\n" +
                 "class FooTest extends \\PHPUnit\\Framework\\TestCase\n" +
