@@ -58,11 +58,18 @@ public class ChainVisitorUtil {
         }
     }
 
+    /**
+     * Find variables inside a function scope, ignoring closures
+     */
     @NotNull
     private static Collection<PhpPsiElement> resolveVariable(@NotNull Variable variable) {
         String name = variable.getName();
 
-        Function methodScope = PhpPsiUtil.getParentByCondition(variable, Function.INSTANCEOF);
+        Function methodScope = PhpPsiUtil.getParentByCondition(
+            variable,
+            psiElement -> psiElement instanceof Function && !((Function) psiElement).isClosure()
+        );
+
         if(methodScope == null) {
             return Collections.emptyList();
         }
