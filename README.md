@@ -13,6 +13,7 @@ Key         | Value
 Plugin Url  | https://plugins.jetbrains.com/plugin/9674
 ID          | de.espend.idea.php.phpunit
 Changelog   | [CHANGELOG](CHANGELOG.md)
+Build and Deployment | [MAINTENANCE](MAINTENANCE.md)
 Origin Fork | [maxfilatov/phpuaca](https://github.com/maxfilatov/phpuaca/)
 
 ## Installation
