@@ -1,10 +1,15 @@
 package de.espend.idea.php.phpunit.utils;
 
+import com.intellij.patterns.PlatformPatterns;
+import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.ResolveResult;
 import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.codeInsight.PhpCodeInsightUtil;
+import com.jetbrains.php.lang.PhpLanguage;
+import com.jetbrains.php.lang.lexer.PhpTokenTypes;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.refactoring.PhpAliasImporter;
@@ -180,5 +185,19 @@ public class PhpElementsUtil {
         }
 
         return null;
+    }
+
+    /**
+     * class "Foo" extends
+     */
+    static public PsiElementPattern.Capture<PsiElement> getClassNamePattern() {
+        return PlatformPatterns
+            .psiElement(PhpTokenTypes.IDENTIFIER)
+            .afterLeafSkipping(
+                PlatformPatterns.psiElement(PsiWhiteSpace.class),
+                PlatformPatterns.psiElement(PhpTokenTypes.kwCLASS)
+            )
+            .withParent(PhpClass.class)
+            .withLanguage(PhpLanguage.INSTANCE);
     }
 }
