@@ -6,6 +6,12 @@
 * 2.x: PhpStorm 2017.1+ (no support)
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 4.1
+* Provide a line marker to navigate to a related test classes, based on the naming [#16](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/16) (Daniel Espendiller)
+* Supporting type resolving in closures [#38](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/38) (Daniel Espendiller)
+* Support Argument::any (Prophecy\\Argument\\Token\\TokenInterface) type resolving based on prophecy class context [#12](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/12) [#29](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/29) (Daniel Espendiller)
+* Provide type resolving for \\Prophecy\\Argument::type argument [#29](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/29) (Daniel Espendiller)
+
 ## 4.0
 * Allow all PhpUnit mock instance in chaining for finding createMock [#39](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/39) (Daniel Espendiller)
 * Provide support for "PHPUnit\\Framework\\MockObject\\Stub::method" [#42](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/42) [#39](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/39) (Daniel Espendiller)
