@@ -1,7 +1,8 @@
+dist: bionic
 sudo: false
 language: java
 jdk:
-  - oraclejdk12
+  - openjdk11
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
