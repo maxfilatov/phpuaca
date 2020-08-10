@@ -17,7 +17,7 @@ cache:
 
 matrix:
   include:
-    - env: IDEA_VERSION="IU-2020.1" PHP_PLUGIN_VERSION="201.6668.153"
+    - env: IDEA_VERSION="IU-2020.2" PHP_PLUGIN_VERSION="202.6397.115"
 
 before_install:
   - "export ORG_GRADLE_PROJECT_ideaVersion=${IDEA_VERSION}"
