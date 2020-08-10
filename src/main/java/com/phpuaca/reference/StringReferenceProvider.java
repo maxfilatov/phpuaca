@@ -13,7 +13,7 @@ public class StringReferenceProvider extends PsiReferenceProvider {
     @Override
     public PsiReference[] getReferencesByElement(@NotNull PsiElement psiElement, @NotNull ProcessingContext processingContext) {
         AvailabilityHelper availabilityHelper = new AvailabilityHelper();
-        if (availabilityHelper.checkFile(psiElement.getContainingFile()) && availabilityHelper.checkScope(psiElement)) {
+        if (availabilityHelper.checkScope(psiElement)) {
             StringReference reference = new StringReference(psiElement);
             return new PsiReference[]{reference};
         }

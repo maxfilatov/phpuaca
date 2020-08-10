@@ -17,6 +17,10 @@ public class AvailabilityHelper {
     }
 
     public boolean checkScope(@Nullable PsiElement psiElement) {
+        if (psiElement == null) {
+            return false;
+        }
+
         if (!(psiElement instanceof StringLiteralExpression)) {
             return false;
         }
@@ -28,13 +32,11 @@ public class AvailabilityHelper {
         }
 
         // $this->method(array('cursor'));
-        if (stringLiteralExpressionContext instanceof PhpPsiElement && stringLiteralExpressionContext.toString().equals("Array value")) {
-            PsiElement arrayValueContext = stringLiteralExpressionContext.getContext();
-            if (arrayValueContext instanceof ArrayCreationExpression && arrayValueContext.getContext() instanceof ParameterList) {
-                return true;
-            }
+        if (!(stringLiteralExpressionContext instanceof PhpPsiElement)) {
+            return false;
         }
 
-        return false;
+        PsiElement arrayValueContext = stringLiteralExpressionContext.getContext();
+        return arrayValueContext instanceof ArrayCreationExpression && arrayValueContext.getContext() instanceof ParameterList;
     }
 }
