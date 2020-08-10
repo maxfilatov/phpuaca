@@ -1,8 +1,8 @@
 <idea-plugin url="https://github.com/Haehnchen/idea-php-phpunit-plugin">
     <id>de.espend.idea.php.phpunit</id>
     <name>PHPUnit Enhancement</name>
-    <version>4.1</version>
-    <vendor email="daniel@espendiller.net" url="http://espend.de">espend_de</vendor>
+    <version>5.0</version>
+    <vendor email="daniel@espendiller.net" url="http://espend.de?p=de.espend.idea.php.phpunit">espend_de</vendor>
 
     <description><![CDATA[
     <p>Provide smart autocomplete, code navigation and refactoring features for mocked class methods of PhpUnit and Prophecy.</p>
