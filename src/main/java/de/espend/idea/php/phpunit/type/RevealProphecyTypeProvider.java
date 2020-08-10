@@ -9,7 +9,7 @@ import com.jetbrains.php.lang.psi.elements.MethodReference;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import com.jetbrains.php.lang.psi.elements.PhpNamedElement;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
-import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider3;
+import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider4;
 import de.espend.idea.php.phpunit.type.utils.PhpTypeProviderUtil;
 import de.espend.idea.php.phpunit.type.utils.ProphecyTypeUtil;
 import de.espend.idea.php.phpunit.utils.PhpUnitPluginUtil;
@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
-public class RevealProphecyTypeProvider implements PhpTypeProvider3 {
+public class RevealProphecyTypeProvider implements PhpTypeProvider4 {
     @Override
     public char getKey() {
         return '\u1537';
@@ -49,6 +49,12 @@ public class RevealProphecyTypeProvider implements PhpTypeProvider3 {
             }
         }
 
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public PhpType complete(String s, Project project) {
         return null;
     }
 
