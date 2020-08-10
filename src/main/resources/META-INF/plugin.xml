@@ -42,11 +42,11 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.jetbrains.php">
-        <typeProvider3 implementation="de.espend.idea.php.phpunit.type.MockProphecyTypeProvider"/>
-        <typeProvider3 implementation="de.espend.idea.php.phpunit.type.ProphecyTypeProvider"/>
-        <typeProvider3 implementation="de.espend.idea.php.phpunit.type.RevealProphecyTypeProvider"/>
-        <typeProvider3 implementation="de.espend.idea.php.phpunit.type.GetMockTypeProvider"/>
-        <typeProvider3 implementation="de.espend.idea.php.phpunit.type.SetUpTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.MockProphecyTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.ProphecyTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.RevealProphecyTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.GetMockTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.SetUpTypeProvider"/>
 
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.ProphecyArgumentTypeProvider"/>
 

@@ -7,7 +7,7 @@ import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.PhpPsiUtil;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
-import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider3;
+import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider4;
 import de.espend.idea.php.phpunit.utils.PhpUnitPluginUtil;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +23,7 @@ import java.util.Set;
  *
  * @author Daniel Espendiller <daniel@espendiller.net>
  */
-public class SetUpTypeProvider implements PhpTypeProvider3 {
+public class SetUpTypeProvider implements PhpTypeProvider4 {
 
     private static final char TRIM_KEY = '\u1212';
 
@@ -64,6 +64,12 @@ public class SetUpTypeProvider implements PhpTypeProvider3 {
             }
         }
 
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public PhpType complete(String s, Project project) {
         return null;
     }
 
