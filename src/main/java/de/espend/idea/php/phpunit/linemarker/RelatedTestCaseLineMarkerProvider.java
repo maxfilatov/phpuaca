@@ -2,6 +2,7 @@ package de.espend.idea.php.phpunit.linemarker;
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.LineMarkerProvider;
+import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.PhpIcons;
@@ -28,7 +29,7 @@ public class RelatedTestCaseLineMarkerProvider implements LineMarkerProvider {
     }
 
     @Override
-    public void collectSlowLineMarkers(@NotNull List<PsiElement> psiElements, @NotNull Collection<LineMarkerInfo> result) {
+    public void collectSlowLineMarkers(@NotNull List<? extends PsiElement> psiElements, @NotNull Collection<? super LineMarkerInfo<?>> result) {
         // we need project element; so get it from first item
         if(psiElements.size() == 0) {
             return;
@@ -36,22 +37,22 @@ public class RelatedTestCaseLineMarkerProvider implements LineMarkerProvider {
 
         for(PsiElement psiElement: psiElements) {
             if (PhpElementsUtil.getClassNamePattern().accepts(psiElement)) {
-                result.addAll(visitClassName(psiElement));
+                visitClassName(psiElement, result);
             }
         }
     }
 
-    private Collection<LineMarkerInfo> visitClassName(@NotNull PsiElement psiElement) {
+    private void visitClassName(@NotNull PsiElement psiElement, Collection<? super LineMarkerInfo<?>> results) {
         PsiElement phpClass = psiElement.getContext();
         if (!(phpClass instanceof PhpClass) || PhpUnitUtil.isTestClass((PhpClass) phpClass)) {
-            return Collections.emptyList();
+            return;
         }
 
         String className = StringUtils.stripStart(((PhpClass) phpClass).getPresentableFQN(), "\\");
 
         Collection<String> testClasses = getTestClassesViaPath(className);
         if (testClasses.size() == 0) {
-            return Collections.emptyList();
+            return;
         }
 
         PhpIndex instance = PhpIndex.getInstance(psiElement.getProject());
@@ -67,14 +68,14 @@ public class RelatedTestCaseLineMarkerProvider implements LineMarkerProvider {
         }
 
         if (phpClasses.size() == 0) {
-            return Collections.emptyList();
+            return;
         }
 
         NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(PhpIcons.PHP_TEST_CLASS)
             .setTargets(phpClasses)
             .setTooltipText("Navigate to Test Class");
 
-        return Collections.singletonList(builder.createLineMarkerInfo(psiElement));
+        results.add(builder.createLineMarkerInfo(psiElement));
     }
 
     /**
