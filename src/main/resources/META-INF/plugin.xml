@@ -76,7 +76,7 @@
         <intentionAction>
             <className>de.espend.idea.php.phpunit.intention.AddMockMethodIntention</className>
             <category>PHPUnit</category>
-            <descriptionDirectoryName>AddMethodIntention</descriptionDirectoryName>
+            <descriptionDirectoryName>AddMockMethodIntention</descriptionDirectoryName>
         </intentionAction>
 
         <intentionAction>
