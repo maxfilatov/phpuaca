@@ -7,9 +7,12 @@
 * 2.x: PhpStorm 2017.1+ (no support)
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 5.1
+* Fix folder indention for "AddMethodIntention" (Daniel Espendiller)
+
 ## 5.0
-*   Migrate type provide to "typeProvider4" implementation (Daniel Espendiller)
-*   Fix intention files [#55](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/55) (Daniel Espendiller)
+* Migrate type provide to "typeProvider4" implementation (Daniel Espendiller)
+* Fix intention files [#55](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/55) (Daniel Espendiller)
 
 ## 4.1
 * Provide a line marker to navigate to a related test classes, based on the naming [#16](https://github.com/Haehnchen/idea-php-phpunit-plugin/issues/16) (Daniel Espendiller)
