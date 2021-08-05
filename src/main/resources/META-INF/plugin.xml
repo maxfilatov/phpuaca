@@ -61,6 +61,9 @@
         <completion.contributor language="PHP" implementationClass="com.phpuaca.completion.StringCompletionContributor"/>
 
         <completion.contributor language="PHP" implementationClass="de.espend.idea.php.phpunit.completion.PhpUnitCompletionContributor"/>
+
+        <completion.contributor language="PHP" implementationClass="de.espend.idea.php.phpunit.completion.MockeryCompletionContributor"/>
+
         <psi.referenceContributor language="PHP" implementation="de.espend.idea.php.phpunit.reference.PhpUnitReferenceContributor"/>
 
         <psi.referenceContributor language="PHP" implementation="de.espend.idea.php.phpunit.reference.MockeryReferenceContributor"/>
