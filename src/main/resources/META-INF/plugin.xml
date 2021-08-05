@@ -55,6 +55,9 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <annotator language="PHP" implementationClass="com.phpuaca.annotator.StringAnnotator"/>
+
+        <annotator language="PHP" implementationClass="de.espend.idea.php.phpunit.annotator.MockeryAnnotator"/>
+
         <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringCompletionConfidence"
                                id="asTrue" order="first"/>
 
