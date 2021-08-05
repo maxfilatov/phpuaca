@@ -29,7 +29,7 @@ public class PhpElementsUtil {
     }
 
     /**
-     * Foo::class to its class fqn include namespace
+     * <code>Foo::class</code> to its class fqn include namespace
      */
     public static String getClassConstantPhpFqn(@NotNull ClassConstantReference classConstant) {
         PhpExpression classReference = classConstant.getClassReference();
@@ -38,6 +38,19 @@ public class PhpElementsUtil {
         }
 
         String typeName = ((PhpReference) classReference).getFQN();
+        return StringUtils.isNotBlank(typeName) ? StringUtils.stripStart(typeName, "\\") : null;
+    }
+
+    /**
+     * <code>new Foo</code> to its class fqn include namespace
+     */
+    public static String getNewExpressionPhpFqn(@NotNull NewExpression newExpression) {
+        PhpReference classReference = newExpression.getClassReference();
+        if(classReference == null) {
+            return null;
+        }
+
+        String typeName = classReference.getFQN();
         return StringUtils.isNotBlank(typeName) ? StringUtils.stripStart(typeName, "\\") : null;
     }
 
@@ -73,6 +86,18 @@ public class PhpElementsUtil {
             if(ref instanceof Field) {
                 return getStringValue(((Field) ref).getDefaultValue());
             }
+        } else if(psiElement instanceof NewExpression){
+            return getNewExpressionPhpFqn((NewExpression) psiElement);
+        } else if(psiElement instanceof  ConcatenationExpression){
+            // Allows creation method like: Mockery::mock(Dependency::class . "[calledMethod]");
+
+            ConcatenationExpression concatenationExpression = (ConcatenationExpression) psiElement;
+            StringBuilder concatString = new StringBuilder();
+
+            for(PsiElement e : concatenationExpression.getChildren()){
+                concatString.append(getStringValue(e, depth));
+            }
+            return concatString.toString();
         }
 
         return null;

@@ -63,6 +63,8 @@
         <completion.contributor language="PHP" implementationClass="de.espend.idea.php.phpunit.completion.PhpUnitCompletionContributor"/>
         <psi.referenceContributor language="PHP" implementation="de.espend.idea.php.phpunit.reference.PhpUnitReferenceContributor"/>
 
+        <psi.referenceContributor language="PHP" implementation="de.espend.idea.php.phpunit.reference.MockeryReferenceContributor"/>
+
         <psi.referenceContributor language="PHP" implementation="com.phpuaca.reference.StringReferenceContributor"/>
 
         <codeInsight.lineMarkerProvider language="PHP" implementationClass="de.espend.idea.php.phpunit.linemarker.RelatedTestCaseLineMarkerProvider"/>
