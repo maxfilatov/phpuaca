@@ -164,4 +164,8 @@ public class PhpTypeProviderUtil {
 
         return elements;
     }
+
+    public static boolean isMethodReferenceWithSpecificName(PsiElement psiElement,String methodName) {
+        return psiElement instanceof MethodReference && methodName.equals(((MethodReference) psiElement).getName());
+    }
 }

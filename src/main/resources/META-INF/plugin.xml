@@ -47,8 +47,9 @@
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.RevealProphecyTypeProvider"/>
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.GetMockTypeProvider"/>
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.SetUpTypeProvider"/>
-
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.ProphecyArgumentTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.MockeryMethodNameTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.MockeryExpectationTypeProvider"/>
 
         <libraryRoot id="doctrine_meta" path="/phpstorm-meta/" runtime="false"/>
     </extensions>
