@@ -5,7 +5,7 @@
     <vendor email="daniel@espendiller.net" url="http://espend.de?p=de.espend.idea.php.phpunit">espend_de</vendor>
 
     <description><![CDATA[
-    <p>Provide smart autocomplete, code navigation and refactoring features for mocked class methods of PhpUnit and Prophecy.</p>
+    <p>Provide smart autocomplete, code navigation and refactoring features for mocked class methods of PhpUnit, Prophecy, and Mockery.</p>
 
     <br/>
 
@@ -31,6 +31,14 @@
         <li>code navigation (go to declaration, find usages, etc.) and refactoring (rename methods);</li>
         <li>highlighting of incorrect method usages;</li>
         <li>Prophecy support.</li>
+        <li>Mockery support:
+            <ul>
+                <li>Referencing, autocompletion, refactoring</li>
+                <li>Method highlighting</li>
+                <li>Inspector to update legacy Mockery style</li>
+                <li>Type providers for mock method functions</li>
+            </ul>
+        </li>
     </ul>
 
     <p>Fork of <a href="https://github.com/maxfilatov/phpuaca/">PHPUnit Autocomplete Assistant</a></p>
