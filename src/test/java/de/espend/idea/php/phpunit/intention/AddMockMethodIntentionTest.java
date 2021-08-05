@@ -1,10 +1,9 @@
-package de.espend.idea.php.phpunit.tests.intention;
+package de.espend.idea.php.phpunit.intention;
 
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
-import de.espend.idea.php.phpunit.intention.AddMockMethodIntention;
-import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
+import de.espend.idea.php.phpunit.PhpUnitLightCodeInsightFixtureTestCase;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
@@ -17,7 +16,7 @@ public class AddMockMethodIntentionTest extends PhpUnitLightCodeInsightFixtureTe
     }
 
     public String getTestDataPath() {
-        return "src/test/java/de/espend/idea/php/phpunit/tests/intention/fixtures";
+        return "src/test/java/de/espend/idea/php/phpunit/intention/fixtures";
     }
 
     public void testThatIntentionForChainingIsAvailableWithTopMostParent() {

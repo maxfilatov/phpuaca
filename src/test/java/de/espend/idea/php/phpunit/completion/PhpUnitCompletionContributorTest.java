@@ -1,7 +1,7 @@
-package de.espend.idea.php.phpunit.tests.completion;
+package de.espend.idea.php.phpunit.completion;
 
 import com.jetbrains.php.lang.PhpFileType;
-import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
+import de.espend.idea.php.phpunit.PhpUnitLightCodeInsightFixtureTestCase;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
@@ -14,7 +14,7 @@ public class PhpUnitCompletionContributorTest extends PhpUnitLightCodeInsightFix
     }
 
     public String getTestDataPath() {
-        return "src/test/java/de/espend/idea/php/phpunit/tests/completion/fixtures";
+        return "src/test/java/de/espend/idea/php/phpunit/completion/fixtures";
     }
 
     public void testThatChainingCreateMockProvidesMethodCompletion() {

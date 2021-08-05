@@ -1,9 +1,8 @@
-package de.espend.idea.php.phpunit.tests.intention;
+package de.espend.idea.php.phpunit.intention;
 
 import com.intellij.psi.PsiElement;
 import com.jetbrains.php.lang.PhpFileType;
-import de.espend.idea.php.phpunit.intention.ConstructorMockIntention;
-import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
+import de.espend.idea.php.phpunit.PhpUnitLightCodeInsightFixtureTestCase;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
@@ -17,7 +16,7 @@ public class ConstructorMockIntentionTest extends PhpUnitLightCodeInsightFixture
     }
 
     public String getTestDataPath() {
-        return "src/test/java/de/espend/idea/php/phpunit/tests/intention/fixtures";
+        return "src/test/java/de/espend/idea/php/phpunit/intention/fixtures";
     }
 
     public void testThatMockIsCreatedForEmptyConstructor() {

@@ -1,9 +1,9 @@
-package de.espend.idea.php.phpunit.tests.type;
+package de.espend.idea.php.phpunit.type;
 
 import com.intellij.patterns.PlatformPatterns;
 import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.psi.elements.Method;
-import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
+import de.espend.idea.php.phpunit.PhpUnitLightCodeInsightFixtureTestCase;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
@@ -16,7 +16,7 @@ public class ProphecyTypeProviderTest extends PhpUnitLightCodeInsightFixtureTest
     }
 
     public String getTestDataPath() {
-        return "src/test/java/de/espend/idea/php/phpunit/tests/type/fixtures";
+        return "src/test/java/de/espend/idea/php/phpunit/type/fixtures";
     }
 
     public void testThatProphesizeForVariableIsResolved() {

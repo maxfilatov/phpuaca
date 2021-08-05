@@ -1,4 +1,4 @@
-package de.espend.idea.php.phpunit.tests;
+package de.espend.idea.php.phpunit;
 
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.LineMarkerProvider;

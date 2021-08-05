@@ -1,8 +1,7 @@
-package de.espend.idea.php.phpunit.tests.type;
+package de.espend.idea.php.phpunit.type;
 
 import com.jetbrains.php.lang.PhpFileType;
-import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
-import de.espend.idea.php.phpunit.type.ProphecyArgumentTypeProvider;
+import de.espend.idea.php.phpunit.PhpUnitLightCodeInsightFixtureTestCase;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
@@ -15,7 +14,7 @@ public class ProphecyArgumentTypeProviderTest extends PhpUnitLightCodeInsightFix
     }
 
     public String getTestDataPath() {
-        return "src/test/java/de/espend/idea/php/phpunit/tests/type/fixtures";
+        return "src/test/java/de/espend/idea/php/phpunit/type/fixtures";
     }
 
     public void testThatProphecyArgumentsProvideTypesForPrimitives() {

@@ -1,11 +1,10 @@
-package de.espend.idea.php.phpunit.tests.utils;
+package de.espend.idea.php.phpunit.utils;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.psi.elements.MethodReference;
-import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
-import de.espend.idea.php.phpunit.utils.ChainVisitorUtil;
+import de.espend.idea.php.phpunit.PhpUnitLightCodeInsightFixtureTestCase;
 import de.espend.idea.php.phpunit.utils.processor.CreateMockMethodReferenceProcessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +20,7 @@ public class ChainVisitorUtilTest extends PhpUnitLightCodeInsightFixtureTestCase
     }
 
     public String getTestDataPath() {
-        return "src/test/java/de/espend/idea/php/phpunit/tests/utils/fixtures";
+        return "src/test/java/de/espend/idea/php/phpunit/utils/fixtures";
     }
 
     public void testThatChainingVariableIsResolved() {

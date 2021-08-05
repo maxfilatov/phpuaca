@@ -1,8 +1,8 @@
-package de.espend.idea.php.phpunit.tests.linemarker;
+package de.espend.idea.php.phpunit.linemarker;
 
 import com.intellij.psi.PsiFile;
 import com.jetbrains.php.lang.psi.PhpPsiElementFactory;
-import de.espend.idea.php.phpunit.tests.PhpUnitLightCodeInsightFixtureTestCase;
+import de.espend.idea.php.phpunit.PhpUnitLightCodeInsightFixtureTestCase;
 
 /**
  * @author Daniel Espendiller <daniel@espendiller.net>
@@ -15,7 +15,7 @@ public class RelatedTestCaseLineMarkerProviderTest extends PhpUnitLightCodeInsig
     }
 
     public String getTestDataPath() {
-        return "src/test/java/de/espend/idea/php/phpunit/tests/linemarker/fixtures";
+        return "src/test/java/de/espend/idea/php/phpunit/linemarker/fixtures";
     }
 
     public void testThatClassNameProvidesALineMarkerToItsTestCase() {

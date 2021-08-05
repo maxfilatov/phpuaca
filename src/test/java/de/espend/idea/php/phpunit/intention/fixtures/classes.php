@@ -1,15 +1,5 @@
 <?php
 
-namespace Foo
-{
-    class Bar
-    {
-        public function getFoobar()
-        {
-        }
-    }
-}
-
 namespace PHPUnit\Framework
 {
     abstract class TestCase
@@ -22,6 +12,13 @@ namespace PHPUnit\Framework
         protected function createMock($originalClassName)
         {
             return new \PHPUnit_Framework_MockObject_MockObject();
+        }
+
+        /**
+         * @return \PHPUnit\Framework\MockObject\MockBuilder
+         */
+        public function getMockBuilder() {
+            return new \PHPUnit\Framework\MockObject\MockBuilder();
         }
     }
 }
@@ -41,9 +38,6 @@ namespace
         }
     }
 
-    /**
-     * @method PHPUnit_Framework_MockObject_Builder_InvocationMocker method($constraint)
-     */
     class PHPUnit_Framework_MockObject_MockObject
     {
         /**
@@ -57,19 +51,42 @@ namespace
 
     class PHPUnit_Framework_MockObject_MockBuilder
     {
-
     }
 
     class PHPUnit_Framework_MockObject_Builder_InvocationMocker
     {
+    }
+}
+
+namespace PHPUnit\Framework\MockObject
+{
+    class MockBuilder
+    {
         /**
-         * @param \PHPUnit_Framework_Constraint|string $constraint
-         *
-         * @return \PHPUnit_Framework_MockObject_Builder_InvocationMocker
+         * @return $this
          */
-        public function method($constraint)
+        public function disableOriginalConstructor()
         {
-            return new PHPUnit_Framework_MockObject_Builder_InvocationMocker();
+            return $this;
+        }
+
+        /**
+         * @return $this
+         */
+        public function getMock()
+        {
+            return $this;
         }
     }
 }
+
+namespace Foo
+{
+    class Bar
+    {
+       public function getFooBar()
+       {
+       }
+    }
+}
+
