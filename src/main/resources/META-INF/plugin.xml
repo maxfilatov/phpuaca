@@ -5,7 +5,7 @@
     <vendor email="daniel@espendiller.net" url="http://espend.de?p=de.espend.idea.php.phpunit">espend_de</vendor>
 
     <description><![CDATA[
-    <p>Provide smart autocomplete, code navigation and refactoring features for mocked class methods of PhpUnit and Prophecy.</p>
+    <p>Provide smart autocomplete, code navigation and refactoring features for mocked class methods of PhpUnit, Prophecy, and Mockery.</p>
 
     <br/>
 
@@ -31,6 +31,14 @@
         <li>code navigation (go to declaration, find usages, etc.) and refactoring (rename methods);</li>
         <li>highlighting of incorrect method usages;</li>
         <li>Prophecy support.</li>
+        <li>Mockery support:
+            <ul>
+                <li>Referencing, autocompletion, refactoring</li>
+                <li>Method highlighting</li>
+                <li>Inspector to update legacy Mockery style</li>
+                <li>Type providers for mock method functions</li>
+            </ul>
+        </li>
     </ul>
 
     <p>Fork of <a href="https://github.com/maxfilatov/phpuaca/">PHPUnit Autocomplete Assistant</a></p>
@@ -47,21 +55,30 @@
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.RevealProphecyTypeProvider"/>
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.GetMockTypeProvider"/>
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.SetUpTypeProvider"/>
-
         <typeProvider4 implementation="de.espend.idea.php.phpunit.type.ProphecyArgumentTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.MockeryMethodNameTypeProvider"/>
+        <typeProvider4 implementation="de.espend.idea.php.phpunit.type.MockeryExpectationTypeProvider"/>
 
         <libraryRoot id="doctrine_meta" path="/phpstorm-meta/" runtime="false"/>
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
         <annotator language="PHP" implementationClass="com.phpuaca.annotator.StringAnnotator"/>
+
+        <annotator language="PHP" implementationClass="de.espend.idea.php.phpunit.annotator.MockeryAnnotator"/>
+
         <completion.confidence language="PHP" implementationClass="com.phpuaca.completion.StringCompletionConfidence"
                                id="asTrue" order="first"/>
 
         <completion.contributor language="PHP" implementationClass="com.phpuaca.completion.StringCompletionContributor"/>
 
         <completion.contributor language="PHP" implementationClass="de.espend.idea.php.phpunit.completion.PhpUnitCompletionContributor"/>
+
+        <completion.contributor language="PHP" implementationClass="de.espend.idea.php.phpunit.completion.MockeryCompletionContributor"/>
+
         <psi.referenceContributor language="PHP" implementation="de.espend.idea.php.phpunit.reference.PhpUnitReferenceContributor"/>
+
+        <psi.referenceContributor language="PHP" implementation="de.espend.idea.php.phpunit.reference.MockeryReferenceContributor"/>
 
         <psi.referenceContributor language="PHP" implementation="com.phpuaca.reference.StringReferenceContributor"/>
 
@@ -90,6 +107,11 @@
             <category>PHPUnit</category>
             <descriptionDirectoryName>MethodExceptionIntentionAction</descriptionDirectoryName>
         </intentionAction>
+
+        <localInspection language="PHP" groupPath="PHP, Mockery Inspections" shortName="replaceLegacyMockerySyntax"
+                         displayName="Replace legacy Mockery syntax" groupName="Mockery" enabledByDefault="true" level="WARNING"
+                         implementationClass="de.espend.idea.php.phpunit.inspection.ReplaceLegacyMockeryInspection"/>
+
     </extensions>
 
     <application-components>
