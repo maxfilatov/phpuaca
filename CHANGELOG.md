@@ -7,6 +7,17 @@
 * 2.x: PhpStorm 2017.1+ (no support)
 * 1.x: PhpStorm 2016.1+ (no support)
 
+## 6.0
+* migrate to github action (Daniel Espendiller)
+* Updated README detailing Mockery support. Updated plugin.xml to mention new Mockery support features in feature list (Joseph Lawson)
+* Added inspections for highlighting and then replacing legacy Mockery syntax with Mockery 1.0.0 methods. Can be configured to Mockery 1.0.0 style of choice. (Joseph Lawson)
+* Added type provider to give correct types to Mockery methods that use the new Mockery 1.0.0 syntax e.g. $mock->allows()->foo(). (Joseph Lawson)
+* Added annotator for highlighting incorrectly mocked methods in Mockery (Joseph Lawson)
+* Added autocompletion for method string in Mockery methods (Joseph Lawson)
+* Added tests for rename, refactoring and find usages of mocked methods (Joseph Lawson)
+* Added reference contributor for Mockery. Provides references from method strings in Mockery method to their declaration (Joseph Lawson)
+* Changed test directory structure to match main Changed CHAR from 元 to its unicode \u5143 (Joseph Lawson)
+
 ## 5.1
 * Fix folder indention for "AddMethodIntention" (Daniel Espendiller)
 
