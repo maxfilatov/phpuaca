@@ -1,6 +1,6 @@
 # IntelliJ IDEA / PhpStorm PHPUnit Enhancement
 
-[![Build Status](https://travis-ci.org/Haehnchen/idea-php-phpunit-plugin.svg?branch=master)](https://travis-ci.org/Haehnchen/idea-php-phpunit-plugin)
+[![Build Status](https://github.com/Haehnchen/idea-php-phpunit-plugin/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/Haehnchen/idea-php-phpunit-plugin/actions/workflows/gradle.yml)
 [![Version](http://phpstorm.espend.de/badge/9674/version)](https://plugins.jetbrains.com/plugin/9674)
 [![Downloads](http://phpstorm.espend.de/badge/9674/downloads)](https://plugins.jetbrains.com/plugin/9674)
 [![Downloads last month](http://phpstorm.espend.de/badge/9674/last-month)](https://plugins.jetbrains.com/plugin/9674)
